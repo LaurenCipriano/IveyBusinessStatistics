@@ -1,5 +1,7 @@
 ---
-title: "Ivey Business Statistics: R Learning Support Materials"
+title: |
+    | Ivey Business Statistics:  
+    | R Learning Support Materials  
 output:
   html_document:
     theme: united
@@ -13,29 +15,35 @@ css: laurens_styles.css
 ***
 ## Datasets
 All of the datasets used in examples on this site and in Ivey Business Statistics are available here:
+
 [Datasets Home Page](01-Datasets.html)
+<br>  
+<br>  
+<br>  
 
 ## Lessons
 
 ### Introduction to Statistical Coding in R
 * [Webpage](Intro-to-R.html)
+<br>  
+<br>  
 
 ### Hypothesis Testing
 * [Webpage](Hypothesis-Testing.html)
+<br>  
+<br>  
 
 ### Linear Regression
 * [Webpage](Linear-Regression.html)
+<br>  
+<br>  
 
 ### Logistic Regression
 * [Webpage](Logistic-Regression.html)
+<br>  
+<br>  
 
 
-
-
-* [Webpage](Intro-To-Coding-R.html)
-
-### 02 Graphing in R
-* [Webpage](Graphing-In-R.html)
 
 ***
 ***
