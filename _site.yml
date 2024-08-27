@@ -1,0 +1,8 @@
+name: "laurens-website"
+output_dir: "docs"
+output:
+  html_document:
+    theme: united
+    include:
+      after_body: footer.html
+    css: laurens_styles.css

@@ -1,0 +1,202 @@
+---
+title: 'Tutorial 1: Working with data'
+author: "Professor Lauren Cipriano"
+date: "2024-05-05"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
+---
+
+```{r, child="_Global-Options.Rmd"}
+```
+***
+***
+## Part 1. Starting with Data
+
+### Step 1. Import the datafile
+
+------------------------------------------------------------------------
+
+You can import data into R using the import wizard, but often it is useful to change the working directory and import the data file using a line of code.
+
+One advantage of using a code line to import your data is that it is easily reproducible.
+
+```{r, eval=FALSE, echo=FALSE}
+setwd("/home/ian/Documents/GitHub/Cloud-Folder/Lauren-Work/Lauren Rmarkdown")
+```
+
+```{r, eval=FALSE}
+# Set the working directory
+setwd("C:/Users/Lauren/Dropbox/Ivey/2024 MSc Statistics/Labs/")
+```
+
+```{r}
+# Import the data - as a csv file
+data = read.csv("datasets/families.csv")
+```
+
+### Step 2. View your data
+
+------------------------------------------------------------------------
+
+```{r, eval=FALSE}
+## Option 1. Open the dataset in another window.  It will look like a spreadsheet
+View(data)
+```
+
+```{r, eval=FALSE}
+## Option 2. Call the dataset to print it in the coding window
+data
+```
+
+```{r}
+## Option 3. Ask to see a section of the data 
+# just the first 6 rows 
+head(data)
+
+# just the last 6 rows 
+tail(data)
+```
+
+### Step 3. Quick report on data
+
+------------------------------------------------------------------------
+
+It is important to know how R sees each of your variables. Asking for a summary of the data will provide summary statistics on the data.frame.
+
+```{r}
+summary(data)
+```
+
+### Step 4. Assign appropriate variable types
+
+------------------------------------------------------------------------
+
+**Character:** free text, a.k.a. string\
+**Factor:** Categorical values; actual values may be text (North/South/East/West) or numbers (1/2/3/4)\
+**Logical:** Binary (TRUE/FALSE)\
+**Integer:** Whole numbers (1L/2L/3L/4L, the letter 'L' declares these as Integers)\
+**Numeric:** Decimal Numbers (1.5/2.5/3.5/4.5)
+
+#### Step 4a. Investigating types
+
+```{r}
+# Check the variable class of TYPE
+class(data$TYPE)
+
+# See how many unique values TYPE has
+unique(data$TYPE)
+
+# Tell R that the TYPE column can only have 3 possible values (turn it into a factor)
+data$TYPE = factor(data$TYPE, levels = c(1,2,3))
+
+# Now check the class of TYPE
+class(data$TYPE)
+
+# If we try to assign an invalid value to row 1, column "TYPE"
+data[1, "TYPE"] = 4
+
+# Warning: this assigns the value as NA, but lets you know you've made a mistake
+data[1, "TYPE"]
+
+# Change it back to integer
+data$TYPE = as.integer(data$TYPE)
+
+class(data$TYPE)
+
+# Fixing NA from above
+data = read.csv("datasets/families.csv")
+```
+
+#### Step 4b. Assigning New Types
+
+```{r}
+# Turning TYPE into a factor with easy-to-understand labels
+data$TYPE = factor(data$TYPE, levels = c(1,2,3), labels = c("Husband-wife family",
+                                                            "Male-head family",
+                                                            "Female-head family"))
+
+# Number of persons and children, and income are already integers
+class(data$PERSONS); class(data$CHILDREN); class(data$INCOME)
+
+# Turn REGION into a factor
+data$REGION = factor(data$REGION, levels = c(1,2,3,4), label = c("NORTH",
+                                                                 "EAST",
+                                                                 "SOUTH",
+                                                                 "WEST"))
+
+# New factor for education
+
+# Turn Education Level into a factor, might have not been worth it...
+#data$EDUCATION = factor(data$EDUCATION, levels = c(31:46), label = c("<1st grade", "1-4th grade", "5,6th grade", "7,8th grade", "9th grade", "10th grade", "11th grade", "12th grade, no diploma", "High school graduate or equivalent", "Some college but no degree", "Associate degree in college (occupation/vocation program)", "Associate degree in college (academic program)", "Bachelor's Degree", "Master's Degree", "Professional School Degree", "Doctoral Degree"))
+
+# Now we can view the summary of our data again
+summary(data)
+```
+
+***
+
+## Part 2. Analyzing Data
+
+### Step 1. Some Summary Statistics
+#### a) Proportion of female-headed families
+```{r}
+# Number of Families in the dataset
+n_fam = nrow(data)
+
+# The which function returns a vector that tells us which indices of a matrix are true given a condition, in this case female-headed
+indices = which(data$TYPE=="Female-head family")
+
+n_female_fam = nrow(data[indices,])
+
+# Calculating the proportion
+prop_female_fam = n_female_fam/n_fam
+prop_female_fam
+```
+#### b) Average number of children per family
+```{r}
+# Total Number of children in all families
+n_total_children = sum(data$CHILDREN)
+
+# Recall we have n_total_fam from a)
+avg_n_children = n_total_children/n_fam
+avg_n_children
+
+# or...
+mean(data$CHILDREN)
+```
+#### c) Standard deviation of the number of children per family
+```{r}
+# R has a function for that!
+sd(data$CHILDREN)
+```
+
+#### d) Proportion of heads of household who did not receive a high school diploma  
+First we must look at our EDUCATION variable to see that any value coded below 39 means that no diploma was received
+```{r}
+# Using the which function again (note this will overwrite our previous indices variable since we chose the same name)
+indices = which(data$EDUCATION<39)
+
+# Counting the rows
+n_no_diploma = nrow(data[indices,])
+
+# Finding the proportion
+prop_no_diploma = n_no_diploma/n_fam
+prop_no_diploma
+```
+
+#### e) Proportion of families whos head received a bachelor's or master's degree and have one child
+```{r}
+# This time, we will combine multiple arguments in the which function using logical operators (| = OR, & = AND, ! = NOT)
+indices = which((data$EDUCATION==43 | data$EDUCATION==44) & data$CHILDREN==1)
+
+n_fam_of_interest = nrow(data[indices,])
+
+prop_fam_of_interest = n_fam_of_interest/n_fam
+prop_fam_of_interest
+```
+
+
