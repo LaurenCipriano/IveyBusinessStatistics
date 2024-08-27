@@ -19,30 +19,24 @@ All of the datasets used in examples on this site and in Ivey Business Statistic
 [Datasets Home Page](01-Datasets.html)
 <br>  
 <br>  
-<br>  
 
 ## Lessons
 
-### Introduction to Statistical Coding in R
-* [Webpage](Intro-to-R.html)
-<br>  
+### Introduction to R
+* [Webpage](Intro-to-R.html)  
 <br>  
 
 ### Hypothesis Testing
-* [Webpage](Hypothesis-Testing.html)
-<br>  
+* [Webpage](Hypothesis-Testing.html)  
 <br>  
 
 ### Linear Regression
-* [Webpage](Linear-Regression.html)
-<br>  
+* [Webpage](Linear-Regression.html)  
 <br>  
 
 ### Logistic Regression
-* [Webpage](Logistic-Regression.html)
+* [Webpage](Logistic-Regression.html)  
 <br>  
-<br>  
-
 
 
 ***
