@@ -1,0 +1,38 @@
+---
+title: "Hypothesis Testing in R"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
+---
+```{r, child="_Global-Options.Rmd"}
+```
+***
+***
+## Datasets
+All of the datasets used in examples on this site and in Ivey Business Statistics are available here:
+[Datasets Home Page](01-Datasets.html)
+
+
+## Hypothesis Testing in R
+
+### Central Limit Theorem & the Normal Distribution  
+* [Webpage](03b-CLT.html)  
+
+### Binomial Test  
+* [Webpage](04a-Binomial-Test.html)  
+
+### T Test  
+* [Webpage](04b-T-Test.html)  
+
+### Wilcoxon-Mann-Whitney U-Test   
+* [Webpage](04c-WMW-U.html)  
+
+### ANOVA  & Kruskall-Wallis
+* [Webpage](04d-ANOVA.html)  
+
+
+***
+***

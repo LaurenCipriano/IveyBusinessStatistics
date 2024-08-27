@@ -1,0 +1,29 @@
+---
+title: "Introduction to Statistical Programming in R"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
+---
+```{r, child="_Global-Options.Rmd"}
+```
+***
+***
+## Datasets
+All of the datasets used in examples on this site and in Ivey Business Statistics are available here:
+[Datasets Home Page](01-Datasets.html)
+
+
+## Introduction to Statistical Coding in R
+
+### Introduction to Coding in R
+* [Webpage](Intro-To-Coding-R.html)
+
+### Graphing in R
+* [Webpage](Graphing-In-R.html)
+
+
+***
+***
