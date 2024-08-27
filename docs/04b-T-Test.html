@@ -350,7 +350,7 @@ interpret the p-value</li>
 <div id="data-set" class="section level2">
 <h2>Data set</h2>
 <p>For this set of examples, I will use the Cyberville families data.
-Recall that this is a population dataset … lots of stuff.</p>
+Recall that this is a population dataset … lots of stuff. again</p>
 <pre class="r"><code>data &lt;- read.table(url(&quot;https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt&quot;), 
                         header = TRUE)
 
@@ -401,8 +401,8 @@ lowerCI = sample.avg + qnorm(0.025, mean = 0, sd = 1) * se
 upperCI = sample.avg + qnorm(0.975, mean = 0, sd = 1) * se
 
 print(cbind(sample.avg, lowerCI, upperCI))</code></pre>
-<pre><code>&gt;      sample.avg  lowerCI  upperCI
-&gt; [1,]   41750.33 38743.78 44756.89</code></pre>
+<pre><code>&gt;      sample.avg lowerCI upperCI
+&gt; [1,]      41750   38744   44757</code></pre>
 <p>There is a 95% probability that the true population average income is
 within the interval $38,744 to $44,757.</p>
 </div>
@@ -426,13 +426,13 @@ t.test(x = study.data$INCOME,
 &gt;   One Sample t-test
 &gt; 
 &gt; data:  study.data$INCOME
-&gt; t = -3.7482, df = 399, p-value = 0.0002044
+&gt; t = -4, df = 399, p-value = 0.0002
 &gt; alternative hypothesis: true mean is not equal to 47500
 &gt; 95 percent confidence interval:
-&gt;  38734.63 44766.04
+&gt;  38735 44766
 &gt; sample estimates:
 &gt; mean of x 
-&gt;  41750.33</code></pre>
+&gt;     41750</code></pre>
 <p>Observe the p-value is 0.0002.<br />
 Therefore, we reject the null hypothesis that the average income in
 Cyberville is $47,500.</p>
@@ -455,13 +455,13 @@ less likely than $47,500 being the true population mean using the
 distribution of the sample mean.</p>
 <pre class="r"><code># Using the sample distribution, what is the probability of $45,000 or greater being the true population mean?
 1 - pnorm(47500, mean = sample.avg, sd = se)</code></pre>
-<pre><code>&gt; [1] 0.00008905829</code></pre>
+<pre><code>&gt; [1] 0.0000891</code></pre>
 <pre class="r"><code># Because we are doing a *two-sided* t-test and the Normal distribution is symmetrical
 # we need to double the associated with the probability of $45,000 or greater
 
 # The p-value is then
 (1 - pnorm(47500, mean = sample.avg, sd = se)) * 2</code></pre>
-<pre><code>&gt; [1] 0.0001781166</code></pre>
+<pre><code>&gt; [1] 0.000178</code></pre>
 <p>Observe that using the distribution of uncertainty around the sample
 mean (using Normal approximation), we also calculate the p-value of the
 one-sample, two-sided, t-test to be 0.0002.</p>
@@ -502,13 +502,13 @@ t.test(study.data$INCOME ~ study.data$HasChildren,
 &gt;   Welch Two Sample t-test
 &gt; 
 &gt; data:  study.data$INCOME by study.data$HasChildren
-&gt; t = 2.1268, df = 387.88, p-value = 0.03407
+&gt; t = 2, df = 388, p-value = 0.03
 &gt; alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
 &gt; 95 percent confidence interval:
-&gt;    492.705 12552.250
+&gt;    493 12552
 &gt; sample estimates:
 &gt; mean in group 0 mean in group 1 
-&gt;        45142.02        38619.54</code></pre>
+&gt;           45142           38620</code></pre>
 <p>Observe the p-value is 0.03. Therefore, we reject the null hypothesis
 that the average income is the same for families with and without
 children.</p>
@@ -548,15 +548,15 @@ income.summary &lt;- t(aggregate(study.data$INCOME ~ study.data$HasChildren,
               ))
 
 income.summary</code></pre>
-<pre><code>&gt;                                     [,1]          [,2]
-&gt; study.data$HasChildren             0.000         1.000
-&gt; study.data$INCOME.avg          45142.021     38619.543
-&gt; study.data$INCOME.n              192.000       208.000
-&gt; study.data$INCOME.var     1012408473.769 859609963.399
-&gt; study.data$INCOME.sd           31818.367     29319.106
-&gt; study.data$INCOME.se            2296.293      2032.914
-&gt; study.data$INCOME.lower95      40641.370     34635.105
-&gt; study.data$INCOME.upper95      49642.672     42603.982</code></pre>
+<pre><code>&gt;                                 [,1]      [,2]
+&gt; study.data$HasChildren             0         1
+&gt; study.data$INCOME.avg          45142     38620
+&gt; study.data$INCOME.n              192       208
+&gt; study.data$INCOME.var     1012408474 859609963
+&gt; study.data$INCOME.sd           31818     29319
+&gt; study.data$INCOME.se            2296      2033
+&gt; study.data$INCOME.lower95      40641     34635
+&gt; study.data$INCOME.upper95      49643     42604</code></pre>
 <p>The Central Limit Theorem tells us that the uncertainty around the
 sample means is Normally distributed with standard deviations equal to
 the standard error.</p>
@@ -578,12 +578,12 @@ SE.Diff &lt;- sqrt(
 lower95 = qnorm(0.025, mean = Mean.Diff, sd = SE.Diff)
 upper95 = qnorm(0.975, mean = Mean.Diff, sd = SE.Diff)
 print(cbind(Mean.Diff, lower95, upper95))</code></pre>
-<pre><code>&gt;                       Mean.Diff  lower95  upper95
-&gt; study.data$INCOME.avg  6522.478 511.5198 12533.44</code></pre>
+<pre><code>&gt;                       Mean.Diff lower95 upper95
+&gt; study.data$INCOME.avg      6522     512   12533</code></pre>
 <pre class="r"><code># Calculate the probability that the truth is zero or something less likely than zero given this observation
 # this is the p-value of the two-sample, two-sided, t-test
 pnorm(0, mean = Mean.Diff, sd = SE.Diff)*2</code></pre>
-<pre><code>&gt; [1] 0.03344063</code></pre>
+<pre><code>&gt; [1] 0.0334</code></pre>
 <p>Observe that using the distribution of uncertainty around the
 difference in the sample means (using Normal approximation), we also
 calculate the p-value of the two-sample, two-sided, t-test to be
@@ -750,25 +750,25 @@ lillie.test(study.data$INCOME[study.data$HasCollege == 0])</code></pre>
 &gt;   Lilliefors (Kolmogorov-Smirnov) normality test
 &gt; 
 &gt; data:  study.data$INCOME[study.data$HasCollege == 0]
-&gt; D = 0.11481, p-value = 0.0000001416</code></pre>
+&gt; D = 0.1, p-value = 0.0000001</code></pre>
 <pre class="r"><code>lillie.test(study.data$INCOME[study.data$HasCollege == 1])</code></pre>
 <pre><code>&gt; 
 &gt;   Lilliefors (Kolmogorov-Smirnov) normality test
 &gt; 
 &gt; data:  study.data$INCOME[study.data$HasCollege == 1]
-&gt; D = 0.092106, p-value = 0.0009509</code></pre>
+&gt; D = 0.09, p-value = 0.001</code></pre>
 <pre class="r"><code>shapiro.test(study.data$INCOME[study.data$HasCollege == 0])</code></pre>
 <pre><code>&gt; 
 &gt;   Shapiro-Wilk normality test
 &gt; 
 &gt; data:  study.data$INCOME[study.data$HasCollege == 0]
-&gt; W = 0.90933, p-value = 0.0000000001975</code></pre>
+&gt; W = 0.9, p-value = 0.0000000002</code></pre>
 <pre class="r"><code>shapiro.test(study.data$INCOME[study.data$HasCollege == 1])</code></pre>
 <pre><code>&gt; 
 &gt;   Shapiro-Wilk normality test
 &gt; 
 &gt; data:  study.data$INCOME[study.data$HasCollege == 1]
-&gt; W = 0.94051, p-value = 0.000001083</code></pre>
+&gt; W = 0.9, p-value = 0.000001</code></pre>
 <p>In this case, formal statistical tests all indicate that we should
 reject the null hypothesis that the data are Normally distributed.</p>
 <p>Overall, because the Central Limit Theorem is so strong, the t-test
@@ -822,15 +822,15 @@ income.byCollege &lt;- t(aggregate(study.data$INCOME ~ study.data$HasCollege,
               ))
 
 income.byCollege</code></pre>
-<pre><code>&gt;                                    [,1]           [,2]
-&gt; study.data$HasCollege             0.000          1.000
-&gt; study.data$INCOME.avg         31221.116      55151.153
-&gt; study.data$INCOME.n             224.000        176.000
-&gt; study.data$INCOME.var     497270749.511 1189858919.011
-&gt; study.data$INCOME.sd          22299.568      34494.332
-&gt; study.data$INCOME.se           1489.953       2600.108
-&gt; study.data$INCOME.lower95     28300.863      50055.035
-&gt; study.data$INCOME.upper95     34141.369      60247.272</code></pre>
+<pre><code>&gt;                                [,1]       [,2]
+&gt; study.data$HasCollege             0          1
+&gt; study.data$INCOME.avg         31221      55151
+&gt; study.data$INCOME.n             224        176
+&gt; study.data$INCOME.var     497270750 1189858919
+&gt; study.data$INCOME.sd          22300      34494
+&gt; study.data$INCOME.se           1490       2600
+&gt; study.data$INCOME.lower95     28301      50055
+&gt; study.data$INCOME.upper95     34141      60247</code></pre>
 </div>
 <div id="step-6.-perform-t-test" class="section level4">
 <h4>Step 6. Perform t-test</h4>
@@ -848,13 +848,13 @@ t.test(study.data$INCOME ~ study.data$HasCollege,
 &gt;   Welch Two Sample t-test
 &gt; 
 &gt; data:  study.data$INCOME by study.data$HasCollege
-&gt; t = -7.9853, df = 284.71, p-value = 0.00000000000003485
+&gt; t = -8, df = 285, p-value = 0.00000000000003
 &gt; alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
 &gt; 95 percent confidence interval:
-&gt;  -29828.64 -18031.44
+&gt;  -29829 -18031
 &gt; sample estimates:
 &gt; mean in group 0 mean in group 1 
-&gt;        31221.12        55151.15</code></pre>
+&gt;           31221           55151</code></pre>
 </div>
 <div id="step-7.-interpret-the-results" class="section level4">
 <h4>Step 7. Interpret the results</h4>
