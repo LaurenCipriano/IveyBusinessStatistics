@@ -12,7 +12,8 @@ css: laurens_styles.css
 ***
 ***
 ## Datasets
-All of the datasets used in examples on this site and in Ivey Business Statistics are available here:
+All of the datasets used in examples on this site and in Ivey Business Statistics are available here:  
+
 [Datasets Home Page](01-Datasets.html)
 
 <br>  
@@ -21,7 +22,6 @@ All of the datasets used in examples on this site and in Ivey Business Statistic
 
 
 ## Hypothesis Testing in R
-
 
 ### Central Limit Theorem & the Normal Distribution  
 * [Webpage](03b-CLT.html)  
