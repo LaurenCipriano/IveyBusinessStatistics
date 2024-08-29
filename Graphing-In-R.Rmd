@@ -62,7 +62,7 @@ barplot(y, names.arg = x)
 
 ## Layers
 
-We can add to existing plots using the points() or line() functions.
+We can add to existing plots using the points() or lines() functions.
 ```{r}
 x = 1:10
 y = x^2
@@ -83,11 +83,3 @@ z = rep(30, 10) #Repeats the integer '30' ten times
 
 lines(x, z, col = "black")
 ```
-
-## Families Example
-```{r}
-data = read.csv("Datasets/families.csv")
-
-```
-
-

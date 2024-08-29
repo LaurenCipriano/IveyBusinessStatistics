@@ -159,8 +159,8 @@ Useful operators on matrices:
 ```{r}
 #Dimensions
 dim(myMatrix)
-nrow(myMatrix)
-ncol(myMatrix)
+nrow(myMatrix) #Display the number of rows
+ncol(myMatrix) #Display the number of columns
 length(myMatrix)
 #Check if item exists
 1 %in% myMatrix
@@ -296,6 +296,7 @@ R supports logical conditions:
 | >=     | Greater than or equal to | x >= y |  
 | <=      | Less than or equal to     | x <= y |  
 
+It is important to distinguish between a single `=` and two `==`. One is assignment, two is logical comparison.
 ```{r}
 1==1
 1==0
@@ -323,6 +324,19 @@ if(1==0){
   x = 2 #IF TRUE 
 } else {
   x = 3 #IF FALSE
+}
+x
+```
+
+We can add multiple conditions.
+```{r}
+x = 1
+if(1==0){ 
+  x = 2 #Check one first
+} else if(1==1){
+  x = 3 #Check two second
+}else{ 
+  x = 4 #If neither is TRUE
 }
 x
 ```
