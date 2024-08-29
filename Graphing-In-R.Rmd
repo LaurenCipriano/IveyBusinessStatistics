@@ -11,22 +11,83 @@ css: laurens_styles.css
 ```{r, child="_Global-Options.Rmd"}
 ```
 
-## R Markdown
+## Plot
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+The plot() function is used to draw points.
+```{r}
+x = 1:10
+y = x^2
+plot(x,y)
 ```
 
-## Including Plots
+## Appearance  
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+There are many parameters to change the appearance of our graph.
+```{r}
+x = 1:10
+y = x^2
+plot(x,y,
+     main = "Title",
+     xlab = "x axis",
+     ylab = "y axis",
+     col = "red", #Adjusts the colour of the points
+     cex = 1.5, #Adjusts size, 1 = default, 0.5 = 50% smaller, 2 = 100% larger
+     pch = 25 #Adjusts shape of point, valid 1-25
+     )
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Point types below:  
+![](images/r_plot_pch2.png)
+
+## Line Graphs
+
+To make a line graph, add the type parameter.
+```{r}
+x = 1:10
+y = x^2
+plot(x,y, type = "l", # This makes it a line graph
+     lwd = 1.5, #Adjusts size, 1 = default, 0.5 = 50% smaller, 2 = 100% larger
+     lty = 6 #Adjusts line type, valid 0-6
+     )
+```
+
+## Bar Graph
+
+The barplot() function will display a vertical bar chart. Use names.arg to label the x axis.
+```{r}
+x = 1:10
+y = x^2
+barplot(y, names.arg = x)
+```
+
+## Layers
+
+We can add to existing plots using the points() or line() functions.
+```{r}
+x = 1:10
+y = x^2
+plot(x,y,
+     main = "Title",
+     xlab = "x axis",
+     ylab = "y axis",
+     col = "red"
+)
+
+#Inverting y to create z
+z = y[10:1]
+
+points(x, z, col = "blue")
+
+# Create horizontal line
+z = rep(30, 10) #Repeats the integer '30' ten times
+
+lines(x, z, col = "black")
+```
+
+## Families Example
+```{r}
+data = read.csv("Datasets/families.csv")
+
+```
+
+
