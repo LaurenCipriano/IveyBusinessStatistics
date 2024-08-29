@@ -211,9 +211,9 @@ someFunction(1,2)
 someFunction(5,10)
 ```
 
-
 ***
-## If statements and Loops  
+## If Statements and Loops  
+### Logical Conditions  
 R supports logical conditions:  
 
 | Operator | Name           | Example |  
@@ -225,11 +225,103 @@ R supports logical conditions:
 | >=     | Greater than or equal to | x >= y |  
 | <=      | Less than or equal to     | x <= y |  
 
+```{r}
+1==1
+1==0
+1>0
+```
 
-for
-do while
-while
-if
+### If Statements
+We can use logical conditions in many ways, the most common is within 'If' statements. An If statement only executes if its condition is TRUE
+```{r}
+x = 1
+if(1==1) {
+  x = 2
+}
+x
+if(1==0) {
+  x = 3
+}
+x
+```
+
+We can also provide code that will run should the 'If' statement be FALSE.
+```{r}
+x = 1
+if(1==0){ 
+  x = 2 #IF TRUE 
+} else {
+  x = 3 #IF FALSE
+}
+x
+```
+
+### Logical Operators
+R supports logical operators as well:  
+
+| Operator | Description           | 
+|:----------:|---------------|   
+| &&      | Logical AND operator - Returns TRUE if both statements are TRUE |
+| \|\|      | Logical OR operator. It returns TRUE if one of the statements is TRUE.| 
+| !      | Logical NOT - returns FALSE if statement is TRUE |  
+
+```{r}
+1||0
+1&&0
+!1||0
+```
+
+### Loops
+There are two types of loops in R.  
+
+* __While__ loops  
+* __For__ loops  
+
+#### While
+While loops execute as long as a condition remains TRUE.
+```{r}
+x = 1
+while(x < 5){
+  print(x)
+  x = x + 1
+}
+```
+It is important to be careful with loops. For example, forgetting to increment x can cause an infinite loop.  
+
+#### For
+For loops allow for iterating over a sequence. The for statement will execute code once for each item.
+```{r}
+for(x in 1:5){
+  print(x)
+}
+```
+
+#### Break and Next
+The break and next statements allow for more control within our loops. Break will stop our loop, and next will skip the current iteration without stopping the remainder.
+```{r}
+for(x in 1:5){
+  if(x==4) break
+  print(x)
+}
+for(x in 1:5){
+  if(x==4) next
+  print(x)
+}
+```
+
+#### More complex example
+```{r}
+data = read.csv("Datasets/families.csv")
+head(data)
+
+#Count number of families with more than two people
+count = 0
+for(x in data$PERSONS){
+  # x is taken from each row of the 'persons' column
+  if(x>2) count = count + 1
+}
+count
+```
 
 
 ## Getting Help
