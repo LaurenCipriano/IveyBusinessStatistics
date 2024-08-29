@@ -23,7 +23,7 @@ All of the datasets used in examples on this site and in Ivey Business Statistic
 ## Lessons
 
 ### Introduction to R
-* [Webpage](Intro-to-R.html)  
+* [Webpage](Intro-To-R.html)  
 <br>  
 
 ### Hypothesis Testing

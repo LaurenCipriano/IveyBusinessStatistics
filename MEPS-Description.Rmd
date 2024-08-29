@@ -14,7 +14,7 @@ css: laurens_styles.css
 ***
 ### US Medical Expenditure Panel Survey (MEPS)
 ```{r}
-tempData = read.csv("datasets/mepsData.csv")
+tempData = read.csv("Datasets/mepsData.csv")
 
 summary(tempData)
 ```

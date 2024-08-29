@@ -22,7 +22,7 @@ Learning objectives of this asynchronous lesson:
 For this set of examples, I will use the Cyberville families data. Recall that this is a population dataset ...
 
 ```{r}
-data <- read.table(url("laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt"), 
+data <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt"), 
                         header = TRUE)
 
 ## suppress scientific notation for ease of reading numbers
