@@ -1,7 +1,7 @@
 ---
-title: |
-    | Ivey Business Statistics:  
-    | R Learning Support Materials  
+title: "Ivey Business Statistics:  \n
+  R Learning Support Materials"
+
 output:
   html_document:
     theme: united
