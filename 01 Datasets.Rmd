@@ -5,10 +5,10 @@ output:
     theme: united
     toc: true
     toc_float: true
+css: laurens_styles.css
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, child="_Global-Options.Rmd"}
 ```
 <br>  
 <br>  
@@ -45,14 +45,14 @@ Access the CSV file saved onto your computer:
 
 ## Datasets for Business Statistics
 ### Cyberville Families
-* Data dictionary  
+* [Data dictionary](Cyberville-Description.html)  
 * Dataset:  [TXT](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt), [CSV](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.csv)
 
 <br>  
 <br>  
 
 ### Medical Expenditure Panel Survey data
-* Data dictionary  
+* [Data dictionary](MEPS-Description.html)  
 * Dataset:  [TXT](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/mepsData.txt), [CSV](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/mepsData.csv)
 
 <br>  
