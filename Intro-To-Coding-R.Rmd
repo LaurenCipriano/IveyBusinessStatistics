@@ -193,10 +193,24 @@ mean(Y, na.rm=TRUE)
 ```
 
 ### Custom Functions
-Make your own
-```{r}
+When writing code, you will often find that you are using the same lines of code more than once. In these cases it can help readability and usability to create your own function for repeat lines of code.  
 
+Below is a simple function showcasing the ability to use custom inputs and return a value after applying some transformations.
+```{r}
+someFunction = function(input1, input2){
+  output = (input1 + input2) * 5
+  
+  #A return statement is needed to tell your function what value to send back
+  return(output)
+}
 ```
+
+With your custom function in memory, you may now call upon it whenever you like.
+```{r}
+someFunction(1,2)
+someFunction(5,10)
+```
+
 
 ***
 ## If statements and Loops  
