@@ -68,7 +68,7 @@ z = x^y
 z
 ```
 
-R has another notation for assignment: the arrow: <- . Many R programmers use this. It may seem odd to programmers coming from other languages.
+R has another notation for assignment: the arrow: `<-` . Many R programmers use this. It may seem odd to programmers coming from other languages.
 ```{r}
 x <- 3
 x
@@ -76,7 +76,7 @@ x
 x <- 5.412
 x
 ```
-Look [here](https://statisticsglobe.com/assignment-operators-in-r) for an explanation of the differences between "=" and "<-".
+Look [here](https://statisticsglobe.com/assignment-operators-in-r) for an explanation of the differences between `=` and `<-`.
 
 ### Variable Types  
 **Character:** free text, a.k.a. string\
@@ -128,7 +128,7 @@ x
 ### Matrices
 A matrix is a two dimensional set of data.
 
-You can specify matrices of any size. nrow tells R the number of rows, and ncol tells R the number of columns.
+You can specify matrices of any size. The `nrow` parameter tells R the number of rows, and `ncol` tells R the number of columns.
 ```{r}
 myMatrix = matrix(data = 0, nrow = 3, ncol = 2)
 ```
@@ -147,7 +147,7 @@ myMatrix[1, ]
 myMatrix[ , 1]
 ```
 
-We can add rows or columns using the rbind() and cbind() functions.
+We can add rows or columns using the `rbind()` and `cbind()` functions.
 ```{r}
 my2ndMatrix = cbind(myMatrix,c(1,2,3))
 my2ndMatrix
@@ -181,7 +181,7 @@ myArray[2, , ] = 5
 myArray
 ```
 ### Data Frames
-Data frames are more complex matrices. They allow for each column to contain a different data type. Some statistics functions will require either a data.frame or a matrix.
+Data frames are more complex matrices. They allow for each column to contain a different data type. Some statistics functions will require either a data frame or a matrix.
 
 The data you will be using in this class will be imported as data frames.
 
@@ -304,7 +304,7 @@ It is important to distinguish between a single `=` and two `==`. One is assignm
 ```
 
 ### If Statements
-We can use logical conditions in many ways, the most common is within 'If' statements. An If statement only executes if its condition is TRUE
+We can use logical conditions in many ways, the most common is within `if` statements. An `if` statement only executes if its condition is TRUE
 ```{r}
 x = 1
 if(1==1) {
@@ -317,7 +317,7 @@ if(1==0) {
 x
 ```
 
-We can also provide code that will run should the 'If' statement be FALSE.
+We can also provide code that will run should the `if` statement be FALSE.
 ```{r}
 x = 1
 if(1==0){ 
@@ -374,7 +374,7 @@ while(x < 5){
 It is important to be careful with loops. For example, forgetting to increment x can cause an infinite loop.  
 
 #### For
-For loops allow for iterating over a sequence. The for statement will execute code once for each item.
+For loops allow for iterating over a sequence. The `for` statement will execute code once for each item.
 ```{r}
 for(x in 1:5){
   print(x)
@@ -382,7 +382,7 @@ for(x in 1:5){
 ```
 
 #### Break and Next
-The break and next statements allow for more control within our loops. Break will stop our loop, and next will skip the current iteration without stopping the remainder.
+The `break` and `next` statements allow for more control within our loops. `Break` will stop our loop, and `next` will skip the current iteration without stopping the remainder.
 ```{r}
 for(x in 1:5){
   if(x==4) break
