@@ -434,10 +434,9 @@ data$TYPE = factor(data$TYPE, levels = c(1,2,3))
 class(data$TYPE)</code></pre>
 <pre><code>&gt; [1] &quot;factor&quot;</code></pre>
 <pre class="r"><code># If we try to assign an invalid value to row 1, column &quot;TYPE&quot;
-data[1, &quot;TYPE&quot;] = 4</code></pre>
-<pre><code>&gt; Warning in `[&lt;-.factor`(`*tmp*`, iseq, value = 4): invalid factor level, NA
-&gt; generated</code></pre>
-<pre class="r"><code># Warning: this assigns the value as NA, but lets you know you&#39;ve made a mistake
+data[1, &quot;TYPE&quot;] = 4
+
+# Warning: this assigns the value as NA, but lets you know you&#39;ve made a mistake
 data[1, &quot;TYPE&quot;]</code></pre>
 <pre><code>&gt; [1] &lt;NA&gt;
 &gt; Levels: 1 2 3</code></pre>
