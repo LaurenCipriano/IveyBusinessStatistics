@@ -306,6 +306,7 @@ div.tocify {
 
 
 
+<link rel="shortcut icon" href="images/favicon-32x32.png" />
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -457,11 +458,11 @@ deviation of the sample.</p>
 <pre class="r"><code># Calculate the sample mean of Income
 sample.avg &lt;- mean(study.data$INCOME)
 sample.avg</code></pre>
-<pre><code>&gt; [1] 38030.61</code></pre>
+<pre><code>&gt; [1] 37427.38</code></pre>
 <pre class="r"><code># Calculate the sample sd of Income
 sample.sd &lt;- sd(study.data$INCOME)
 sample.sd</code></pre>
-<pre><code>&gt; [1] 31160.39</code></pre>
+<pre><code>&gt; [1] 28084.84</code></pre>
 <p>If you run the last two sections of code repeatedly, you will find
 that each time a new sample is selected the sample mean is a different
 number.</p>
@@ -587,7 +588,7 @@ upperCI = sample.avg + qnorm(0.975, mean = 0, sd = 1) * se
 
 print(cbind(sample.avg, lowerCI, upperCI))</code></pre>
 <pre><code>&gt;      sample.avg  lowerCI  upperCI
-&gt; [1,]   41974.94 38590.94 45358.95</code></pre>
+&gt; [1,]   43535.68 40308.53 46762.83</code></pre>
 </div>
 <div id="interpreting-confidence-intervals" class="section level2">
 <h2>Interpreting confidence intervals</h2>
@@ -613,7 +614,7 @@ sample.reps$outBounds[ true.avg &gt; sample.reps$upperCI ] &lt;- 1
 
 # what % of study replications reported 95% CI that did not include the true population average?
 sum(sample.reps$outBounds)/m</code></pre>
-<pre><code>&gt; [1] 0.049</code></pre>
+<pre><code>&gt; [1] 0.0462</code></pre>
 <p>I hope it is not too much of a surprise that this is really close to
 5%!</p>
 <p>Next: Elements of a Statistical Test</p>
