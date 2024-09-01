@@ -14,18 +14,21 @@ css: laurens_styles.css
 ## Datasets
 All of the datasets used in examples on this site and in Ivey Business Statistics are available here:  
   
-[Datasets Home Page](01-Datasets.html)
-<br>
-<br>
+[Datasets Home Page](01-Datasets.html)  
+
+***
 
 ## Introduction to Statistical Coding in R
-
-### Introduction to Coding in R
+### Fundamentals of Coding in R
 * [Webpage](Intro-To-Coding-R.html)
 
+***
 ### Graphing in R
 * [Webpage](Graphing-In-R.html)
 
+***
+### More Help
+* Visit [W3Schools](https://www.w3schools.com/r/default.asp)
 
 ***
 ***

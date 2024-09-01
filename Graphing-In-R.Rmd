@@ -16,7 +16,7 @@ css: laurens_styles.css
 The plot() function is used to draw points.
 ```{r}
 x = 1:10
-y = x^2
+y = x^3
 plot(x,y)
 ```
 
@@ -25,7 +25,7 @@ plot(x,y)
 There are many parameters to change the appearance of our graph.
 ```{r}
 x = 1:10
-y = x^2
+y = x^3
 plot(x,y,
      main = "Title",
      xlab = "x axis",
@@ -36,7 +36,7 @@ plot(x,y,
      )
 ```
 
-Point types below:  
+Point types below (pch values):  
 ![](images/r_plot_pch2.png)
 
 ## Line Graphs
@@ -44,7 +44,7 @@ Point types below:
 To make a line graph, add the type parameter.
 ```{r}
 x = 1:10
-y = x^2
+y = x^3
 plot(x,y, type = "l", # This makes it a line graph
      lwd = 1.5, #Adjusts size, 1 = default, 0.5 = 50% smaller, 2 = 100% larger
      lty = 6 #Adjusts line type, valid 0-6
@@ -56,16 +56,16 @@ plot(x,y, type = "l", # This makes it a line graph
 The barplot() function will display a vertical bar chart. Use names.arg to label the x axis.
 ```{r}
 x = 1:10
-y = x^2
+y = x^3
 barplot(y, names.arg = x)
 ```
 
 ## Layers
 
-We can add to existing plots using the points() or lines() functions.
+We can add to existing plots using the points() or lines() functions. Note: a plot (or barplot) must exist to add points or lines.
 ```{r}
 x = 1:10
-y = x^2
+y = x^3
 plot(x,y,
      main = "Title",
      xlab = "x axis",
@@ -79,7 +79,7 @@ z = y[10:1]
 points(x, z, col = "blue")
 
 # Create horizontal line
-z = rep(30, 10) #Repeats the integer '30' ten times
+z = rep(200, 10) #'Rep' repeats the integer '200', ten times
 
 lines(x, z, col = "black")
 ```

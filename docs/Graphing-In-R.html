@@ -342,7 +342,7 @@ div.tocify {
 <h2>Plot</h2>
 <p>The plot() function is used to draw points.</p>
 <pre class="r"><code>x = 1:10
-y = x^2
+y = x^3
 plot(x,y)</code></pre>
 <p><img src="Graphing-In-R_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
@@ -350,7 +350,7 @@ plot(x,y)</code></pre>
 <h2>Appearance</h2>
 <p>There are many parameters to change the appearance of our graph.</p>
 <pre class="r"><code>x = 1:10
-y = x^2
+y = x^3
 plot(x,y,
      main = &quot;Title&quot;,
      xlab = &quot;x axis&quot;,
@@ -360,14 +360,14 @@ plot(x,y,
      pch = 25 #Adjusts shape of point, valid 1-25
      )</code></pre>
 <p><img src="Graphing-In-R_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>Point types below:<br />
+<p>Point types below (pch values):<br />
 <img src="images/r_plot_pch2.png" /></p>
 </div>
 <div id="line-graphs" class="section level2">
 <h2>Line Graphs</h2>
 <p>To make a line graph, add the type parameter.</p>
 <pre class="r"><code>x = 1:10
-y = x^2
+y = x^3
 plot(x,y, type = &quot;l&quot;, # This makes it a line graph
      lwd = 1.5, #Adjusts size, 1 = default, 0.5 = 50% smaller, 2 = 100% larger
      lty = 6 #Adjusts line type, valid 0-6
@@ -379,16 +379,16 @@ plot(x,y, type = &quot;l&quot;, # This makes it a line graph
 <p>The barplot() function will display a vertical bar chart. Use
 names.arg to label the x axis.</p>
 <pre class="r"><code>x = 1:10
-y = x^2
+y = x^3
 barplot(y, names.arg = x)</code></pre>
 <p><img src="Graphing-In-R_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="layers" class="section level2">
 <h2>Layers</h2>
-<p>We can add to existing plots using the points() or lines()
-functions.</p>
+<p>We can add to existing plots using the points() or lines() functions.
+Note: a plot (or barplot) must exist to add points or lines.</p>
 <pre class="r"><code>x = 1:10
-y = x^2
+y = x^3
 plot(x,y,
      main = &quot;Title&quot;,
      xlab = &quot;x axis&quot;,
@@ -402,13 +402,14 @@ z = y[10:1]
 points(x, z, col = &quot;blue&quot;)
 
 # Create horizontal line
-z = rep(30, 10) #Repeats the integer &#39;30&#39; ten times
+z = rep(200, 10) #&#39;Rep&#39; repeats the integer &#39;200&#39;, ten times
 
 lines(x, z, col = &quot;black&quot;)</code></pre>
 <p><img src="Graphing-In-R_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 
 <!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
 
 
 </div>

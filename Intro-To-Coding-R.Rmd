@@ -1,5 +1,5 @@
 ---
-title: "Intro to Coding and R"
+title: "Fundamentals of Coding in R"
 output:
   html_document:
     toc: true
