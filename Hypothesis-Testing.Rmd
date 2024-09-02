@@ -16,38 +16,32 @@ All of the datasets used in examples on this site and in Ivey Business Statistic
 
 [Datasets Home Page](01-Datasets.html)
 
-<br>  
-<br>  
-
-
+***
 
 ## Hypothesis Testing in R
 
 ### Central Limit Theorem & the Normal Distribution  
 * [Webpage](03b-CLT.html)  
-<br>  
- 
+
+***
 
 ### Binomial Test  
 * [Webpage](04a-Binomial-Test.html)  
-<br>  
 
+***
 
 ### T Test  
 * [Webpage](04b-T-Test.html)  
-<br>  
 
+***
 
 ### Wilcoxon-Mann-Whitney U-Test   
 * [Webpage](04c-WMW-U.html)  
-<br>  
 
+***
 
 ### ANOVA  & Kruskall-Wallis
 * [Webpage](04d-ANOVA.html)  
-<br>  
-
-
 
 ***
 ***
