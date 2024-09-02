@@ -22,6 +22,8 @@ Learning objectives of this asynchronous lesson:
 -   Write an appropriate null hypothesis, apply binomial test, and interpret the p-value\
 -   Estimate and interpret a point estimate and confidence intervals for the proportion
 
+***
+
 ## Binomial Distribution
 ### Recall Bernoulli trials
 

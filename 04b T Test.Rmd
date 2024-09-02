@@ -19,6 +19,8 @@ Learning objectives of this asynchronous lesson:
 -   Evaluate whether the underlying assumptions of a t-test are present
 -   Write an appropriate null hypothesis, apply appropriate t-test, and interpret the p-value
 
+***
+
 ## Data set
 
 For this set of examples, I will use the Cyberville families data. Recall that this is a population dataset ...

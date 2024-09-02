@@ -19,6 +19,7 @@ Learning objectives of this asynchronous lesson:
 * Understand how to apply the Central Limit Theorem to characterize the uncertainty from a sample based estimate
 * Calculate the 95% confidence interval for a sample average using Normal approximation   
 
+***
 
 ## Dataset
 For this set of examples, I will use the Cyberville families data. Recall that this is a population dataset ...

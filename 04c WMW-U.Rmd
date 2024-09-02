@@ -19,6 +19,8 @@ Learning objectives of this asynchronous lesson:
 -   Evaluate whether the underlying assumptions of a Mann-Whitney are present
 -   Write an appropriate null hypothesis, apply test appropriately, and interpret the p-value
 
+***
+
 ## Data set
 
 For this set of examples, I will continue to use the sample Cyberville families data created in the t-test page. 
