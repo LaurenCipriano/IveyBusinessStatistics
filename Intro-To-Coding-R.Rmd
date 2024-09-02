@@ -76,14 +76,44 @@ x
 x <- 5.412
 x
 ```
-Look [here](https://statisticsglobe.com/assignment-operators-in-r) for an explanation of the differences between `=` and `<-`.
+>Look [here](https://statisticsglobe.com/assignment-operators-in-r) for an explanation of the differences between `=` and `<-`.
 
 ### Variable Types  
 **Character:** free text, a.k.a. string\
 **Factor:** Categorical values; actual values may be text (North/South/East/West) or numbers (1/2/3/4)\
 **Logical:** Binary (TRUE/FALSE)\
-**Integer:** Whole numbers (1L/2L/3L/4L, the letter 'L' declares these as Integers)\
+**Integer:** Only whole numbers (1L/2L/3L/4L, the letter 'L' declares these as Integers)\
 **Numeric:** Decimal Numbers (1.5/2.5/3.5/4.5)  
+
+We can change between variable types easily in R. Sometimes when importing data, you will import unexpected datatypes. For example, you may find a column has been imported as a character instead of a number.
+```{r, error=TRUE}
+#
+temp_char = "3" #Initialize as character
+temp_char*2 #Returns an error
+```
+```{r}
+temp_char = "3"
+temp_char = as.integer(temp_char)
+temp_char*2
+```
+
+Be careful if you convert a numeric variable into an integer, you will lose any data following the decimal place.
+```{r}
+temp_numeric = 3.14
+as.integer(temp_numeric) #Only prints 3
+```
+
+If you are working with whole numbers, it is a good habit to store variables as integers. This will save space and computation time, especially in large datasets.
+
+Example comparing the size of one million integers and one million numerics. Variable `x` is twice the size as a numeric despite containing the same information as `y`.
+```{r}
+x = rep(as.numeric(1), 1e7)
+y = rep(as.integer(1), 1e7)
+
+object.size(x)/object.size(y)
+```
+
+> Note: we learn more about functions later.
 
 ***
 ## Vectors

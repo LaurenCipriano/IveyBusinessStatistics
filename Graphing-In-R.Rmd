@@ -37,7 +37,7 @@ plot(x,y,
 ```
 
 Point types below (pch values):  
-![](images/r_plot_pch2.png)
+![](images/r_plot_pch2.png){width=35%}
 
 ## Line Graphs
 
