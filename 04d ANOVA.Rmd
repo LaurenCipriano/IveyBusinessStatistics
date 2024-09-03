@@ -8,9 +8,12 @@ output:
 css: laurens_styles.css
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```{r, child="_Global-Options.Rmd"}
 ```
+***
+***
+
+## Introduction
 
 Learning objectives of this asynchronous lesson:
 
