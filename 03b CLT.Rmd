@@ -13,6 +13,8 @@ css: laurens_styles.css
 ***
 ***
 
+## Introduction
+
 Learning objectives of this asynchronous lesson:
 
 * Recognize that estimates derived from samples may not precisely reflect the true population parameter    

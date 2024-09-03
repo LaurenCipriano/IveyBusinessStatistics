@@ -16,6 +16,8 @@ editor_options:
 ***
 ***
 
+## Introduction
+
 Learning objectives of this asynchronous lesson:
 
 -   Understanding when to use the binomial test\

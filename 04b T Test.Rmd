@@ -13,6 +13,8 @@ css: laurens_styles.css
 ***
 ***
 
+## Introduction
+
 Learning objectives of this asynchronous lesson:
 
 -   Understanding when to use the t-test\
