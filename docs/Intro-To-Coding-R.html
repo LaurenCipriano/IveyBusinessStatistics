@@ -696,7 +696,7 @@ inputs and return a value after applying some transformations.</p>
   #A return statement is needed to tell your function what value to send back
   return(output)
 }</code></pre>
-<p>With your custom function in memory, you may now call upon it
+<p>With your custom function initialized, you may now call upon it
 whenever you like.</p>
 <pre class="r"><code>someFunction(1,2)</code></pre>
 <pre><code>&gt; [1] 15</code></pre>
@@ -790,7 +790,7 @@ x</code></pre>
 <pre class="r"><code>x = 1
 if(1==0){ 
   x = 2 #Check one first
-} else if(1==1){
+}else if(1==1){
   x = 3 #Check two second
 }else{ 
   x = 4 #If neither is TRUE
@@ -921,7 +921,7 @@ lower right pane in RStudio has a help tab you can use. The help
 contains a lot of information, so you will have to learn to filter out
 what you don’t need. Try to use the R Documentation before taking your
 query to your favourite search engine.</p>
-<pre class="r"><code># You can also access the help directly from the console tab. This will open the R Documentation for the &#39;mean()&#39; function.
+<pre class="r"><code># You can also access the help directly from the help tab in RStudio.
 help(mean)
 # or
 ?mean</code></pre>

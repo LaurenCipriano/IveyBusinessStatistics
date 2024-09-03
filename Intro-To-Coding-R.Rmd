@@ -307,7 +307,7 @@ someFunction = function(input1, input2){
 }
 ```
 
-With your custom function in memory, you may now call upon it whenever you like.
+With your custom function initialized, you may now call upon it whenever you like.
 ```{r}
 someFunction(1,2)
 someFunction(5,10)
@@ -364,7 +364,7 @@ We can add multiple conditions.
 x = 1
 if(1==0){ 
   x = 2 #Check one first
-} else if(1==1){
+}else if(1==1){
   x = 3 #Check two second
 }else{ 
   x = 4 #If neither is TRUE
@@ -442,7 +442,7 @@ count
 ## Getting Help
 R and RStudio have complete documentation on all R functions. The lower right pane in RStudio has a help tab you can use. The help contains a lot of information, so you will have to learn to filter out what you don't need. Try to use the R Documentation before taking your query to your favourite search engine.
 ```{r, eval=FALSE}
-# You can also access the help directly from the console tab. This will open the R Documentation for the 'mean()' function.
+# You can also access the help directly from the help tab in RStudio.
 help(mean)
 # or
 ?mean
