@@ -85,9 +85,10 @@ x
 **Integer:** Only whole numbers (1L/2L/3L/4L, the letter 'L' declares these as Integers)\
 **Numeric:** Decimal Numbers (1.5/2.5/3.5/4.5)  
 
+***
+
 We can change between variable types easily in R. Sometimes when importing data, you will import unexpected datatypes. For example, you may find a column has been imported as a character instead of a number.
 ```{r, error=TRUE}
-#
 temp_char = "3" #Initialize as character
 temp_char*2 #Returns an error
 ```
