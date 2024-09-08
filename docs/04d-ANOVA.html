@@ -13,7 +13,7 @@
 
 <title>Analysis of Variance (ANOVA) and Kruskal-Wallis Test</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -399,7 +399,7 @@ study.data$REGION &lt;- factor(study.data$REGION,
 There are three values for family TYPE in the dataset. We can also label these for future use.
 
 
-```r
+``` r
 # Identify TYPE as a factor variable with labels
 study.data$TYPE <- factor(study.data$TYPE, 
                             levels = c(1:3), 
@@ -429,15 +429,15 @@ aggregate(study.data$EDUCATION~study.data$Educ_Cat, FUN=function(x)
               min = min(x), 
               max = max(x))) </code></pre>
 <pre><code>&gt;   study.data$Educ_Cat study.data$EDUCATION.avg study.data$EDUCATION.min
-&gt; 1                   1                 34.61728                 31.00000
-&gt; 2                   2                 39.00000                 39.00000
-&gt; 3                   3                 40.33333                 40.00000
-&gt; 4                   4                 43.62791                 43.00000
+&gt; 1                   1                     34.6                     31.0
+&gt; 2                   2                     39.0                     39.0
+&gt; 3                   3                     40.3                     40.0
+&gt; 4                   4                     43.6                     43.0
 &gt;   study.data$EDUCATION.max
-&gt; 1                 38.00000
-&gt; 2                 39.00000
-&gt; 3                 42.00000
-&gt; 4                 46.00000</code></pre>
+&gt; 1                     38.0
+&gt; 2                     39.0
+&gt; 3                     42.0
+&gt; 4                     46.0</code></pre>
 <pre class="r"><code># Identify Educ_Cat as a factor variable with labels
 study.data$Educ_Cat &lt;- factor(study.data$Educ_Cat, 
                             levels = c(1:4), 
@@ -593,9 +593,9 @@ anova(lm(study.data$INCOME ~ study.data$Educ_Cat))</code></pre>
 <pre><code>&gt; Analysis of Variance Table
 &gt; 
 &gt; Response: study.data$INCOME
-&gt;                      Df       Sum Sq     Mean Sq F value                Pr(&gt;F)
-&gt; study.data$Educ_Cat   3  93339883554 31113294518  43.657 &lt; 0.00000000000000022
-&gt; Residuals           396 282216861883   712668843                              
+&gt;                      Df       Sum Sq     Mean Sq F value              Pr(&gt;F)
+&gt; study.data$Educ_Cat   3  93339883554 31113294518    43.7 &lt;0.0000000000000002
+&gt; Residuals           396 282216861883   712668843                            
 &gt;                        
 &gt; study.data$Educ_Cat ***
 &gt; Residuals              
@@ -604,7 +604,7 @@ anova(lm(study.data$INCOME ~ study.data$Educ_Cat))</code></pre>
 <pre class="r"><code>## Method 2. 
 summary(aov(study.data$INCOME ~ study.data$Educ_Cat))</code></pre>
 <pre><code>&gt;                      Df       Sum Sq     Mean Sq F value              Pr(&gt;F)
-&gt; study.data$Educ_Cat   3  93339883554 31113294518   43.66 &lt;0.0000000000000002
+&gt; study.data$Educ_Cat   3  93339883554 31113294518    43.7 &lt;0.0000000000000002
 &gt; Residuals           396 282216861883   712668843                            
 &gt;                        
 &gt; study.data$Educ_Cat ***
@@ -713,11 +713,11 @@ names(income.summary) &lt;- c(&quot;Region&quot;, &quot;avg&quot;, &quot;n&quot;
 
 # print the table
 income.summary</code></pre>
-<pre><code>&gt;   Region      avg   n        var       sd       se  lower95  upper95
-&gt; 1  North 48173.99  91 1035532470 32179.69 3373.348 41562.35 54785.63
-&gt; 2   East 40081.57 107  597591741 24445.69 2363.254 35449.68 44713.46
-&gt; 3  South 41390.29 122 1128104667 33587.27 3040.848 35430.33 47350.24
-&gt; 4   West 37224.46  80  972227879 31180.57 3486.094 30391.84 44057.08</code></pre>
+<pre><code>&gt;   Region   avg   n        var    sd   se lower95 upper95
+&gt; 1  North 48174  91 1035532470 32180 3373   41562   54786
+&gt; 2   East 40082 107  597591741 24446 2363   35450   44713
+&gt; 3  South 41390 122 1128104667 33587 3041   35430   47350
+&gt; 4   West 37224  80  972227879 31181 3486   30392   44057</code></pre>
 </div>
 <div id="boxplot" class="section level4">
 <h4>BoxPlot</h4>
@@ -752,7 +752,7 @@ where each observation is independent of other observations</li>
 leveneTest(study.data$INCOME ~ study.data$REGION)</code></pre>
 <pre><code>&gt; Levene&#39;s Test for Homogeneity of Variance (center = median)
 &gt;        Df F value Pr(&gt;F)
-&gt; group   3  1.3838 0.2473
+&gt; group   3    1.38   0.25
 &gt;       396</code></pre>
 <p>We observe a p-value of 0.25 indicating that we cannot reject the
 null hypothesis that the samples share a common variance. As such, we
@@ -774,7 +774,7 @@ anova(lm(study.data$INCOME ~ study.data$REGION))</code></pre>
 &gt; 
 &gt; Response: study.data$INCOME
 &gt;                    Df       Sum Sq    Mean Sq F value Pr(&gt;F)
-&gt; study.data$REGION   3   5707431351 1902477117   2.037 0.1082
+&gt; study.data$REGION   3   5707431351 1902477117    2.04   0.11
 &gt; Residuals         396 369849314086  933962914</code></pre>
 </div>
 <div id="step-7.-interpret-and-present-the-results"
@@ -837,7 +837,7 @@ kruskal.test(study.data$INCOME ~ study.data$REGION)</code></pre>
 &gt;   Kruskal-Wallis rank sum test
 &gt; 
 &gt; data:  study.data$INCOME by study.data$REGION
-&gt; Kruskal-Wallis chi-squared = 9.457, df = 3, p-value = 0.02379</code></pre>
+&gt; Kruskal-Wallis chi-squared = 9, df = 3, p-value = 0.02</code></pre>
 <p>We observe a p-value of 0.02. Therefore, we reject the null
 hypothesis that the average income is the same across regions. ’</p>
 <p>This finding contradicts our previous finding using ANOVA. When an

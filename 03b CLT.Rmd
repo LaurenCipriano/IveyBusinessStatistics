@@ -10,8 +10,7 @@ css: laurens_styles.css
 
 ```{r, child="_Global-Options.Rmd"}
 ```
-***
-***
+
 
 ## Introduction
 

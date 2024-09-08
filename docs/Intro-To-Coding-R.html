@@ -13,7 +13,7 @@
 
 <title>Fundamentals of Coding in R</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -389,7 +389,7 @@ x</code></pre>
 <pre class="r"><code>2*3 </code></pre>
 <pre><code>&gt; [1] 6</code></pre>
 <pre class="r"><code>2/3 </code></pre>
-<pre><code>&gt; [1] 0.6666667</code></pre>
+<pre><code>&gt; [1] 0.667</code></pre>
 <pre class="r"><code>2^3</code></pre>
 <pre><code>&gt; [1] 8</code></pre>
 <pre class="r"><code>2*(3+1)^2</code></pre>
@@ -418,7 +418,7 @@ x</code></pre>
 <pre><code>&gt; [1] 3</code></pre>
 <pre class="r"><code>x &lt;- 5.412
 x</code></pre>
-<pre><code>&gt; [1] 5.412</code></pre>
+<pre><code>&gt; [1] 5.41</code></pre>
 <blockquote>
 <p>Look <a
 href="https://statisticsglobe.com/assignment-operators-in-r">here</a>
@@ -477,16 +477,16 @@ c(1, 2, 3, 4)</code></pre>
 <pre><code>&gt; [1] 1 2 3 4</code></pre>
 <pre class="r"><code>x = c(1.1, 0.0, 3.14, 2.718)
 x</code></pre>
-<pre><code>&gt; [1] 1.100 0.000 3.140 2.718</code></pre>
+<pre><code>&gt; [1] 1.10 0.00 3.14 2.72</code></pre>
 <p>One way to access specific values within a vector is use the index of
 that value:</p>
 <pre class="r"><code>x[1]</code></pre>
 <pre><code>&gt; [1] 1.1</code></pre>
 <pre class="r"><code>x[4]</code></pre>
-<pre><code>&gt; [1] 2.718</code></pre>
+<pre><code>&gt; [1] 2.72</code></pre>
 <p>Or you can access a range of values:</p>
 <pre class="r"><code>x[2:4]</code></pre>
-<pre><code>&gt; [1] 0.000 3.140 2.718</code></pre>
+<pre><code>&gt; [1] 0.00 3.14 2.72</code></pre>
 <p>Sequences of integers are so common that there is a shortcut for
 making them.</p>
 <pre class="r"><code>1:4</code></pre>
@@ -630,21 +630,21 @@ myDF$col1</code></pre>
 <p>R has all the functions you know and love. (Most of them can be used
 on vectors.)</p>
 <pre class="r"><code>sin(1)</code></pre>
-<pre><code>&gt; [1] 0.841471</code></pre>
+<pre><code>&gt; [1] 0.841</code></pre>
 <pre class="r"><code>sin(1.4)</code></pre>
-<pre><code>&gt; [1] 0.9854497</code></pre>
+<pre><code>&gt; [1] 0.985</code></pre>
 <pre class="r"><code>sin(3)</code></pre>
-<pre><code>&gt; [1] 0.14112</code></pre>
+<pre><code>&gt; [1] 0.141</code></pre>
 <pre class="r"><code># R knows about pi
 pi</code></pre>
-<pre><code>&gt; [1] 3.141593</code></pre>
+<pre><code>&gt; [1] 3.14</code></pre>
 <pre class="r"><code>sin(pi/2)</code></pre>
 <pre><code>&gt; [1] 1</code></pre>
 <pre class="r"><code># The exponential function
 exp(0)</code></pre>
 <pre><code>&gt; [1] 1</code></pre>
 <pre class="r"><code>exp(1)</code></pre>
-<pre><code>&gt; [1] 2.718282</code></pre>
+<pre><code>&gt; [1] 2.72</code></pre>
 <pre class="r"><code># factorial:  n!
 factorial(8)</code></pre>
 <pre><code>&gt; [1] 40320</code></pre>
@@ -682,7 +682,7 @@ mean(Y, na.rm=FALSE)     </code></pre>
 <pre><code>&gt; [1] NA</code></pre>
 <pre class="r"><code># Changing the argument to TRUE
 mean(Y, na.rm=TRUE)</code></pre>
-<pre><code>&gt; [1] 5.142857</code></pre>
+<pre><code>&gt; [1] 5.14</code></pre>
 <div id="custom-functions" class="section level3">
 <h3>Custom Functions</h3>
 <p>When writing code, you will often find that you are using the same
