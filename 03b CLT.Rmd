@@ -36,6 +36,8 @@ options(scipen=99)
 ```
 
 
+***
+
 ## Population statistics
 Usually we can't know the population statistics. 
 But, because this dataset is a complete census of the Cyberville city,
@@ -79,6 +81,8 @@ text(x = true.avg + 5000,
 
 ```
 
+
+***
 
 ## Performing a study
 If a researcher wanted to know about the population about Cyberville, performing a census would be
@@ -240,6 +244,8 @@ text(x = true.avg + 500,  # Adjust the x position slightly to the right of true.
 So, even though the underlying population distribution was not Normally distributed, the uncertainty in the sample average for income *is* Normally distributed.
 
 
+***
+
 ## Central Limit Theorem
 The Central Limit Theorem is the formal mathematical statement of what you have just observed. 
 
@@ -264,6 +270,8 @@ The distribution converges to Normal faster when
 
 Because of the Central Limit Theorem, estimating 95% confidence intervals around a sample average using the Normal distribution is both common and highly accurate when compared to exact or bootstrapped intervals. 
 
+
+***
 
 ## Uncertainty around a sample mean
 
@@ -292,6 +300,8 @@ print(cbind(sample.avg, lowerCI, upperCI))
 
 ```
 
+
+***
 
 ## Interpreting confidence intervals
 
