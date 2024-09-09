@@ -27,6 +27,10 @@ All of the datasets used in examples on this site and in Ivey Business Statistic
 * [Webpage](Graphing-In-R.html)
 
 ***
+### Data Manipulation
+* [Webpage](Data-Manipulation.html)
+
+***
 ### More Help
 * Visit [W3Schools](https://www.w3schools.com/r/default.asp)
 

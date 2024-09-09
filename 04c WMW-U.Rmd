@@ -10,8 +10,6 @@ css: laurens_styles.css
 
 ```{r, child="_Global-Options.Rmd"}
 ```
-***
-***
 
 ## Introduction
 
@@ -65,6 +63,8 @@ data.NoCollege <- study.data$INCOME[study.data$HasCollege == 0]
 data.YesCollege <- study.data$INCOME[study.data$HasCollege == 1]
 
 ```
+
+***
 
 ## Mann-Whitney U Test
 
@@ -348,10 +348,7 @@ wilcox.test(study.data$INCOME ~ study.data$HasChildren)
 Using the MWU test, the p-value decreases from 0.034 to 0.02. 
 We reject the null hypothesis that families with and without children have the same distribution of income. 
 
-
-
-
-
+***
 
 ## Bootstrapping a null distribution
 

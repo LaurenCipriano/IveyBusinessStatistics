@@ -1,0 +1,28 @@
+---
+title: "Data Manipulation In R"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
+---
+
+```{r, child="_Global-Options.Rmd"}
+```
+***
+***
+
+## 
+Use NHANES project for inspiration
+Add horizontal lines more places
+
+
+## Plot
+
+The plot() function is used to draw points.
+```{r}
+x = 1:10
+y = x^3
+plot(x,y)
+```

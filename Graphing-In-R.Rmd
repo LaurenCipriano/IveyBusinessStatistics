@@ -22,6 +22,8 @@ y = x^3
 plot(x,y)
 ```
 
+***
+
 ## Appearance  
 
 There are many parameters to change the appearance of our graph.
@@ -41,6 +43,8 @@ plot(x,y,
 Point types below (pch values):  
 ![](images/r_plot_pch2.png){width=35%}
 
+***
+
 ## Line Graphs
 
 To make a line graph, add the type parameter.
@@ -53,6 +57,8 @@ plot(x,y, type = "l", # This makes it a line graph
      )
 ```
 
+***
+
 ## Bar Graph
 
 The barplot() function will display a vertical bar chart. Use names.arg to label the x axis.
@@ -61,6 +67,8 @@ x = 1:10
 y = x^3
 barplot(y, names.arg = x)
 ```
+
+***
 
 ## Layers
 

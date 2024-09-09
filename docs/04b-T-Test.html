@@ -13,7 +13,7 @@
 
 <title>t-Test</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -338,8 +338,6 @@ div.tocify {
 </div>
 
 
-<hr />
-<hr />
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>Learning objectives of this asynchronous lesson:</p>
@@ -362,6 +360,7 @@ Recall that this is a population dataset …</p>
 
 ## suppress scientific notation for ease of reading numbers
 options(scipen=99)  </code></pre>
+<hr />
 </div>
 <div id="inference-about-a-population-parameter" class="section level2">
 <h2>Inference about a population parameter</h2>
@@ -411,6 +410,7 @@ print(cbind(sample.avg, lowerCI, upperCI))</code></pre>
 &gt; [1,]      41750   38744   44757</code></pre>
 <p>There is a 95% probability that the true population average income is
 within the interval $38,744 to $44,757.</p>
+<hr />
 </div>
 <div id="one-sample-two-sided-t-test" class="section level2">
 <h2>One-sample two-sided t-test</h2>
@@ -471,6 +471,7 @@ distribution of the sample mean.</p>
 <p>Observe that using the distribution of uncertainty around the sample
 mean (using Normal approximation), we also calculate the p-value of the
 one-sample, two-sided, t-test to be 0.0002.</p>
+<hr />
 </div>
 <div id="two-sample-two-sided-t-test" class="section level2">
 <h2>Two-sample two-sided t-test</h2>
@@ -602,7 +603,7 @@ calculate the p-value of the two-sample, two-sided, t-test to be
 Finally, we can visually present the average income for each group with error bars.
 
 
-``` r
+```r
 # Draw a bar graph
 par(mgp = c(3, 0.6, 0)) # Adjusting the distance of the y-axis labels from the axis
 barplot_obj <- barplot(income.summary["study.data$INCOME.avg", ], 
@@ -622,6 +623,7 @@ arrows(x0 = barplot_obj, y0 = income.summary["study.data$INCOME.lower95", ],    
 
 If the error bars of the two groups are not overlapping, then you can surely reject the null hypothesis that the two averages are equal. However, 95% confidence interval bars of two groups will overlap until the p-value is about 0.01.
 -->
+<hr />
 </div>
 </div>
 <div id="step-by-step-independent-samples-t-test"

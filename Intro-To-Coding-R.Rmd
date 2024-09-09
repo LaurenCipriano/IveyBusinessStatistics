@@ -10,8 +10,7 @@ css: laurens_styles.css
 
 ```{r, child="_Global-Options.Rmd"}
 ```
-***
-***
+
 ## Download R
 1. R. The R Project for Statistical Computing. Available at: <https://cran.r-project.org/>  
 Select: "Download R for (Linux/macOS/Windows)" and follow the instructions.
@@ -41,6 +40,7 @@ x
 ```
 
 ***
+
 ## R as a Calculator
 The basic operations are "*, +, -, /, ^"
 
@@ -53,6 +53,7 @@ The basic operations are "*, +, -, /, ^"
 ```
 
 ***
+
 ## Variables
 You can store results in variables and use them in calculations. You can print the value of a variable by using it as a command.
 
@@ -117,6 +118,7 @@ object.size(x)/object.size(y)
 > Note: we learn more about functions later.
 
 ***
+
 ## Vectors
 A vector stores a collection of any datatype.
 You create vectors by using the c() function (concatenate).
@@ -155,6 +157,7 @@ x
 ```
 
 ***
+
 ## Matrices, Arrays, Data Frames
 ### Matrices
 A matrix is a two dimensional set of data.
@@ -234,6 +237,7 @@ data.tables are hype
 ```
 
 ***
+
 ## Functions
 R has all the functions you know and love. (Most of them can be used on vectors.)
 ```{r}
@@ -314,6 +318,7 @@ someFunction(5,10)
 ```
 
 ***
+
 ## If Statements and Loops  
 ### Logical Conditions  
 R supports logical conditions:  
@@ -438,6 +443,7 @@ for(x in 1:nrow(data)){
 count
 ```
 
+***
 
 ## Getting Help
 R and RStudio have complete documentation on all R functions. The lower right pane in RStudio has a help tab you can use. The help contains a lot of information, so you will have to learn to filter out what you don't need. Try to use the R Documentation before taking your query to your favourite search engine.

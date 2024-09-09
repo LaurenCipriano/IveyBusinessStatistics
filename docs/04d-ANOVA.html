@@ -13,7 +13,7 @@
 
 <title>Analysis of Variance (ANOVA) and Kruskal-Wallis Test</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -339,8 +339,6 @@ Kruskal-Wallis Test</h1>
 </div>
 
 
-<hr />
-<hr />
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>Learning objectives of this asynchronous lesson:</p>
@@ -353,6 +351,7 @@ interpret the p-value</li>
 <li>Use appropriate non-parametric alterantive to ANOVA, Kruskal-Wallis,
 when the assumptions for ANOVA are not present</li>
 </ul>
+<hr />
 </div>
 <div id="data-set" class="section level2">
 <h2>Data set</h2>
@@ -399,7 +398,7 @@ study.data$REGION &lt;- factor(study.data$REGION,
 There are three values for family TYPE in the dataset. We can also label these for future use.
 
 
-``` r
+```r
 # Identify TYPE as a factor variable with labels
 study.data$TYPE <- factor(study.data$TYPE, 
                             levels = c(1:3), 
@@ -442,6 +441,7 @@ aggregate(study.data$EDUCATION~study.data$Educ_Cat, FUN=function(x)
 study.data$Educ_Cat &lt;- factor(study.data$Educ_Cat, 
                             levels = c(1:4), 
                             labels =  c(&quot;lt HS&quot;, &quot;HS&quot;, &quot;College&quot;, &quot;University&quot;))</code></pre>
+<hr />
 </div>
 </div>
 </div>
@@ -582,6 +582,7 @@ using a more stingent p-value cut-off because you are compounding your
 error to do a lot of tests at a 0.05 threshold. (Remember 1 in 20 tests
 will falsely say that two groups are different when they are actually
 the same!)</p>
+<hr />
 </div>
 </div>
 </div>
@@ -611,6 +612,7 @@ summary(aov(study.data$INCOME ~ study.data$Educ_Cat))</code></pre>
 &gt; Residuals              
 &gt; ---
 &gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<hr />
 </div>
 <div id="step-by-step-anova" class="section level2">
 <h2>Step-by-Step ANOVA</h2>
@@ -800,6 +802,7 @@ arrows(x0 = barplot_obj, y0 = income.summary$upper95,      # position of the upp
        x1 = barplot_obj, y1 = income.summary$lower95,       # position of the lower end of bars
        angle = 90, code = 3, length = 0.1)                                        # features of the error bars</code></pre>
 <p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<hr />
 </div>
 </div>
 </div>
