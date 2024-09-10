@@ -13,16 +13,138 @@ css: laurens_styles.css
 ***
 ***
 
-## 
-Use NHANES project for inspiration
-Add horizontal lines more places
-
-
-## Plot
-
-The plot() function is used to draw points.
+## Introduction
+We will use the MEPS dataset for the purposes of this tutorial.
 ```{r}
-x = 1:10
-y = x^3
-plot(x,y)
+data = read.csv("Datasets/mepsData.csv")
 ```
+
+***
+
+## Random Sampling
+Use NHANES project for inspiration
+
+***
+
+## Taking Slices of Data
+Often you will find that you require only portions of a dataset.
+
+The most basic method is to directly pass the row or column number or name.
+
+```{r}
+data_subset = data[ , c("Person_ID", "Age", "Sex")] # Keep these columns
+summary(data_subset)
+```
+
+
+```{r}
+data_subset = data[1:10000, ] # Keeping the first 10000 rows
+summary(data_subset)
+```
+We will want to do more complex slices as our data may contain outliers, or you are investigating specific individuals.
+
+Let's take a look at some useful functions.
+
+### Subset
+
+```{r}
+hist(data$FamIncome_Continuous)
+```
+
+As you can see, the majority of data points lie below \$300,000. Let's take a clearer look at those individuals by taking advantage of the `subset` function.
+```{r}
+data_subset = subset(data, FamIncome_Continuous<300000)
+hist(data_subset$FamIncome_Continuous)
+```
+
+The dataset now only contains individuals below our target income. We can investigate the impact this has on the entire dataset below.
+```{r, collapse=TRUE}
+summary(data$FamIncome_Continuous)
+summary(data_subset$FamIncome_Continuous)
+```
+
+> The `subset` function can be used on vectors, matrices and data frames!
+
+### Which
+For even more complex slices of data, the `which` function comes in handy. It works a little differently...the `which` function provides indices where our logic is true, so we have to pass the `which` function as an input for the rows to keep.
+
+Let's investigate individuals with Normal BMI classification (18.5-25) who have diabetes.
+```{r}
+# Will provide a vector telling us which indices are TRUE
+index = which(data$HasDiabetes==1 & #Combine statements with &
+              data$BMI>18.5 &
+              data$BMI<25)
+
+head(index) #See the first six elements of index
+
+data_subset = data[index, ] # We leave the column input blank to include all columns
+```
+
+```{r, collapse=TRUE}
+summary(data_subset$HasDiabetes)
+summary(data_subset$BMI)
+```
+
+### Removing NA's
+We may be investigating the impact of hypertension. As you can see below, the `HasHypertension` column has some missing entries. 
+```{r}
+summary(data$HasHypertension)
+```
+
+The `is.na` function tests whether a variable contains NA.
+```{r, collapse=TRUE}
+is.na(1)
+is.na(NA)
+is.na(c(1,2,3,NA))
+```
+
+We can use the `is.na` function combined with either of our methods above.
+```{r}
+data_subset = subset(data, is.na(HasHypertension)==0)
+# or
+index = which(is.na(data$HasHypertension)==0)
+data_subset = data[index, ]
+```
+
+The data now contains only rows where hypertension is not missing.
+```{r}
+summary(data$HasHypertension)
+summary(data_subset$HasHypertension)  
+```
+
+### Merge
+
+```{r, collapse=TRUE}
+data_subset_diab = subset(data, HasDiabetes==1)
+data_subset_hyper = subset(data, HasHypertension==1)
+
+data_subset = rbind(data_subset_diab, data_subset_hyper) # Use rbind to directly combine the tables by row
+
+nrow(unique(data_subset)) # Number of unique observations
+nrow(data_subset) # Total Observations
+```
+As you can see, we are double counting some observations as there are people with both diabetes and hypertension. This is where the `merge` function comes in handy. 
+
+```{r}
+
+```
+
+
+
+
+
+###
+***
+
+## Making new rows and columns
+
+***
+
+## Converting continuous to categorical (factors)
+
+***
+
+## Data tables
+
+***
+

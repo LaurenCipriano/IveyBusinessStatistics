@@ -382,9 +382,13 @@ R supports logical operators as well:
 
 | Operator | Description           | 
 |:----------:|---------------|   
+| &       | Element-wise Logical AND operator |
 | &&      | Logical AND operator - Returns TRUE if both statements are TRUE |
+| \|     | Element-wise Logical OR operator.
 | \|\|      | Logical OR operator. It returns TRUE if one of the statements is TRUE.| 
 | !      | Logical NOT - returns FALSE if statement is TRUE |  
+
+> Note the difference between a single `&` and two `&&`. The single `&` will be used more commonly when dealing with vectors, as it compares each element rather than the entire vector. 
 
 ```{r}
 1||0
