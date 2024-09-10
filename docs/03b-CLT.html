@@ -13,7 +13,7 @@
 
 <title>Central Limit Theorem</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -35,6 +35,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="images/favicon.ico">
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -464,11 +465,11 @@ deviation of the sample.</p>
 <pre class="r"><code># Calculate the sample mean of Income
 sample.avg &lt;- mean(study.data$INCOME)
 sample.avg</code></pre>
-<pre><code>&gt; [1] 41890.47</code></pre>
+<pre><code>&gt; [1] 43211.61</code></pre>
 <pre class="r"><code># Calculate the sample sd of Income
 sample.sd &lt;- sd(study.data$INCOME)
 sample.sd</code></pre>
-<pre><code>&gt; [1] 30498.37</code></pre>
+<pre><code>&gt; [1] 38026.01</code></pre>
 <p>If you run the last two sections of code repeatedly, you will find
 that each time a new sample is selected the sample mean is a different
 number.</p>
@@ -596,7 +597,7 @@ upperCI = sample.avg + qnorm(0.975, mean = 0, sd = 1) * se
 
 print(cbind(sample.avg, lowerCI, upperCI))</code></pre>
 <pre><code>&gt;      sample.avg  lowerCI  upperCI
-&gt; [1,]   42903.18 39692.41 46113.96</code></pre>
+&gt; [1,]   41037.15 37715.95 44358.36</code></pre>
 <hr />
 </div>
 <div id="interpreting-confidence-intervals" class="section level2">
@@ -623,7 +624,7 @@ sample.reps$outBounds[ true.avg &gt; sample.reps$upperCI ] &lt;- 1
 
 # what % of study replications reported 95% CI that did not include the true population average?
 sum(sample.reps$outBounds)/m</code></pre>
-<pre><code>&gt; [1] 0.0504</code></pre>
+<pre><code>&gt; [1] 0.0488</code></pre>
 <p>I hope it is not too much of a surprise that this is really close to
 5%!</p>
 <p>Next: Elements of a Statistical Test</p>

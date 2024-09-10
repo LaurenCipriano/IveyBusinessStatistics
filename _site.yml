@@ -5,4 +5,5 @@ output:
     theme: united
     include:
       after_body: footer.html
+      in_header: header.html
     css: laurens_styles.css
