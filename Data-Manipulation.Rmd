@@ -26,6 +26,27 @@ Use NHANES project for inspiration
 
 ***
 
+## Making new rows and columns
+
+We can use `rbind` and `cbind` to add new rows and columns respectively. They must have the same structure in order to work.
+```{r}
+sample_row = data[1337, ] # Picking a random row for the example
+
+data_subset = rbind(data, sample_row)
+nrow(data)
+nrow(data_subset)
+```
+
+An easier way to make new columns when working with data.frames is by using the `$`.
+```{r}
+data2 = data # Keep our original dataset untouched.
+data2$newColumn = 1 # Fill the column entirely with 1's
+summary(data2$newColumn)
+```
+
+
+***
+
 ## Taking Slices of Data
 Often you will find that you require only portions of a dataset.
 
@@ -112,8 +133,15 @@ summary(data$HasHypertension)
 summary(data_subset$HasHypertension)  
 ```
 
+#### Replacing missing data
+
+Mean, median, mode
+
+common category
+
 ### Merge
 
+If we try to use `rbind` to combine datasets we may get some unwanted behaviour.
 ```{r, collapse=TRUE}
 data_subset_diab = subset(data, HasDiabetes==1)
 data_subset_hyper = subset(data, HasHypertension==1)
@@ -123,24 +151,25 @@ data_subset = rbind(data_subset_diab, data_subset_hyper) # Use rbind to directly
 nrow(unique(data_subset)) # Number of unique observations
 nrow(data_subset) # Total Observations
 ```
-As you can see, we are double counting some observations as there are people with both diabetes and hypertension. This is where the `merge` function comes in handy. 
+As you can see, there are more total observations than unique observations. We are double counting some observations as there are people with both diabetes and hypertension. This is where the `merge` function comes in handy. 
 
 ```{r}
+data_subset = merge(data_subset_diab, data_subset_hyper, by = "Person_ID", all = TRUE, sort = TRUE)
 
+nrow(data_subset)
 ```
 
+The `all` parameter tells the function to keep any observation that does not have a matching ID, achieving the behaviour we desire. 
 
-
-
-
-###
-***
-
-## Making new rows and columns
+> Remember to check out the help page for any function (using `help(merge)`), they have even more useful information!
 
 ***
 
 ## Converting continuous to categorical (factors)
+
+***
+
+## Making a binary from continuous
 
 ***
 

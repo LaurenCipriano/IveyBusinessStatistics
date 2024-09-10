@@ -351,6 +351,27 @@ div.tocify {
 <p>Use NHANES project for inspiration</p>
 <hr />
 </div>
+<div id="making-new-rows-and-columns" class="section level2">
+<h2>Making new rows and columns</h2>
+<p>We can use <code>rbind</code> and <code>cbind</code> to add new rows
+and columns respectively. They must have the same structure in order to
+work.</p>
+<pre class="r"><code>sample_row = data[1337, ] # Picking a random row for the example
+
+data_subset = rbind(data, sample_row)
+nrow(data)</code></pre>
+<pre><code>&gt; [1] 30461</code></pre>
+<pre class="r"><code>nrow(data_subset)</code></pre>
+<pre><code>&gt; [1] 30462</code></pre>
+<p>An easier way to make new columns when working with data.frames is by
+using the <code>$</code>.</p>
+<pre class="r"><code>data2 = data # Keep our original dataset untouched.
+data2$newColumn = 1 # Fill the column entirely with 1&#39;s
+summary(data2$newColumn)</code></pre>
+<pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+&gt;       1       1       1       1       1       1</code></pre>
+<hr />
+</div>
 <div id="taking-slices-of-data" class="section level2">
 <h2>Taking Slices of Data</h2>
 <p>Often you will find that you require only portions of a dataset.</p>
@@ -414,13 +435,13 @@ outliers, or you are investigating specific individuals.</p>
 <div id="subset" class="section level3">
 <h3>Subset</h3>
 <pre class="r"><code>hist(data$FamIncome_Continuous)</code></pre>
-<p><img src="Data-Manipulation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="Data-Manipulation_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>As you can see, the majority of data points lie below $300,000. Let’s
 take a clearer look at those individuals by taking advantage of the
 <code>subset</code> function.</p>
 <pre class="r"><code>data_subset = subset(data, FamIncome_Continuous&lt;300000)
 hist(data_subset$FamIncome_Continuous)</code></pre>
-<p><img src="Data-Manipulation_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="Data-Manipulation_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>The dataset now only contains individuals below our target income. We
 can investigate the impact this has on the entire dataset below.</p>
 <pre class="r"><code>summary(data$FamIncome_Continuous)
@@ -487,9 +508,16 @@ missing.</p>
 <pre class="r"><code>summary(data_subset$HasHypertension)  </code></pre>
 <pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 &gt;  0.0000  0.0000  0.0000  0.3483  1.0000  1.0000</code></pre>
+<div id="replacing-missing-data" class="section level4">
+<h4>Replacing missing data</h4>
+<p>Mean, median, mode</p>
+<p>common category</p>
+</div>
 </div>
 <div id="merge" class="section level3">
 <h3>Merge</h3>
+<p>If we try to use <code>rbind</code> to combine datasets we may get
+some unwanted behaviour.</p>
 <pre class="r"><code>data_subset_diab = subset(data, HasDiabetes==1)
 data_subset_hyper = subset(data, HasHypertension==1)
 
@@ -499,22 +527,31 @@ nrow(unique(data_subset)) # Number of unique observations
 &gt; [1] 8633
 nrow(data_subset) # Total Observations
 &gt; [1] 10805</code></pre>
-<p>As you can see, we are double counting some observations as there are
+<p>As you can see, there are more total observations than unique
+observations. We are double counting some observations as there are
 people with both diabetes and hypertension. This is where the
 <code>merge</code> function comes in handy.</p>
-</div>
-<div id="section" class="section level3">
-<h3></h3>
+<pre class="r"><code>data_subset = merge(data_subset_diab, data_subset_hyper, by = &quot;Person_ID&quot;, all = TRUE, sort = TRUE)
+
+nrow(data_subset)</code></pre>
+<pre><code>&gt; [1] 8633</code></pre>
+<p>The <code>all</code> parameter tells the function to keep any
+observation that does not have a matching ID, achieving the behaviour we
+desire.</p>
+<blockquote>
+<p>Remember to check out the help page for any function (using
+<code>help(merge)</code>), they have even more useful information!</p>
+</blockquote>
 <hr />
 </div>
-</div>
-<div id="making-new-rows-and-columns" class="section level2">
-<h2>Making new rows and columns</h2>
-<hr />
 </div>
 <div id="converting-continuous-to-categorical-factors"
 class="section level2">
 <h2>Converting continuous to categorical (factors)</h2>
+<hr />
+</div>
+<div id="making-a-binary-from-continuous" class="section level2">
+<h2>Making a binary from continuous</h2>
 <hr />
 </div>
 <div id="data-tables" class="section level2">
