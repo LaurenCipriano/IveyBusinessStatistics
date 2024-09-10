@@ -13,7 +13,7 @@
 
 <title>Central Limit Theorem</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -355,7 +355,8 @@ Normal approximation</li>
 <div id="dataset" class="section level2">
 <h2>Dataset</h2>
 <p>For this set of examples, I will use the Cyberville families data.
-Recall that this is a population dataset …</p>
+Recall that this is a population dataset. In order to calculate sample
+statistics, we will take a simple random sample of 400 observations.</p>
 <pre class="r"><code>data &lt;- read.table(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt&quot;), 
                         header = TRUE)
 
@@ -463,11 +464,11 @@ deviation of the sample.</p>
 <pre class="r"><code># Calculate the sample mean of Income
 sample.avg &lt;- mean(study.data$INCOME)
 sample.avg</code></pre>
-<pre><code>&gt; [1] 42826.82</code></pre>
+<pre><code>&gt; [1] 41890.47</code></pre>
 <pre class="r"><code># Calculate the sample sd of Income
 sample.sd &lt;- sd(study.data$INCOME)
 sample.sd</code></pre>
-<pre><code>&gt; [1] 29150.79</code></pre>
+<pre><code>&gt; [1] 30498.37</code></pre>
 <p>If you run the last two sections of code repeatedly, you will find
 that each time a new sample is selected the sample mean is a different
 number.</p>
@@ -595,7 +596,7 @@ upperCI = sample.avg + qnorm(0.975, mean = 0, sd = 1) * se
 
 print(cbind(sample.avg, lowerCI, upperCI))</code></pre>
 <pre><code>&gt;      sample.avg  lowerCI  upperCI
-&gt; [1,]   42643.75 39239.19 46048.31</code></pre>
+&gt; [1,]   42903.18 39692.41 46113.96</code></pre>
 <hr />
 </div>
 <div id="interpreting-confidence-intervals" class="section level2">

@@ -23,7 +23,7 @@ Learning objectives of this asynchronous lesson:
 ***
 
 ## Dataset
-For this set of examples, I will use the Cyberville families data. Recall that this is a population dataset ...
+For this set of examples, I will use the Cyberville families data. Recall that this is a population dataset.  In order to calculate sample statistics, we will take a simple random sample of 400 observations. 
 
 ```{r}
 data <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt"), 
