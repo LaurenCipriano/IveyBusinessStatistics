@@ -1,0 +1,388 @@
+---
+title: "Chi-Squared"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      warning = FALSE, 
+                      message = FALSE,
+                      comment = ">")
+```
+
+Learning objectives of this asynchronous lesson:
+
+-   Understanding when to use a chi-squared test
+-   Evaluate whether the underlying assumptions of a Chi-squared are present
+-   Write an appropriate null hypothesis, apply appropriate Chi-squared-test, and interpret the p-value
+-   Appropriately utilize the Fisher's Exact for smaller sample sizes
+
+## Data set
+
+For this set of examples, I will continue to use the sample of 400 observations from the population-based Cyberville families data created in the t-test page.
+
+```{r}
+data <- read.table(url("https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt"), 
+                        header = TRUE)
+
+## suppress scientific notation for ease of reading numbers
+options(scipen=99)  
+```
+
+
+Using the same set.seed, I can take the exact same random sample from the population. So that I have them for later, I am going to make the variables for HasChildren and HasCollege; I am going to label REGION as a factor variable; and I am going to make a categorical variable with only four levels to summarize EDUCATION into more meaningful and less detailed baskets. 
+
+```{r}
+# Using the same random number seed, I will get the same sample from the population dataset
+set.seed(11)  
+
+# create the random sample dataset for analysis
+n <- 400   # sample size
+select.obs <- sample(1:nrow(data), n) 
+study.data <- data[select.obs, ]    
+
+# Create a variable identifying whether or not a family has children
+study.data$HasChildren <- 0 # initialize the variable
+study.data$HasChildren[ study.data$CHILDREN > 0 ] <- 1 # assign a 1 if CHILDREN >0
+
+# Create a variable identifying whether or not the survey respondent has any college
+study.data$HasCollege <- 0 # initialize the variable
+study.data$HasCollege[ study.data$EDUCATION >= 40 ] <- 1 # assign a 1 if Any College
+
+# Identify REGION as a factor variable with labels
+study.data$REGION <- factor(study.data$REGION, 
+                            levels = c(1:4), 
+                            labels =  c("North", "East", "South", "West"))
+
+# Create a categorical variable for EDUCATION
+study.data$Educ_Cat <- NA
+study.data$Educ_Cat[study.data$EDUCATION <= 38] <- 1  # less than HS diploma
+study.data$Educ_Cat[study.data$EDUCATION == 39] <- 2  # HS
+study.data$Educ_Cat[study.data$EDUCATION > 39 & study.data$EDUCATION <= 42] <- 3  # Some college
+study.data$Educ_Cat[study.data$EDUCATION >= 43] <- 4  # University degree
+
+# whenever you create a new variable that is defined from another variable(s), you should double check your coding
+aggregate(study.data$EDUCATION~study.data$Educ_Cat, FUN=function(x) 
+            c(avg = mean(x), 
+              min = min(x), 
+              max = max(x))) 
+
+# Identify Educ_Cat as a factor variable with labels
+study.data$Educ_Cat <- factor(study.data$Educ_Cat, 
+                            levels = c(1:4), 
+                            labels =  c("lt HS", "HS", "College", "University"))
+
+```
+
+## Chi-squared tests
+
+There are three Pearson's Chi-Squared tests. 
+
+*  Goodness of Fit Test:  Compares a single sample to an expected distribution  
+*  Test for Homogeneity:  Compares two or more populations on their distribution over a single factor  
+*  Test for Independence:  Within a single population, evaluates whether two factors are independent of each other. 
+
+All three Chi-squared tests have the same assumptions
+
+*  Variable(s) is/are categorical variables  
+*  Data are representative of the population: Data come from a random sample
+*  Independent observations: Each observation in the sample is independent of other observations
+*  Expected Frequency: Each expected cell frequency >5
+
+The null distribution converges to the Chi-squared distribution at larger sample sizes. As a result, Chi-squared tests are sensitive to small sample size.  When working with overall smaller sample sizes or if any expected cell frequency is less than 5, use a Fisher's Exact test. 
+
+Both Chi-squared tests and the Fisher's exact test are non-parametric tests, but Fisher's exact test doesn't rely on any approximation to a continuous distribution to calculate the p-value. 
+
+
+## Chi-squared 'Goodness of Fit' test
+
+The Pearson's Chi-Squared Goodness of Fit test determines how well an observed frequency distribution matches an expected distribution.
+
+The null hypothesis states that the observed frequencies are consistent with the expected frequencies based on some theoretical distribution.
+
+### Example 1. 
+
+If we want to evaluate whether a die is fair or not, we can compare the outcome of 100 rolls of the die to the expected frequency.  
+
+If a die is fair, each side should appear with equal frequency. 
+
+```{r}
+# Pearson's GOF for uniform distribution
+n = 100
+outcomes = 6
+expected.p = rep(n/outcomes, length = outcomes)/n
+
+observed = c(14, 22, 9, 21, 18, 16)
+
+# Null:  The observed data come from a uniform distribution
+chisq.test(x = observed, p = expected.p)
+
+```
+
+### Example 2. 
+
+We surveyed the favourite colours of 100 kindergarten students and want to compare them to a known national average distribution of favourite colours for 5 year olds. 
+
+```{r}
+observed.colours <- c(24, 7, 21, 11, 10, 27)
+expected.colours <- c(0.20, 0.15, 0.15, 0.15, 0.15, 0.20)
+
+# H0: The observed favourite colour data are consistent with the expected distribution
+chisq.test(x = observed.colours, p = expected.colours)
+```
+With p = 0.026, we reject the null hypothesis that the observed data are consistent with the expected distribution. 
+
+Note: this doesn't achieve the same results as if we entered the expected probabilities as the expected values given 100 subjects.
+
+```{r}
+# Incorrect specification of a GOF test
+chisq.test(x = observed.colours, y = expected.colours*100)
+
+```
+
+In this second test, R is treating the expected proportions as a second *sample*.  For example, as if the data were the results of surveying 100 children in another school.  In that case, the values would not represent the expectation at all. 
+
+If you have an expected distribution, it must be entered using the $p$ term in the chi.test function. 
+
+
+
+
+## Chi-squared Test for Homogeneity
+
+The Pearson's Chi-squared Test for Homogeneity determines whether two or more populations have the same distribution of a single categorical variable. Specifically, it compares the distributions of a single categorical variable from different populations to see if they are homogeneous.
+
+Null hypothesis: The distributions of the categorical variable are the same across the different populations (homogeneous).
+Alternative Hypothesis: The distributions of the categorical variable differ between the populations (not homogeneous).
+
+Typically, with a test for homogeneity, samples are collected from each of the populations with the same (or similar) sample sizes. 
+
+
+### Example 1. 
+
+We have surveyed 100 children in Kindergarten, Grade 3, and Grade 6 to understand if the distribution over favourite colour is the stable over elementary school. 
+
+```{r}
+## Observed distributions for three samples
+k=c(24,7,21,11,10,27) 
+g3=c(20,13,10,29,7,22) 
+g6=c(25,7,7,23,20,18) 
+
+# bind the sample data into a single matrix
+d1 = rbind(k,g3,g6) 
+
+# H0: The three samples come from the same population distribution
+chisq.test(d1) 
+
+```
+
+With a p-value of 0.001 we reject the null hypothesis that all the samples have the same distribution over the categorical variable (favourite colour).  
+
+### Example 2. 
+
+In this example, we will rely on the Cyberville data.  We will ask:
+Is the distribution of the number of children in a family the same across families with different levels of education?
+
+Framing the question this way, we might have sampled the population differently ensuring that we had equal numbers of people in each education level.  An alternative framing of the question might be 'Is the number of children a family has independent of the level of education?'.  This alternative framing does not affect how to set up or interpret the test. 
+
+
+```{r}
+# Always summarize the data as a table to see what the cell sizes are
+table(study.data$CHILDREN, study.data$Educ_Cat)
+
+# H0: Across families with different levels of education,
+#      is the distribution of number of children the same?
+chisq.test(study.data$CHILDREN, study.data$Educ_Cat)
+```
+
+
+By storing the results of the test into an object, we can access additional information that is not printed by default in the test output.  Specifically, in this case, we are interested in the expected cell sizes. 
+
+
+
+```{r}
+
+# Assign the output to an object 
+chi.edu.kids <- chisq.test(study.data$CHILDREN, study.data$Educ_Cat)
+
+# Report the expected cell sizes
+chi.edu.kids$expected
+
+```
+
+Observe that some of the expected cell sizes are less than 5 (which is not surprising since some of the observed cell sizes were 0s and 2s).  As a result, we should re-visit this example in the Fisher Exact test section. 
+
+
+## Chi-squared Test for Independence
+
+The Pearson's Chi-squared Test for Independence determines whether there is a significant association between two categorical variables.
+Specifically, it assesses whether the distribution of one categorical variable is the same or differs depending on the category of another variable.
+
+Null hypothesis: The two variables are independent.
+Alternative Hypothesis: The two variables are not independent. 
+
+### Example 1. 
+
+Consider whether favourite animal and favourite colour are independent among kindergartners. 
+
+We survey 307 kindergarteners to establish each student's favourite animal and favourite colour. 
+
+```{r}
+# Enter the data
+kinder.data <- rbind(c(10, 13, 9, 8, 15, 13),
+                         c(5, 10, 16, 8, 14, 6), 
+                         c(12, 11, 6, 10, 7, 14), 
+                         c(6, 8, 12, 12, 16, 16), 
+                         c(10, 12, 11, 5, 6, 6))
+row.names(kinder.data) <- c("Dog", "Cat", "Cow", "Donkey", "Pig")
+colnames(kinder.data) <- c("Blue", "Red", "Pink", "Purple", "Green", "Orange")
+
+# print data
+kinder.data
+
+# H0: Favourite color and favourite animal are independent
+chisq.test(kinder.data)
+
+
+```
+
+Based on these data, we do not reject the null hypothesis that there no association between favrourite colour and favourite animal among kindergartners. 
+
+
+### Example 2. 
+
+Among the people of Cyberville, is the level of education independent of region of the city?
+
+
+```{r}
+# Summarize the data as a table to see what the cell sizes are
+table(study.data$REGION, study.data$Educ_Cat)
+
+#H0:  Education level is independent of neighbourhood in Cyberville
+chisq.test(study.data$REGION, study.data$Educ_Cat)
+
+```
+Cell sizes are all large here, so we are not concerned about needing to use Fisher's Exact test.
+
+Based on the p-value, we do not reject the null hypothesis that level of education and neighbourhood are independent. 
+
+
+## Fisher Exact
+
+Chi-squared tests are sensitive to small sample sizes.  
+If any cell is smaller than 5 (or expected cell is less than 5), use Fisher’s exact test.
+
+Fisher’s Exact relies on the hypergeometric distribution. 
+In the case of a 2x2 contingency table:
+    Given a population with two groups, say, $r$ Red & $N-r$ Green balls,
+              what is the probability of selecting $𝑘$ Red balls when, 
+              in total $𝑚$ balls are selected?
+
+The only assumptions of a Fisher's exact test are
+
+* Two variables are categorical  
+* Data are representative of the population  
+* Observations are independent of each other  
+	
+	
+The null hypothesis is that there is no association between the two factors.
+
+Fisher’s Exact provides an exact p-value. 
+Computationally difficult for larger 𝑘×𝑚 matrices and larger sample sizes.  In those cases, you can increase the workspace to allow your computer to use more memory while performing the exact p-value calculations or you can set simulate.p.value = TRUE.  Bootstrapping the p-value was demonstrated in the Mann-Whitney notes.  
+
+
+
+### Example 1. 
+
+Example from Rosen & Jerdee (1974). Influence of sex role stereotypes on personnel decisions.  Journal of Applied Psychology. 
+
+Rosen and Jerdee recruited male and female bank supervisors to participate in their study.  Each participant was given a folder of a hypothetical job candidate for promotion.
+The job candidate profiles were identical except for the gender of the candidate; 24 study participants received the male profile and 24 received the female profile. 
+Study participants were asked whether they wanted to 'promote' the candidate or hold the person in their current position for additional growth and experience. 
+
+The results were as follows:
+|          | Men  | Women  |     |
+|----------|------|--------|-----|
+| Promote  | 21   | 14     | 35  |
+| Hold     | 3    | 10     | 13  |
+|          | 24   | 24     | N   |
+
+What is the probability that these promotion assignments occurred independent of candidate gender?
+
+Null hypothesis:  No association between the two factors
+
+*  Promotion decision and candidate gender are independent. (Test for Independence language)  
+*  The frequency of promotion decisions are the same across candidate gender. (Test for Homogeneity language)  
+
+```{r}
+# Enter the data
+job.data <- rbind(c(21, 14), c(3, 10))
+row.names(job.data) <- c("Promote", "Hold")
+colnames(job.data) <- c("Men", "Women")
+
+# print data
+job.data
+
+# H0: Candidate gender and Promotion decision are independent
+# Because small overall sample size and cell sizes < 5, 
+#  choose fisher exact test over Chi-squared
+fisher.test(job.data)
+
+## Compare to Chi-squared
+# H0: Candidate gender and Promotion decision are independent
+chisq.test(job.data)
+
+
+```
+Note this is an example where the overall sample size is less than 50 and there is one cell with a value less than 5.  Fisher's exact is the appropriate test in this case. 
+
+Using Fisher's exact, the p-value is 0.049.  In this case, we reject the null hypothesis that candidate gender and promotion decisions are independent. 
+
+If we had used the Chi-squared test, we would have (erroroneously) reported a p-value of 0.051 and came to the opposite conclusion.  Fisher Exact results are always used over Chi-squared results. 
+
+
+### Example 2. (continued)
+
+Let's return to Example 2 from above in the Test for Homogeneity section.  In that case, we were using the sample data from Cyberville to evaluate whether the distribution of the number of children was the same across families with different education levels.  We observed that the actual and expected cell sizes were less than 5 for having four children. 
+
+
+```{r}
+table(study.data$CHILDREN, study.data$Educ_Cat)
+
+# Assign the output to an object 
+chi.edu.kids <- chisq.test(study.data$CHILDREN, study.data$Educ_Cat)
+
+# Report the expected cell sizes
+chi.edu.kids$expected
+
+```
+
+If we try to use a Fisher Exact test, R will indicate an error for not having enough memory.  Increasing the memory is an option, but this is a very large contingency table (4x4) with 400 observations in total.  
+
+Another approach is to tell R to simulate the p-value of the Fisher's exact test. 
+
+
+```{r}
+
+# H0: Across families with different levels of education,
+#      is the distribution of number of children the same?
+fisher.test(study.data$CHILDREN, study.data$Educ_Cat,
+            simulate.p.value = TRUE,     # Default is FALSE 
+            B = 10000)           # Number of iterations when simulating the p-value (Default is 2000)
+
+```
+
+When you do this, the p-value will change every time you run the code.  To improve the stability of the p-value, you can increase the number of iterations in the simulation by changing B. 
+
+```{r}
+# Compare to Chi-squared test
+chisq.test(study.data$CHILDREN, study.data$Educ_Cat)
+
+```
+
+Again, the p-value of the Fisher's Exact test is quite a bit different than the Chi-squared test.  In this case, the Chi-squared test did not have enough sample size in some cells in order to have all the assumptions satisfied.  The Fisher's Exact test is the appropriate test. 
+
+

@@ -19,7 +19,7 @@ Learning objectives of this asynchronous lesson:
 
 
 ## Dataset
-For this set of examples, I will use the Cyberville families data. Recall that this is a population dataset ...
+For this set of examples, I will use the Cyberville families data. Recall that this is a population dataset. 
 
 ```{r}
 data <- read.table(url("https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt"), 
