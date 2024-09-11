@@ -35,7 +35,7 @@ setwd("C:/Users/Lauren/Dropbox/Ivey/2024 MSc Statistics/Labs/")
 
 ```{r}
 # Import the data - as a csv file
-data = read.csv("datasets/families.csv")
+data = read.csv("Datasets/families.csv")
 ```
 
 ### Step 2. View your data
@@ -108,7 +108,7 @@ data$TYPE = as.integer(data$TYPE)
 class(data$TYPE)
 
 # Fixing NA from above
-data = read.csv("datasets/families.csv")
+data = read.csv("Datasets/families.csv")
 ```
 
 #### Step 4b. Assigning New Types

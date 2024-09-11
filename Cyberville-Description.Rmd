@@ -15,7 +15,7 @@ css: laurens_styles.css
 ### families.csv
 
 ```{r}
-tempData = read.csv("datasets/families.csv")
+tempData = read.csv("Datasets/families.csv")
 
 summary(tempData)
 ```

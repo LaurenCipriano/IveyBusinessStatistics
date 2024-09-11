@@ -11,9 +11,9 @@
 
 
 
-<title>Intro to Coding and R</title>
+<title>Fundamentals of Coding in R</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -29,12 +29,13 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="images/favicon.ico">
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -333,13 +334,11 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Intro to Coding and R</h1>
+<h1 class="title toc-ignore">Fundamentals of Coding in R</h1>
 
 </div>
 
 
-<hr />
-<hr />
 <div id="download-r" class="section level2">
 <h2>Download R</h2>
 <ol style="list-style-type: decimal">
@@ -410,27 +409,61 @@ x*y</code></pre>
 <pre class="r"><code>z = x^y
 z</code></pre>
 <pre><code>&gt; [1] 125</code></pre>
-<p>R has another notation for assignment: the arrow: &lt;- . Many R
-programmers use this. It may seem odd to programmers coming from other
-languages.</p>
+<p>R has another notation for assignment: the arrow: <code>&lt;-</code>
+. Many R programmers use this. It may seem odd to programmers coming
+from other languages.</p>
 <pre class="r"><code>x &lt;- 3
 x</code></pre>
 <pre><code>&gt; [1] 3</code></pre>
 <pre class="r"><code>x &lt;- 5.412
 x</code></pre>
 <pre><code>&gt; [1] 5.41</code></pre>
+<blockquote>
 <p>Look <a
 href="https://statisticsglobe.com/assignment-operators-in-r">here</a>
-for an explanation of the differences between “=” and “&lt;-”.</p>
+for an explanation of the differences between <code>=</code> and
+<code>&lt;-</code>.</p>
+</blockquote>
 <div id="variable-types" class="section level3">
 <h3>Variable Types</h3>
 <p><strong>Character:</strong> free text, a.k.a. string<br />
 <strong>Factor:</strong> Categorical values; actual values may be text
 (North/South/East/West) or numbers (1/2/3/4)<br />
 <strong>Logical:</strong> Binary (TRUE/FALSE)<br />
-<strong>Integer:</strong> Whole numbers (1L/2L/3L/4L, the letter ‘L’
-declares these as Integers)<br />
+<strong>Integer:</strong> Only whole numbers (1L/2L/3L/4L, the letter
+‘L’ declares these as Integers)<br />
 <strong>Numeric:</strong> Decimal Numbers (1.5/2.5/3.5/4.5)</p>
+<hr />
+<p>We can change between variable types easily in R. Sometimes when
+importing data, you will import unexpected datatypes. For example, you
+may find a column has been imported as a character instead of a
+number.</p>
+<pre class="r"><code>temp_char = &quot;3&quot; #Initialize as character
+temp_char*2 #Returns an error</code></pre>
+<pre><code>&gt; Error in temp_char * 2: non-numeric argument to binary operator</code></pre>
+<pre class="r"><code>temp_char = &quot;3&quot;
+temp_char = as.integer(temp_char)
+temp_char*2</code></pre>
+<pre><code>&gt; [1] 6</code></pre>
+<p>Be careful if you convert a numeric variable into an integer, you
+will lose any data following the decimal place.</p>
+<pre class="r"><code>temp_numeric = 3.14
+as.integer(temp_numeric) #Only prints 3</code></pre>
+<pre><code>&gt; [1] 3</code></pre>
+<p>If you are working with whole numbers, it is a good habit to store
+variables as integers. This will save space and computation time,
+especially in large datasets.</p>
+<p>Example comparing the size of one million integers and one million
+numerics. Variable <code>x</code> is twice the size as a numeric despite
+containing the same information as <code>y</code>.</p>
+<pre class="r"><code>x = rep(as.numeric(1), 1e7)
+y = rep(as.integer(1), 1e7)
+
+object.size(x)/object.size(y)</code></pre>
+<pre><code>&gt; 2 bytes</code></pre>
+<blockquote>
+<p>Note: we learn more about functions later.</p>
+</blockquote>
 <hr />
 </div>
 </div>
@@ -445,11 +478,14 @@ c(1, 2, 3, 4)</code></pre>
 x</code></pre>
 <pre><code>&gt; [1] 1.10 0.00 3.14 2.72</code></pre>
 <p>One way to access specific values within a vector is use the index of
-that value</p>
+that value:</p>
 <pre class="r"><code>x[1]</code></pre>
 <pre><code>&gt; [1] 1.1</code></pre>
 <pre class="r"><code>x[4]</code></pre>
 <pre><code>&gt; [1] 2.72</code></pre>
+<p>Or you can access a range of values:</p>
+<pre class="r"><code>x[2:4]</code></pre>
+<pre><code>&gt; [1] 0.00 3.14 2.72</code></pre>
 <p>Sequences of integers are so common that there is a shortcut for
 making them.</p>
 <pre class="r"><code>1:4</code></pre>
@@ -468,15 +504,125 @@ x</code></pre>
 &gt; [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40</code></pre>
 <hr />
 </div>
-<div id="arrays-matrices-data-frames" class="section level2">
-<h2>Arrays, Matrices, Data Frames</h2>
-<p>Stuff about arrays and matrices</p>
+<div id="matrices-arrays-data-frames" class="section level2">
+<h2>Matrices, Arrays, Data Frames</h2>
+<div id="matrices" class="section level3">
+<h3>Matrices</h3>
+<p>A matrix is a two dimensional set of data.</p>
+<p>You can specify matrices of any size. The <code>nrow</code> parameter
+tells R the number of rows, and <code>ncol</code> tells R the number of
+columns.</p>
+<pre class="r"><code>myMatrix = matrix(data = 0, nrow = 3, ncol = 2)</code></pre>
+<p>Like in a vector we can access matrix items using square brackets,
+however we now require two inputs, one for each dimension.</p>
+<pre class="r"><code>myMatrix</code></pre>
+<pre><code>&gt;      [,1] [,2]
+&gt; [1,]    0    0
+&gt; [2,]    0    0
+&gt; [3,]    0    0</code></pre>
+<pre class="r"><code>myMatrix[1,1] = 2
+myMatrix[1,2] = 3
+myMatrix</code></pre>
+<pre><code>&gt;      [,1] [,2]
+&gt; [1,]    2    3
+&gt; [2,]    0    0
+&gt; [3,]    0    0</code></pre>
+<p>We can also access entire rows or columns of matrices at once, by
+leaving the input blank.</p>
+<pre class="r"><code>myMatrix[1, ]</code></pre>
+<pre><code>&gt; [1] 2 3</code></pre>
+<pre class="r"><code>myMatrix[ , 1]</code></pre>
+<pre><code>&gt; [1] 2 0 0</code></pre>
+<p>We can add rows or columns using the <code>rbind()</code> and
+<code>cbind()</code> functions.</p>
+<pre class="r"><code>my2ndMatrix = cbind(myMatrix,c(1,2,3))
+my2ndMatrix</code></pre>
+<pre><code>&gt;      [,1] [,2] [,3]
+&gt; [1,]    2    3    1
+&gt; [2,]    0    0    2
+&gt; [3,]    0    0    3</code></pre>
+<pre class="r"><code>my2ndMatrix = rbind(myMatrix, c(1,2))
+my2ndMatrix</code></pre>
+<pre><code>&gt;      [,1] [,2]
+&gt; [1,]    2    3
+&gt; [2,]    0    0
+&gt; [3,]    0    0
+&gt; [4,]    1    2</code></pre>
+<p>Useful operators on matrices:</p>
+<pre class="r"><code>#Dimensions
+dim(myMatrix)</code></pre>
+<pre><code>&gt; [1] 3 2</code></pre>
+<pre class="r"><code>nrow(myMatrix) #Display the number of rows</code></pre>
+<pre><code>&gt; [1] 3</code></pre>
+<pre class="r"><code>ncol(myMatrix) #Display the number of columns</code></pre>
+<pre><code>&gt; [1] 2</code></pre>
+<pre class="r"><code>length(myMatrix)</code></pre>
+<pre><code>&gt; [1] 6</code></pre>
+<pre class="r"><code>#Check if item exists
+1 %in% myMatrix</code></pre>
+<pre><code>&gt; [1] FALSE</code></pre>
+<pre class="r"><code>2 %in% myMatrix</code></pre>
+<pre><code>&gt; [1] TRUE</code></pre>
+</div>
+<div id="arrays" class="section level3">
+<h3>Arrays</h3>
+<p>Arrays are very similar to matrices. The key difference is they can
+have more than two dimensions.</p>
+<pre class="r"><code># Creating a 4x3x2 array
+myArray = array(data = 0, dim = c(4,3,2))
+myArray[1,1,1] = 1
+myArray[1,2,1] = 2
+myArray[1,1,2] = 3
+myArray[1,2,2] = 4
+myArray[2, , ] = 5
+myArray</code></pre>
+<pre><code>&gt; , , 1
+&gt; 
+&gt;      [,1] [,2] [,3]
+&gt; [1,]    1    2    0
+&gt; [2,]    5    5    5
+&gt; [3,]    0    0    0
+&gt; [4,]    0    0    0
+&gt; 
+&gt; , , 2
+&gt; 
+&gt;      [,1] [,2] [,3]
+&gt; [1,]    3    4    0
+&gt; [2,]    5    5    5
+&gt; [3,]    0    0    0
+&gt; [4,]    0    0    0</code></pre>
+</div>
+<div id="data-frames" class="section level3">
+<h3>Data Frames</h3>
+<p>Data frames are more complex matrices. They allow for each column to
+contain a different data type. Some statistics functions will require
+either a data frame or a matrix.</p>
+<p>The data you will be using in this class will be imported as data
+frames.</p>
+<p>You can use the same functions and methods of accessing data frames
+as you can matrices, with the addition of some new ones.</p>
+<pre class="r"><code>myDF = data.frame(col1 = 1:3, col2 = 4:6, col3 = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;))
+myDF</code></pre>
+<pre><code>&gt;   col1 col2 col3
+&gt; 1    1    4    a
+&gt; 2    2    5    b
+&gt; 3    3    6    c</code></pre>
+<pre class="r"><code>#Request a summary of the data frame
+summary(myDF)</code></pre>
+<pre><code>&gt;       col1          col2         col3          
+&gt;  Min.   :1.0   Min.   :4.0   Length:3          
+&gt;  1st Qu.:1.5   1st Qu.:4.5   Class :character  
+&gt;  Median :2.0   Median :5.0   Mode  :character  
+&gt;  Mean   :2.0   Mean   :5.0                     
+&gt;  3rd Qu.:2.5   3rd Qu.:5.5                     
+&gt;  Max.   :3.0   Max.   :6.0</code></pre>
+<pre class="r"><code>#Access specific named columns
+myDF$col1</code></pre>
+<pre><code>&gt; [1] 1 2 3</code></pre>
+<pre class="r"><code>myDF$col3</code></pre>
+<pre><code>&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
 <hr />
 </div>
-<div id="data-tables" class="section level2">
-<h2>Data Tables</h2>
-<p>data.tables are hype</p>
-<hr />
 </div>
 <div id="functions" class="section level2">
 <h2>Functions</h2>
@@ -538,12 +684,30 @@ mean(Y, na.rm=TRUE)</code></pre>
 <pre><code>&gt; [1] 5.14</code></pre>
 <div id="custom-functions" class="section level3">
 <h3>Custom Functions</h3>
-<p>Make your own</p>
+<p>When writing code, you will often find that you are using the same
+lines of code more than once. In these cases it can help readability and
+usability to create your own function for repeat lines of code.</p>
+<p>Below is a simple function showcasing the ability to use custom
+inputs and return a value after applying some transformations.</p>
+<pre class="r"><code>someFunction = function(input1, input2){
+  output = (input1 + input2) * 5
+  
+  #A return statement is needed to tell your function what value to send back
+  return(output)
+}</code></pre>
+<p>With your custom function initialized, you may now call upon it
+whenever you like.</p>
+<pre class="r"><code>someFunction(1,2)</code></pre>
+<pre><code>&gt; [1] 15</code></pre>
+<pre class="r"><code>someFunction(5,10)</code></pre>
+<pre><code>&gt; [1] 75</code></pre>
 <hr />
 </div>
 </div>
 <div id="if-statements-and-loops" class="section level2">
-<h2>If statements and Loops</h2>
+<h2>If Statements and Loops</h2>
+<div id="logical-conditions" class="section level3">
+<h3>Logical Conditions</h3>
 <p>R supports logical conditions:</p>
 <table>
 <thead>
@@ -586,7 +750,183 @@ mean(Y, na.rm=TRUE)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>for do while while if</p>
+<p>It is important to distinguish between a single <code>=</code> and
+two <code>==</code>. One is assignment, two is logical comparison.</p>
+<pre class="r"><code>1==1</code></pre>
+<pre><code>&gt; [1] TRUE</code></pre>
+<pre class="r"><code>1==0</code></pre>
+<pre><code>&gt; [1] FALSE</code></pre>
+<pre class="r"><code>1&gt;0</code></pre>
+<pre><code>&gt; [1] TRUE</code></pre>
+</div>
+<div id="if-statements" class="section level3">
+<h3>If Statements</h3>
+<p>We can use logical conditions in many ways, the most common is within
+<code>if</code> statements. An <code>if</code> statement only executes
+if its condition is TRUE</p>
+<pre class="r"><code>x = 1
+if(1==1) {
+  x = 2
+}
+x</code></pre>
+<pre><code>&gt; [1] 2</code></pre>
+<pre class="r"><code>if(1==0) {
+  x = 3
+}
+x</code></pre>
+<pre><code>&gt; [1] 2</code></pre>
+<p>We can also provide code that will run should the <code>if</code>
+statement be FALSE.</p>
+<pre class="r"><code>x = 1
+if(1==0){ 
+  x = 2 #IF TRUE 
+} else {
+  x = 3 #IF FALSE
+}
+x</code></pre>
+<pre><code>&gt; [1] 3</code></pre>
+<p>We can add multiple conditions.</p>
+<pre class="r"><code>x = 1
+if(1==0){ 
+  x = 2 #Check one first
+}else if(1==1){
+  x = 3 #Check two second
+}else{ 
+  x = 4 #If neither is TRUE
+}
+x</code></pre>
+<pre><code>&gt; [1] 3</code></pre>
+</div>
+<div id="logical-operators" class="section level3">
+<h3>Logical Operators</h3>
+<p>R supports logical operators as well:</p>
+<table>
+<colgroup>
+<col width="44%" />
+<col width="55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">&amp;</td>
+<td>Element-wise Logical AND operator</td>
+</tr>
+<tr class="even">
+<td align="center">&amp;&amp;</td>
+<td>Logical AND operator - Returns TRUE if both statements are TRUE</td>
+</tr>
+<tr class="odd">
+<td align="center">|</td>
+<td>Element-wise Logical OR operator.</td>
+</tr>
+<tr class="even">
+<td align="center">||</td>
+<td>Logical OR operator. It returns TRUE if one of the statements is
+TRUE.</td>
+</tr>
+<tr class="odd">
+<td align="center">!</td>
+<td>Logical NOT - returns FALSE if statement is TRUE</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Note the difference between a single <code>&amp;</code> and two
+<code>&amp;&amp;</code>. The single <code>&amp;</code> will be used more
+commonly when dealing with vectors, as it compares each element rather
+than the entire vector.</p>
+</blockquote>
+<pre class="r"><code>1||0</code></pre>
+<pre><code>&gt; [1] TRUE</code></pre>
+<pre class="r"><code>1&amp;&amp;0</code></pre>
+<pre><code>&gt; [1] FALSE</code></pre>
+<pre class="r"><code>!1||0</code></pre>
+<pre><code>&gt; [1] FALSE</code></pre>
+</div>
+<div id="loops" class="section level3">
+<h3>Loops</h3>
+<p>There are two types of loops in R.</p>
+<ul>
+<li><strong>While</strong> loops<br />
+</li>
+<li><strong>For</strong> loops</li>
+</ul>
+<div id="while" class="section level4">
+<h4>While</h4>
+<p>While loops execute as long as a condition remains TRUE.</p>
+<pre class="r"><code>x = 1
+while(x &lt; 5){
+  print(x)
+  x = x + 1
+}</code></pre>
+<pre><code>&gt; [1] 1
+&gt; [1] 2
+&gt; [1] 3
+&gt; [1] 4</code></pre>
+<p>It is important to be careful with loops. For example, forgetting to
+increment x can cause an infinite loop.</p>
+</div>
+<div id="for" class="section level4">
+<h4>For</h4>
+<p>For loops allow for iterating over a sequence. The <code>for</code>
+statement will execute code once for each item.</p>
+<pre class="r"><code>for(x in 1:5){
+  print(x)
+}</code></pre>
+<pre><code>&gt; [1] 1
+&gt; [1] 2
+&gt; [1] 3
+&gt; [1] 4
+&gt; [1] 5</code></pre>
+</div>
+<div id="break-and-next" class="section level4">
+<h4>Break and Next</h4>
+<p>The <code>break</code> and <code>next</code> statements allow for
+more control within our loops. <code>Break</code> will stop our loop,
+and <code>next</code> will skip the current iteration without stopping
+the remainder.</p>
+<pre class="r"><code>for(x in 1:5){
+  if(x==4) break
+  print(x)
+}</code></pre>
+<pre><code>&gt; [1] 1
+&gt; [1] 2
+&gt; [1] 3</code></pre>
+<pre class="r"><code>for(x in 1:5){
+  if(x==4) next
+  print(x)
+}</code></pre>
+<pre><code>&gt; [1] 1
+&gt; [1] 2
+&gt; [1] 3
+&gt; [1] 5</code></pre>
+</div>
+<div id="more-complex-example" class="section level4">
+<h4>More complex example</h4>
+<pre class="r"><code>data = read.csv(&quot;Datasets/families.csv&quot;)
+head(data)</code></pre>
+<pre><code>&gt;   TYPE PERSONS CHILDREN INCOME REGION EDUCATION
+&gt; 1    1       2        0  43450      1        39
+&gt; 2    1       2        0  79000      1        40
+&gt; 3    1       2        0  51306      1        39
+&gt; 4    1       4        2  24850      1        41
+&gt; 5    1       4        2  65145      1        43
+&gt; 6    3       3        2  23015      1        40</code></pre>
+<pre class="r"><code>#Count number of families with more than two people
+count = 0
+for(x in 1:nrow(data)){
+  if(data[x, &quot;PERSONS&quot;]&gt;2) count = count + 1
+}
+count</code></pre>
+<pre><code>&gt; [1] 25335</code></pre>
+<hr />
+</div>
+</div>
 </div>
 <div id="getting-help" class="section level2">
 <h2>Getting Help</h2>
@@ -595,13 +935,14 @@ lower right pane in RStudio has a help tab you can use. The help
 contains a lot of information, so you will have to learn to filter out
 what you don’t need. Try to use the R Documentation before taking your
 query to your favourite search engine.</p>
-<pre class="r"><code># You can also access the help directly from the console tab. This will open the R Documentation for the &#39;mean()&#39; function.
+<pre class="r"><code># You can also access the help directly from the help tab in RStudio.
 help(mean)
 # or
 ?mean</code></pre>
 </div>
 
 <!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
 
 
 </div>

@@ -13,7 +13,7 @@
 
 <title>t-Test</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -29,12 +29,13 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="images/favicon.ico">
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -338,6 +339,8 @@ div.tocify {
 </div>
 
 
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
 <p>Learning objectives of this asynchronous lesson:</p>
 <ul>
 <li>Understanding when to use the t-test<br />
@@ -347,16 +350,19 @@ present</li>
 <li>Write an appropriate null hypothesis, apply appropriate t-test, and
 interpret the p-value</li>
 </ul>
+<hr />
+</div>
 <div id="data-set" class="section level2">
 <h2>Data set</h2>
 <p>For this set of examples, I will use the Cyberville families data.
 Recall that this is a population dataset. In order to calculate sample
 statistics, I will randomly sample 400 observations.</p>
 <pre class="r"><code>data &lt;- read.table(url(&quot;https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt&quot;), 
-                        header = TRUE)
+                      header = TRUE)
 
 ## suppress scientific notation for ease of reading numbers
 options(scipen=99)  </code></pre>
+<hr />
 </div>
 <div id="inference-about-a-population-parameter" class="section level2">
 <h2>Inference about a population parameter</h2>
@@ -406,6 +412,7 @@ print(cbind(sample.avg, lowerCI, upperCI))</code></pre>
 &gt; [1,]      41750   38744   44757</code></pre>
 <p>There is a 95% probability that the true population average income is
 within the interval $38,744 to $44,757.</p>
+<hr />
 </div>
 <div id="one-sample-two-sided-t-test" class="section level2">
 <h2>One-sample two-sided t-test</h2>
@@ -466,6 +473,7 @@ distribution of the sample mean.</p>
 <p>Observe that using the distribution of uncertainty around the sample
 mean (using Normal approximation), we also calculate the p-value of the
 one-sample, two-sided, t-test to be 0.0002.</p>
+<hr />
 </div>
 <div id="two-sample-two-sided-t-test" class="section level2">
 <h2>Two-sample two-sided t-test</h2>
@@ -617,6 +625,7 @@ arrows(x0 = barplot_obj, y0 = income.summary["study.data$INCOME.lower95", ],    
 
 If the error bars of the two groups are not overlapping, then you can surely reject the null hypothesis that the two averages are equal. However, 95% confidence interval bars of two groups will overlap until the p-value is about 0.01.
 -->
+<hr />
 </div>
 </div>
 <div id="step-by-step-independent-samples-t-test"
@@ -719,9 +728,6 @@ distribution has a complete left tail.</p>
 of a standard Normal distribution.</p>
 <p>When data are Normally distributed, a Q-Q plot will indicate the
 points form a straight line within the bounds of the blue ribbon.</p>
-<pre><code>&gt; Warning: package &#39;car&#39; was built under R version 4.2.3</code></pre>
-<pre><code>&gt; Loading required package: carData</code></pre>
-<pre><code>&gt; Warning: package &#39;carData&#39; was built under R version 4.2.3</code></pre>
 <pre class="r"><code>## QQ plot
 # library(car)  ## the QQ plot in the car package is nice
 qqPlot(study.data$INCOME[study.data$HasCollege == 0], 
@@ -874,6 +880,7 @@ comparing two samples is the Mann-Whitney U test.</p>
 </div>
 
 <!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
 
 
 </div>

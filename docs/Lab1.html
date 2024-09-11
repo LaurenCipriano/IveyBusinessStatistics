@@ -15,7 +15,7 @@
 
 <title>Tutorial 1: Working with data</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -31,12 +31,13 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="images/favicon.ico">
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -357,7 +358,7 @@ easily reproducible.</p>
 <pre class="r"><code># Set the working directory
 setwd(&quot;C:/Users/Lauren/Dropbox/Ivey/2024 MSc Statistics/Labs/&quot;)</code></pre>
 <pre class="r"><code># Import the data - as a csv file
-data = read.csv(&quot;datasets/families.csv&quot;)</code></pre>
+data = read.csv(&quot;Datasets/families.csv&quot;)</code></pre>
 </div>
 <div id="step-2.-view-your-data" class="section level3">
 <h3>Step 2. View your data</h3>
@@ -434,10 +435,9 @@ data$TYPE = factor(data$TYPE, levels = c(1,2,3))
 class(data$TYPE)</code></pre>
 <pre><code>&gt; [1] &quot;factor&quot;</code></pre>
 <pre class="r"><code># If we try to assign an invalid value to row 1, column &quot;TYPE&quot;
-data[1, &quot;TYPE&quot;] = 4</code></pre>
-<pre><code>&gt; Warning in `[&lt;-.factor`(`*tmp*`, iseq, value = 4): invalid factor level, NA
-&gt; generated</code></pre>
-<pre class="r"><code># Warning: this assigns the value as NA, but lets you know you&#39;ve made a mistake
+data[1, &quot;TYPE&quot;] = 4
+
+# Warning: this assigns the value as NA, but lets you know you&#39;ve made a mistake
 data[1, &quot;TYPE&quot;]</code></pre>
 <pre><code>&gt; [1] &lt;NA&gt;
 &gt; Levels: 1 2 3</code></pre>
@@ -447,7 +447,7 @@ data$TYPE = as.integer(data$TYPE)
 class(data$TYPE)</code></pre>
 <pre><code>&gt; [1] &quot;integer&quot;</code></pre>
 <pre class="r"><code># Fixing NA from above
-data = read.csv(&quot;datasets/families.csv&quot;)</code></pre>
+data = read.csv(&quot;Datasets/families.csv&quot;)</code></pre>
 </div>
 <div id="step-4b.-assigning-new-types" class="section level4">
 <h4>Step 4b. Assigning New Types</h4>
@@ -568,6 +568,7 @@ prop_fam_of_interest</code></pre>
 </div>
 
 <!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
 
 
 </div>

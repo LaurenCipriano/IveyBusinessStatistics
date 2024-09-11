@@ -8,9 +8,10 @@ output:
 css: laurens_styles.css
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```{r, child="_Global-Options.Rmd"}
 ```
+
+## Introduction
 
 Learning objectives of this asynchronous lesson:
 
@@ -19,12 +20,14 @@ Learning objectives of this asynchronous lesson:
 -   Write an appropriate null hypothesis, apply test appropriately, and interpret the p-value
 -   Use appropriate non-parametric alterantive to ANOVA, Kruskal-Wallis, when the assumptions for ANOVA are not present
 
+***
+
 ## Data set
 
 For this set of examples, I will continue to use the sample Cyberville families data created in the t-test page.
 
 ```{r}
-data <- read.table(url("https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt"), 
+data <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt"), 
                         header = TRUE)
 
 ## suppress scientific notation for ease of reading numbers
@@ -107,6 +110,8 @@ study.data$Educ_Cat <- factor(study.data$Educ_Cat,
 
 
 ```
+
+***
 
 ## One-way ANOVA
 
@@ -437,6 +442,8 @@ When the p-value is more than 0.05, we do not reject the null hypothesis. There 
 
 When the p-value is less than 0.05, we reject the null hypothesis. This doesn't tell us whether *all* the groups are different from each other, or if three of four groups are really mostly the same and one group is very different. To answer those questions, we could look at the bar graph. Or, to be precise, we would need to do pair-wise t-tests. However, when doing a large number of two-way comparisons, be mindful of using a more stingent p-value cut-off because you are compounding your error to do a lot of tests at a 0.05 threshold. (Remember 1 in 20 tests will falsely say that two groups are different when they are actually the same!)
 
+***
+
 ## Built in R Function
 
 There are several approaches to doing an ANOVA in R.
@@ -448,6 +455,8 @@ anova(lm(study.data$INCOME ~ study.data$Educ_Cat))
 ## Method 2. 
 summary(aov(study.data$INCOME ~ study.data$Educ_Cat))
 ```
+
+***
 
 ## Step-by-Step ANOVA
 
@@ -666,6 +675,8 @@ arrows(x0 = barplot_obj, y0 = income.summary$upper95,      # position of the upp
 
 
 ```
+
+***
 
 ## Kruskall-Wallis Test
 

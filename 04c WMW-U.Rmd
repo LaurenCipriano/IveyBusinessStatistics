@@ -11,18 +11,22 @@ css: laurens_styles.css
 ```{r, child="_Global-Options.Rmd"}
 ```
 
+## Introduction
+
 Learning objectives of this asynchronous lesson:
 
 -   Understanding when to use the Mann-Whitney U test
 -   Evaluate whether the underlying assumptions of a Mann-Whitney are present
 -   Write an appropriate null hypothesis, apply test appropriately, and interpret the p-value
 
+***
+
 ## Data set
 
 For this set of examples, I will continue to use the sample Cyberville families data created in the t-test page. 
 
 ```{r}
-data <- read.table(url("https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt"), 
+data <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt"), 
                         header = TRUE)
 
 ## suppress scientific notation for ease of reading numbers
@@ -59,6 +63,8 @@ data.NoCollege <- study.data$INCOME[study.data$HasCollege == 0]
 data.YesCollege <- study.data$INCOME[study.data$HasCollege == 1]
 
 ```
+
+***
 
 ## Mann-Whitney U Test
 
@@ -342,10 +348,7 @@ wilcox.test(study.data$INCOME ~ study.data$HasChildren)
 Using the MWU test, the p-value decreases from 0.034 to 0.02. 
 We reject the null hypothesis that families with and without children have the same distribution of income. 
 
-
-
-
-
+***
 
 ## Bootstrapping a null distribution
 

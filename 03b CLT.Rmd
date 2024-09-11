@@ -11,18 +11,23 @@ css: laurens_styles.css
 ```{r, child="_Global-Options.Rmd"}
 ```
 
+
+## Introduction
+
 Learning objectives of this asynchronous lesson:
 
 * Recognize that estimates derived from samples may not precisely reflect the true population parameter    
 * Understand how to apply the Central Limit Theorem to characterize the uncertainty from a sample based estimate
 * Calculate the 95% confidence interval for a sample average using Normal approximation   
 
+***
 
 ## Dataset
-For this set of examples, I will use the Cyberville families data. Recall that this is a population dataset. 
+For this set of examples, I will use the Cyberville families data. Recall that this is a population dataset.  In order to calculate sample statistics, we will take a simple random sample of 400 observations. 
+
 
 ```{r}
-data <- read.table(url("https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt"), 
+data <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt"), 
                         header = TRUE)
 
 ## suppress scientific notation for ease of reading numbers
@@ -30,6 +35,8 @@ options(scipen=99)
 
 ```
 
+
+***
 
 ## Population statistics
 Usually we can't know the population statistics. 
@@ -74,6 +81,8 @@ text(x = true.avg + 5000,
 
 ```
 
+
+***
 
 ## Performing a study
 If a researcher wanted to know about the population about Cyberville, performing a census would be
@@ -235,6 +244,8 @@ text(x = true.avg + 500,  # Adjust the x position slightly to the right of true.
 So, even though the underlying population distribution was not Normally distributed, the uncertainty in the sample average for income *is* Normally distributed.
 
 
+***
+
 ## Central Limit Theorem
 The Central Limit Theorem is the formal mathematical statement of what you have just observed. 
 
@@ -259,6 +270,8 @@ The distribution converges to Normal faster when
 
 Because of the Central Limit Theorem, estimating 95% confidence intervals around a sample average using the Normal distribution is both common and highly accurate when compared to exact or bootstrapped intervals. 
 
+
+***
 
 ## Uncertainty around a sample mean
 
@@ -287,6 +300,8 @@ print(cbind(sample.avg, lowerCI, upperCI))
 
 ```
 
+
+***
 
 ## Interpreting confidence intervals
 

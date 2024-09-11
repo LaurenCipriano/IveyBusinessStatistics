@@ -11,23 +11,30 @@ css: laurens_styles.css
 ```{r, child="_Global-Options.Rmd"}
 ```
 
+## Introduction
+
 Learning objectives of this asynchronous lesson:
 
 -   Understanding when to use the t-test\
 -   Evaluate whether the underlying assumptions of a t-test are present
 -   Write an appropriate null hypothesis, apply appropriate t-test, and interpret the p-value
 
+***
+
 ## Data set
 
 For this set of examples, I will use the Cyberville families data. Recall that this is a population dataset.  In order to calculate sample statistics, I will randomly sample 400 observations.
 
+
 ```{r}
-data <- read.table(url("https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt"), 
+data <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt"), 
                         header = TRUE)
 
 ## suppress scientific notation for ease of reading numbers
 options(scipen=99)  
 ```
+
+***
 
 ## Inference about a population parameter
 
@@ -71,6 +78,8 @@ print(cbind(sample.avg, lowerCI, upperCI))
 ```
 
 There is a 95% probability that the true population average income is within the interval \$38,744 to \$44,757.
+
+***
 
 ## One-sample two-sided t-test
 
@@ -212,7 +221,7 @@ Similarly, we can calculate the probability of \$47,500 or something less likely
 
 Observe that using the distribution of uncertainty around the sample mean (using Normal approximation), we also calculate the p-value of the one-sample, two-sided, t-test to be 0.0002.
 
-
+***
 
 ## Two-sample two-sided t-test
 
@@ -478,6 +487,7 @@ arrows(x0 = barplot_obj, y0 = income.summary["study.data$INCOME.lower95", ],    
 If the error bars of the two groups are not overlapping, then you can surely reject the null hypothesis that the two averages are equal. However, 95% confidence interval bars of two groups will overlap until the p-value is about 0.01.
 -->
 
+***
 
 ## Step-by-Step independent samples t-test
 
@@ -627,7 +637,7 @@ When data are Normally distributed, a Q-Q plot will indicate the points form a s
 ```{r, echo=FALSE}
 ## QQ plot
 library(car)  ## the QQ plot in the car package is nice
-````
+```
 
 ```{r}
 ## QQ plot

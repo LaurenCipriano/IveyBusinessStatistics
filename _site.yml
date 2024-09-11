@@ -1,8 +1,9 @@
-name: "laurens-website"
+name: "Ivey-Business-Statistics"
 output_dir: "docs"
 output:
   html_document:
     theme: united
     include:
       after_body: footer.html
+      in_header: header.html
     css: laurens_styles.css
