@@ -14,7 +14,7 @@ css: laurens_styles.css
 ***
 ### US Medical Expenditure Panel Survey (MEPS)
 ```{r}
-tempData = read.csv("Datasets/mepsData.csv")
+tempData <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/mepsData.txt"), header = TRUE)
 
 summary(tempData)
 ```

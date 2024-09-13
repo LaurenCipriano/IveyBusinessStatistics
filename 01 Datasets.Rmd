@@ -52,7 +52,7 @@ Access the CSV file saved onto your computer:
 ***
 
 ### Occupational Prestige data
-* Data dictionary  
+* [Data dictionary](Prestige-Description.html) 
 * Dataset:  [TXT](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/PrestigeData.txt), [CSV](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/PrestigeData.csv)  
 
 *** 

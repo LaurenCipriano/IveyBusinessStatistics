@@ -15,7 +15,7 @@ css: laurens_styles.css
 ### families.csv
 
 ```{r}
-tempData = read.csv("Datasets/families.csv")
+tempData <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt"), header = TRUE)
 
 summary(tempData)
 ```

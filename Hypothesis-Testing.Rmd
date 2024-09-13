@@ -47,8 +47,6 @@ All of the datasets used in examples on this site and in Ivey Business Statistic
 
 ### Chi-squared test
 * [Webpage](04e-ChiSquared.html)  
-<br>  
-
 
 
 ***

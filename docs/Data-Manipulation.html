@@ -13,7 +13,7 @@
 
 <title>Data Manipulation In R</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -343,13 +343,10 @@ div.tocify {
 <hr />
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>We will use the MEPS dataset for the purposes of this tutorial.</p>
-<pre class="r"><code>data = read.csv(&quot;Datasets/mepsData.csv&quot;)</code></pre>
-<hr />
-</div>
-<div id="random-sampling" class="section level2">
-<h2>Random Sampling</h2>
-<p>Use NHANES project for inspiration</p>
+<p>We will use the MEPS dataset for the purposes of this tutorial. The
+MEPS dataset is a population dataset of medical expenditure data in the
+United States.</p>
+<pre class="r"><code>data &lt;- read.table(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/mepsData.txt&quot;), header = TRUE)</code></pre>
 <hr />
 </div>
 <div id="making-new-rows-and-columns" class="section level2">
@@ -510,9 +507,31 @@ missing.</p>
 <pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 &gt;   0.000   0.000   0.000   0.348   1.000   1.000</code></pre>
 <div id="replacing-missing-data" class="section level4">
-<h4>Replacing missing data</h4>
-<p>Mean, median, mode</p>
-<p>common category</p>
+<h4>Replacing Missing Data</h4>
+<p>We can take this one step further. Rather than simply removing
+missing data, we can replace is with the population average. Notice BMI
+has many missing entries.</p>
+<pre class="r"><code>summary(data$BMI)</code></pre>
+<pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+&gt;       0      24      27      28      32      71   12209</code></pre>
+<p>Let’s replace it with the average BMI from the remaining
+population.</p>
+<pre class="r"><code># Keeping our original dataset untouched
+data2 = data
+
+# First find the indices where BMI is missing
+index = which(is.na(data2$BMI)==1)
+
+# Replace the BMI at those indices
+data2[index, &quot;BMI&quot;] = mean(data2$BMI, na.rm = TRUE)
+
+summary(data2$BMI)</code></pre>
+<pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+&gt;     0.1    26.1    28.2    28.2    28.5    71.1</code></pre>
+<blockquote>
+<p>We can use any method to replace the missing data, try using the
+<code>median</code> and <code>mode</code> functions on your own!</p>
+</blockquote>
 </div>
 </div>
 <div id="merge" class="section level3">
@@ -548,15 +567,63 @@ desire.</p>
 </div>
 <div id="converting-continuous-to-categorical-factors"
 class="section level2">
-<h2>Converting continuous to categorical (factors)</h2>
+<h2>Converting Continuous to Categorical (Factors)</h2>
+<p>Sometimes we may want to investigate our variables as categories. We
+can convert columns in our table easily. Let’s convert our continuous
+BMI variable into commonly used classifications. We will use the dataset
+where we replaced missing values with mean BMI.</p>
+<pre class="r"><code>BMICategories = c(&quot;Underweight&quot;, &quot;Normal Weight&quot;, &quot;Overweight&quot;, &quot;Obese&quot;)
+
+# Initializing column with zeros
+data2$BMICategory = 0</code></pre>
+<p>We must first initialize our categories with simple integers, we will
+use 1-4 to represent our four categories. The logic within the square
+brackets tells our data.frame to update only the rows where the
+statement is true.</p>
+<pre class="r"><code># Underweight
+data2$BMICategory[ data2$BMI&lt;18.5 ] = 1
+# Normal Weight
+data2$BMICategory[ data2$BMI&gt;=18.5 &amp; data2$BMI&lt;25 ] = 2
+# Overweight
+data2$BMICategory[ data2$BMI&gt;=25 &amp; data2$BMI&lt;30 ] = 3
+# Obese
+data2$BMICategory[ data2$BMI&gt;=30 ] = 4</code></pre>
+<p>Next we can apply labels and convert the column to a factor, making
+it easier to read. The levels and labels parameters are telling our
+factor to associate the values of 1-4 with the labels we made
+earlier.</p>
+<pre class="r"><code>data2$BMICategory = factor(data2$BMICategory,
+                           levels = c(1,2,3,4),
+                           labels = BMICategories)</code></pre>
+<p>We can see now our new column now.</p>
+<pre class="r"><code>summary(data2$BMICategory)</code></pre>
+<pre><code>&gt;   Underweight Normal Weight    Overweight         Obese 
+&gt;           709          5362         18158          6232</code></pre>
 <hr />
 </div>
 <div id="making-a-binary-from-continuous" class="section level2">
-<h2>Making a binary from continuous</h2>
-<hr />
-</div>
-<div id="data-tables" class="section level2">
-<h2>Data tables</h2>
+<h2>Making a Binary from Continuous</h2>
+<p>Perhaps we would like to do something even simpler. We can make a new
+binary column called <code>HealthyWeight</code>.</p>
+<pre class="r"><code># Create new column as FALSE
+data2$HealthyWeight = FALSE
+
+# Convert individuals to TRUE 
+data2$HealthyWeight[ data2$BMI&gt;=18.5 &amp; data2$BMI&lt;25 ] = TRUE
+
+summary(data2$HealthyWeight)</code></pre>
+<pre><code>&gt;    Mode   FALSE    TRUE 
+&gt; logical   25099    5362</code></pre>
+<p>Notice we could also use our new <code>BMICategory</code> column!</p>
+<pre class="r"><code># Set column as FALSE
+data2$HealthyWeight = FALSE
+
+# Convert individuals to TRUE 
+data2$HealthyWeight[ data2$BMICategory==&quot;Normal Weight&quot; ] = TRUE
+
+summary(data2$HealthyWeight)</code></pre>
+<pre><code>&gt;    Mode   FALSE    TRUE 
+&gt; logical   25099    5362</code></pre>
 <hr />
 </div>
 

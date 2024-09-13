@@ -14,15 +14,10 @@ css: laurens_styles.css
 ***
 
 ## Introduction
-We will use the MEPS dataset for the purposes of this tutorial.
+We will use the MEPS dataset for the purposes of this tutorial. The MEPS dataset is a population dataset of medical expenditure data in the United States.
 ```{r}
-data = read.csv("Datasets/mepsData.csv")
+data <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/mepsData.txt"), header = TRUE)
 ```
-
-***
-
-## Random Sampling
-Use NHANES project for inspiration
 
 ***
 
@@ -133,11 +128,26 @@ summary(data$HasHypertension)
 summary(data_subset$HasHypertension)  
 ```
 
-#### Replacing missing data
+#### Replacing Missing Data
+We can take this one step further. Rather than simply removing missing data, we can replace is with the population average. Notice BMI has many missing entries.
+```{r}
+summary(data$BMI)
+```
+Let's replace it with the average BMI from the remaining population.
+```{r}
+# Keeping our original dataset untouched
+data2 = data
 
-Mean, median, mode
+# First find the indices where BMI is missing
+index = which(is.na(data2$BMI)==1)
 
-common category
+# Replace the BMI at those indices
+data2[index, "BMI"] = mean(data2$BMI, na.rm = TRUE)
+
+summary(data2$BMI)
+```
+
+> We can use any method to replace the missing data, try using the `median` and `mode` functions on your own!
 
 ### Merge
 
@@ -165,15 +175,66 @@ The `all` parameter tells the function to keep any observation that does not hav
 
 ***
 
-## Converting continuous to categorical (factors)
+## Converting Continuous to Categorical (Factors)
+Sometimes we may want to investigate our variables as categories. We can convert columns in our table easily. Let's convert our continuous BMI variable into commonly used classifications. We will use the dataset where we replaced missing values with mean BMI.
+```{r}
+BMICategories = c("Underweight", "Normal Weight", "Overweight", "Obese")
+
+# Initializing column with zeros
+data2$BMICategory = 0
+```
+
+We must first initialize our categories with simple integers, we will use 1-4 to represent our four categories. The logic within the square brackets tells our data.frame to update only the rows where the statement is true.
+
+```{r}
+# Underweight
+data2$BMICategory[ data2$BMI<18.5 ] = 1
+# Normal Weight
+data2$BMICategory[ data2$BMI>=18.5 & data2$BMI<25 ] = 2
+# Overweight
+data2$BMICategory[ data2$BMI>=25 & data2$BMI<30 ] = 3
+# Obese
+data2$BMICategory[ data2$BMI>=30 ] = 4
+```
+
+Next we can apply labels and convert the column to a factor, making it easier to read. The levels and labels parameters are telling our factor to associate the values of 1-4 with the labels we made earlier.
+
+```{r}
+data2$BMICategory = factor(data2$BMICategory,
+                           levels = c(1,2,3,4),
+                           labels = BMICategories)
+```
+
+We can see now our new column now.
+```{r}
+summary(data2$BMICategory)
+```
 
 ***
 
-## Making a binary from continuous
+## Making a Binary from Continuous
 
-***
+Perhaps we would like to do something even simpler. We can make a new binary column called `HealthyWeight`.
+```{r}
+# Create new column as FALSE
+data2$HealthyWeight = FALSE
 
-## Data tables
+# Convert individuals to TRUE 
+data2$HealthyWeight[ data2$BMI>=18.5 & data2$BMI<25 ] = TRUE
+
+summary(data2$HealthyWeight)
+```
+
+Notice we could also use our new `BMICategory` column!
+```{r}
+# Set column as FALSE
+data2$HealthyWeight = FALSE
+
+# Convert individuals to TRUE 
+data2$HealthyWeight[ data2$BMICategory=="Normal Weight" ] = TRUE
+
+summary(data2$HealthyWeight)
+```
 
 ***
 
