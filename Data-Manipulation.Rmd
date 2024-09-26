@@ -16,7 +16,7 @@ css: laurens_styles.css
 ## Introduction
 We will use the MEPS dataset for the purposes of this tutorial. The MEPS dataset is a population dataset of medical expenditure data in the United States.
 ```{r}
-data <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/mepsData.txt"), header = TRUE)
+data <- read.csv(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/mepsData.csv"), header = TRUE)
 ```
 
 ***

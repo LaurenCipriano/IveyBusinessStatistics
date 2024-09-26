@@ -14,7 +14,7 @@ css: laurens_styles.css
 ***
 ### Occupational Prestige Data
 ```{r, eval=FALSE}
-tempData <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/prestigeData.txt"), header = TRUE)
+tempData <- read.csv(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/prestigeData.csv"), header = TRUE)
 
 summary(tempData)
 ```

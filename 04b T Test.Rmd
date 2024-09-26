@@ -27,7 +27,7 @@ For this set of examples, I will use the Cyberville families data. Recall that t
 
 
 ```{r}
-data <- read.table(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.txt"), 
+data <- read.csv(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.csv"), 
                         header = TRUE)
 
 ## suppress scientific notation for ease of reading numbers

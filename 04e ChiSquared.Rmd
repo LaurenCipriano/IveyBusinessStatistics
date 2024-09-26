@@ -26,7 +26,7 @@ Learning objectives of this asynchronous lesson:
 For this set of examples, I will continue to use the sample of 400 observations from the population-based Cyberville families data created in the t-test page.
 
 ```{r}
-data <- read.table(url("https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.txt"), 
+data <- read.csv(url("https://publish.uwo.ca/~lhornic2/IveyStatistics/Datasets/families.csv"), 
                         header = TRUE)
 
 ## suppress scientific notation for ease of reading numbers
