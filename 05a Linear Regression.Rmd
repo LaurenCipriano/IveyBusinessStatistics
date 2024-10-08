@@ -2,29 +2,116 @@
 title: "Linear Regression I"
 author: "Lauren Cipriano"
 date: "2024-10-07"
-output: html_document
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, child="_Global-Options.Rmd"}
 ```
 
-## R Markdown
+## Introduction
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Learning objectives of this asynchronous lesson:
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+-   Demonstrate simple and multiple variation
+-   Interpret regression coefficients and hypothesis tests
 
-```{r cars}
-summary(cars)
+***
+
+
+## Data set
+
+For this set of examples, I will use the Occupational Prestige dataset. This dataset was created using survey responses to the General Social Survey from 1971--2021. The dataset includes variables for the survey year (YEAR), respondent age (AGE), SEX, etc. The variable PersIncomeAdj was created by me combining many different categorical income variables over time using the average value within each range and then inflation adjusting to 2023 dollars. Occupational Prestige, a continuous variable measured on a 0-100 scale, is reported in PRESTG10.
+
+You can look up any of the variables on the [GSS Website](https://gssdataexplorer.norc.org/variables/vfilter).
+
+To keep things straightforward, I have removed any observation with missing data for any variable in this dataset.  We will talk about more appropriate strategies for handling missing data in a later discussion. 
+
+```{r}
+occup <- read.csv(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/PrestigeData.csv"), 
+                        header = TRUE)
+
+## suppress scientific notation for ease of reading numbers
+options(scipen=99)  
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+***
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+## Simple linear regression
+
+The first thing we always need to consider is what will be our Dependent Variable.  For these examples, we will use Occupational Prestige.  The Dependent Variable for a linear regression is always a continuous measure. 
+
+In our first example, we will have one Predictor Variable.  Predictor Variables can be continuous, binary, or categorical.  Continuous variables have the most straightforward interpretation, so let's start there.
+
+Our first regression model will be $$\text{Occupational Prestige} = \beta_0 + \beta_1 \times \text{Income}$$.
+
+
+```{r}
+## perform a linear regression
+## dependant variable:  occurpational prestige (continuous)
+## independant variable:  income (continuous)
+
+reg1 <- lm(PRESTG10 ~ PersIncomeAdj, data=occup)
+summary(reg1)
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+From this output, we can see that the equation of the line is $$\text{Occupational Prestige} = 40.91 + 0.000051 \times \text{Income}$$.
+
+In the line reporting the coefficient for $\text{PersIncomeAdj}$, there is also a hypothesis test.  This hypothesis test is evaluating whether the slope of the line, $\beta_1$ is zero or not.  The hypothesis test is a one-sample t-test and so the test reports a t-value and a p-value.  If the p-value is <0.05, we say that the predictor is statistically significant. 
+
+R also outputs the R-squared and Adjusted R-squared values.  R-squared represents the proportion of the variation in the Dependent Variable that is explained by the linear combination of the Predictor Variables. 
+
+The F-statistic and it's associated p-value represent the output of an overall ANOVA test.  The null hypothesis of this test is that all the slope coefficients are zero.  In this case, that is only $\beta_1$.  As a result, the p-value for the t-test evaluating whether that single coefficient is equal to zero is exactly the same as the p-value for the F-test.  
+
+Finally, R presents the Residual Standard Error; in this case, 12.45.  This value is the standard error for the prediction.  So, if you use this regression model to predict the Occupational Prestige value of a single new observation, this standard error represents the uncertainty for that individual observation. This is often used for simulation!
+
+Let's visualize the line of best fit that we have generated on the data. 
+
+
+```{r}
+## visualize the line of best fit
+plot(occup$PersIncomeAdj, occup$PRESTG10)
+abline(reg1, col="red")
+
+```
+
+
+This visualization already begins to raise red flags that this is not a good regression model. 
+
+
+
+
+
+
+
+
+```{r}
+## perform a linear regression
+## dependant variable:  occurpational prestige (continuous)
+## independant variable:  income (continuous)
+
+reg2 <- lm(PRESTG10 ~ log(PersIncomeAdj), data=occup)
+summary(reg2)
+plot(log(occup$PersIncomeAdj), occup$PRESTG10)
+abline(reg2, col="red")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+

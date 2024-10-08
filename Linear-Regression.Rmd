@@ -1,0 +1,31 @@
+---
+title: "Hypothesis Testing in R"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
+---
+```{r, child="_Global-Options.Rmd"}
+```
+***
+***
+## Datasets
+All of the datasets used in examples on this site and in Ivey Business Statistics are available here:  
+
+[Datasets Home Page](01-Datasets.html)
+
+***
+
+## Linear Regression in R
+
+### Simple linear regression 
+* [Webpage](05a-Linear-Regression.html)  
+
+***
+
+
+
+***
+***
