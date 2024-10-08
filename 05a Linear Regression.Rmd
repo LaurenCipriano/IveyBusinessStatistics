@@ -17,8 +17,9 @@ css: laurens_styles.css
 
 Learning objectives of this asynchronous lesson:
 
--   Demonstrate simple and multiple variation
+-   Demonstrate simple regression
 -   Interpret regression coefficients and hypothesis tests
+-   Evaluate underlying assumptions of regression
 
 ***
 
@@ -54,8 +55,8 @@ Our first regression model will be $$\text{Occupational Prestige} = \beta_0 + \b
 
 ```{r}
 ## perform a linear regression
-## dependant variable:  occurpational prestige (continuous)
-## independant variable:  income (continuous)
+## dependent variable:  occupational prestige (continuous)
+## independent variable:  income (continuous)
 
 reg1 <- lm(PRESTG10 ~ PersIncomeAdj, data=occup)
 summary(reg1)
@@ -72,6 +73,14 @@ The F-statistic and it's associated p-value represent the output of an overall A
 
 Finally, R presents the Residual Standard Error; in this case, 12.45.  This value is the standard error for the prediction.  So, if you use this regression model to predict the Occupational Prestige value of a single new observation, this standard error represents the uncertainty for that individual observation. This is often used for simulation!
 
+Note:
+
+In R, it is not necessary, but frequently useful to create a regression object by assigning the output of the regression to a new object (in this case, 'reg1').  There are many pieces of information contained in the regression object that you will be able to extract. The most useful starting report is simply summary() of the linear regression object which provides a complete overview of the model.  
+
+If you do not create a regression object, R will simply print the intercept and slope coefficients without hypothesis tests. 
+
+
+
 Let's visualize the line of best fit that we have generated on the data. 
 
 
@@ -83,26 +92,310 @@ abline(reg1, col="red")
 ```
 
 
-This visualization already begins to raise red flags that this is not a good regression model. 
+This visualization already begins to raise red flags that this is not a good regression model. Let's take a look at all the steps of a linear regression to see what we could improve about this one. 
+
+
+***
+
+
+## Assumptions of a linear regression 
+
+A regression line can be fit to any set of data, but this doesn’t mean that linear regression is a good model of the system.
+
+Regression models must satisfy a set of key assumptions to be useful
+-   Assumption 1: Linearity. The system is linear for each predictor variable and overall.  
+-   Assumption 2: Independent observations.  The data need to come from a random sample where each observation is independent of other observations.  Each observation has equal contribution to the regression line. 
+-   Assumption 3: Independent Predictor variables. The predictor variables must be independent of each other for the coefficients to be interpretable.  If the predictor variables are highly correlated it is called "multicollinearity".  
+-   Assumption 4: Homogeneity of variance. The regression residuals are equally likely to be large or small over the range of predicted values.   
+-   Assumption 5: Normality. The distribution of the residuals should be Normally distributed.   
 
 
 
 
 
+***
 
+
+## Step-by-Step:  How to perform linear regression
+
+0. Identify your Dependent variable and potential predictor variables
+1. Visualize the data 
+    + 	Visualize the distribution of Dependent and potential predictor variables (histograms)
+    +   Visualize the bivariate relationships between Dependent and potential predictor variables (XY scatters, bargraphs, boxplots)
+2. Evaluate the correlation among potential predictor variables
+3. Develop candidate multiple regression models
+4. Revise and compare your models (e.g., drop predictors with high p-values)
+5. Assess whether the underlying assumptions of regression are satisfied
+6. Choose between models satisfying underlying assumptions of regression
+7. Analyze and interpret model output
+    + 	Interpretation of coefficients
+    + 	Prediction intervals
+
+
+***
+
+
+## Example Step-by-Step
+
+***
+
+***
+WORK IN PROGRESS 
+
+***
+
+***
+
+
+### Step 0. Identify variables
+In this example, we are trying to identify the role of Income in predicting Occupational Prestige. 
+
+The Dependent Variable is Occupational Prestige, a continuous variable measured on 0-100. 
+
+The (sole) predictor variable is Income, also a continuous variable. 
+
+### Step 1. Visualize the data
+
+You can never really visualize your data too much.  
+
+#### 1a. Visualize univariate distributions
+
+First, make histograms of your Dependent Variable and all your continuous predictor variables.  For categorical predictor variables, draw boxplots. At this stage, this is for information only.  
+
+But, it is common to transform highly skewed variables.  Often highly skewed variables cause the residuals to be non-normal and contribute to problems with variance.  Log-transforming or square-root transforming right skewed variables, and exponentiating left-skewed variables can improve the regression model. Generally, it is useful to wait until -- at least -- after step 1b to consider transformations.  
+
+```{r}
+## Histogram of Occupational Prestige (Dependent Variable)
+hist(occup$PRESTG10)
+
+## Histogram of Income (Predictor Variable)
+hist(occup$PersIncomeAdj)
+```
+
+Immediately, we can see that Occupational Prestige, while not really Normally distributed, is not highly skewed in either direction. 
+
+Income, on the other hand, is highly right skewed. We note this for later because it makes Income a candidate for transformation. 
+
+
+
+#### 1b. Visualize bivariate relationships with Dependent Variable
+
+This step is useful for evaluating whether the relationship between the Dependent Variable and each Predictor is linear.  In a simple regression, this assessment is straightforward.  In a multiple regression, linear relationships can be conditional on the behaviour of another variable. 
+
+```{r}
+## visualize the line of best fit
+plot(occup$PersIncomeAdj, occup$PRESTG10)
+abline(lm(occup$PRESTG10 ~ occup$PersIncomeAdj), col="red")
+
+```
+
+This is not a good representation of a linear relationship. 
+Because this is a simple linear regression with no other Predictor Variables, we can make a decision right now to explore transformation of Income and simultaneous transformation of both Income and Occupational Prestige in order to improve the regression.  
+
+What we are looking for at this stage is whether or not we can improve the linearity of the relationship between the Dependent Variable  and the Predictor Variables. 
+
+```{r}
+## Consider log-transforming Income
+plot(log(occup$PersIncomeAdj), occup$PRESTG10)
+abline(lm(occup$PRESTG10 ~ log(occup$PersIncomeAdj)), col="red")
+
+
+## Consider log-transforming Income and Occupational Prestige
+plot(log(occup$PersIncomeAdj), log(occup$PRESTG10))
+abline(lm(log(occup$PRESTG10) ~ log(occup$PersIncomeAdj)), col="red")
+
+```
+
+Based on these graphs, both of these appear to be better than the bivariate relationship without any transformation. 
+
+In the graph with log(Income) only, it is not clear that the observations are evenly distributed above and below the line. There appear to be more observations clustered below the line. 
+
+In the graph with log(Income) and log(Occupational Prestige), the line appears more centered in the observations, the data appears somewhat more linear, but there also appears to be substantial impact of the ceiling effect with a lot of points crowding into the top of the graph. 
+
+These can serve as our candidate models in Step 3. 
+
+
+### Step 2. Evaluate the correlation among potential predictor variables
+
+This example is only simple linear regression, so there is nothing to do at this step because there is only one predictor. 
+
+
+### Step 3. Develop candidate multiple regression models
+
+We only have one predictor, so you might think that there is only one candidate regression model. However, different transformations that can improve the linearity, stability of variance, or the Normality of the residuals can also be considered as material for candidate models. 
 
 
 ```{r}
-## perform a linear regression
-## dependant variable:  occurpational prestige (continuous)
-## independant variable:  income (continuous)
+## simple linear regression 1
+## dependent variable:  occupational prestige (continuous)
+## independent variable:  income (continuous)
+
+reg1 <- lm(PRESTG10 ~ PersIncomeAdj, data=occup)
+summary(reg1)
+
+## simple linear regression 2
+## dependent variable:  occupational prestige (continuous)
+## independent variable:  income (continuous) - log transformed
 
 reg2 <- lm(PRESTG10 ~ log(PersIncomeAdj), data=occup)
 summary(reg2)
-plot(log(occup$PersIncomeAdj), occup$PRESTG10)
-abline(reg2, col="red")
+
+## simple linear regression 3
+## dependent variable:  occupational prestige (continuous) - log transformed
+## independent variable:  income (continuous) - log transformed
+
+reg3 <- lm(log(PRESTG10) ~ log(PersIncomeAdj), data=occup)
+summary(reg3)
+
 
 ```
+
+### Step 4. Revise and compare your models (e.g., drop predictors with high p-values)
+
+We can see that in all three of our candidate models, the single Predictor Variable has a p-value less than 0.05. 
+
+### Step 5. Assess whether the underlying assumptions of regression are satisfied
+
+##### Assumption 1: Linearity
+We already looked at linearity directly in Step 1b. This is more straightforward in a simple linear regression than in a multiple regression.  In multiple regression, we can also use the residual plots to evaluate linearity. 
+
+Residuals are the difference between the actual data point and the predicted y-value on the line of best fit. You can either graph them in their raw units, or standardize them.  Standardizing isn't required, but it can help get an early peak at the influence of outliers and whether or not the residuals are Normally distributed. 
+
+
+```{r}
+par( mfrow= c( 1,2 ) )
+
+## simple linear regression 1
+## standardized residuals vs. Predictor (Income)
+plot(x=occup$PersIncomeAdj , y=rstandard(reg1))
+abline(0, 0, lty=2, col="grey") # draw a staight line at 0 for a visual reference
+
+plot(x=reg1$fitted.values , y=rstandard(reg1))
+abline(0, 0, lty=2, col="grey") # draw a staight line at 0 for a visual reference
+
+```
+
+
+
+```{r, echo=FALSE}
+par( mfrow= c( 1,2 ) )
+
+## simple linear regression 2
+## standardized residuals vs. Predictor (Income)
+plot(x=log(occup$PersIncomeAdj) , y=rstandard(reg2))
+abline(0, 0, lty=2, col="grey") # draw a staight line at 0 for a visual reference
+
+plot(x=reg1$fitted.values , y=rstandard(reg2))
+abline(0, 0, lty=2, col="grey") # draw a staight line at 0 for a visual reference
+
+```
+
+
+```{r, echo=FALSE}
+par( mfrow= c( 1,2 ) )
+
+## simple linear regression 3
+## standardized residuals vs. Predictor (Income)
+plot(x=log(occup$PersIncomeAdj) , y=rstandard(reg3))
+abline(0, 0, lty=2, col="grey") # draw a staight line at 0 for a visual reference
+
+plot(x=reg1$fitted.values , y=rstandard(reg3))
+abline(0, 0, lty=2, col="grey") # draw a staight line at 0 for a visual reference
+
+```
+
+
+
+##### Assumption 2: Independent errors & equal contribution of each observation
+
+```{r}
+par( mfrow= c( 1,2 ) )
+
+## simple linear regression 1
+## standardized residuals vs. Predictor (Income)
+plot(rstandard(reg1))
+abline(0, 0, lty=2, col="grey") # draw a staight line at 0 for a visual reference
+
+```
+
+
+##### Assumption 3: No multicollinearity (Independent predictors)
+
+With only one predictor, this assumption is not relevent because it speaks to the relationship of Predictor Variables with other Predictor Variables. 
+
+Methods to evaluate this assumptions are   
+1.  Evaluate correlation matrix in advance. Do not put two Predictor Variables in the same candidate model if they have more than $|0.4|$ correlation. 
+2.  Variance inflation factor (VIF). VIF above 4 warrant additional scrutiny.  VIF over 10 indicates substantial multicollinearity. 
+
+
+##### Assumption 4: Homogeneity of residual variance
+
+
+
+##### Assumption 5: Residuals are Normally distributed
+
+
+```{r}
+library(car)
+par( mfrow= c( 1,3 ) )
+
+## simple linear regression 1: qq plot
+qqPlot(reg1$residuals)
+
+## simple linear regression 2: qq plot
+qqPlot(reg2$residuals)
+
+## simple linear regression 3: qq plot
+qqPlot(reg3$residuals)
+
+```
+
+
+
+### Step 6. Choose between models satisfying underlying assumptions of regression
+
+### Step 7. Analyze and interpret model output
+
+#### 7a. Interpretation of coefficients
+
+
+In this case, we can identify that it appears the relationship between Income and Occupational Prestige is statistically significant. 
+
+
+#### 7b. Prediction intervals
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
