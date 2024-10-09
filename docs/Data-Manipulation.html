@@ -433,13 +433,13 @@ outliers, or you are investigating specific individuals.</p>
 <div id="subset" class="section level3">
 <h3>Subset</h3>
 <pre class="r"><code>hist(data$FamIncome_Continuous)</code></pre>
-<p><img src="Data-Manipulation_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="Data-Manipulation_files/figure-html/unnamed-chunk-7-1.png" width="60%" /></p>
 <p>As you can see, the majority of data points lie below $300,000. Let’s
 take a clearer look at those individuals by taking advantage of the
 <code>subset</code> function.</p>
 <pre class="r"><code>data_subset = subset(data, FamIncome_Continuous&lt;300000)
 hist(data_subset$FamIncome_Continuous)</code></pre>
-<p><img src="Data-Manipulation_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="Data-Manipulation_files/figure-html/unnamed-chunk-8-1.png" width="60%" /></p>
 <p>The dataset now only contains individuals below our target income. We
 can investigate the impact this has on the entire dataset below.</p>
 <pre class="r"><code>summary(data$FamIncome_Continuous)

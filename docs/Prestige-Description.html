@@ -343,7 +343,7 @@ div.tocify {
 <hr />
 <div id="occupational-prestige-data" class="section level3">
 <h3>Occupational Prestige Data</h3>
-<pre class="r"><code>tempData &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/prestigeData.csv&quot;), header = TRUE)
+<pre class="r"><code>tempData &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/GSS_HappyData.csv&quot;), header = TRUE)
 
 summary(tempData)</code></pre>
 <div id="survey-variables" class="section level4">
@@ -371,55 +371,248 @@ too happy<br />
 </li>
 <li><strong>SEX</strong>: Respondent’s sex<br />
 </li>
-<li><strong>MentalHealth</strong>: How does the respondent describe
-their own mental health<br />
-<strong>1:</strong> Excellent <strong>2:</strong> Very Good
-<strong>3:</strong> Good <strong>4:</strong> Fair <strong>5:</strong>
-Poor<br />
+<li><strong>RACE</strong>: Race of respondent<br />
 </li>
-<li><strong>BMI</strong>: Body Mass Index (Collected for adults)<br />
+<li><strong>DEGREE</strong>: Respondent’s highest degree<br />
 </li>
-<li><strong>HasHypertension</strong>: Has the respondent been diagnosed
-with high blood pressure?<br />
-<strong>1:</strong> Yes <strong>0:</strong> No<br />
+<li><strong>EDUC</strong>: Highest year of school completed (0=no formal
+education)<br />
 </li>
-<li><strong>HasDiabetes</strong>: Has the respondent been diagnosed with
-diabetes?<br />
-<strong>1:</strong> Yes <strong>0:</strong> No<br />
+<li><strong>CLASS_</strong>: Self-identified social class (lower,
+working, middle, upper)<br />
 </li>
-<li><strong>Drinks5Day</strong>: Over the past 12 months, did the
-respondent have 5 or more alcoholic drinks per day?<br />
-<strong>1:</strong> Yes <strong>0:</strong> No<br />
+<li><strong>HEALTH</strong>: Respondent’s self-identified health
+status<br />
 </li>
-<li><strong>HealthInsurance</strong>: What type of health insurance, if
-any, does the respondent have?<br />
-<strong>1:</strong> Any Private <strong>2:</strong> Public Only
-<strong>3:</strong> Uninsured<br />
+<li><strong>MARITAL</strong>: Marital status<br />
 </li>
-<li><strong>HaveProvider</strong>: Respondent has a usual healthcare
-provider<br />
-<strong>1:</strong> Yes <strong>0:</strong> No<br />
+<li><strong>DIVORCE</strong>: Ever divorced or separated<br />
 </li>
-<li><strong>NotAffordHealthCare</strong>: In the past 12 months,
-respondent did not receive or delayed medical care because of
-cost?<br />
-<strong>1:</strong> Yes <strong>0:</strong> No<br />
+<li><strong>CHILDS</strong>: Number of children<br />
 </li>
-<li><strong>FamIncome_Continuous</strong>: Family total income from all
-sources<br />
+</ol>
+</div>
+<div id="respondent-home-variables" class="section level4">
+<h4>Respondent Home Variables</h4>
+<ol style="list-style-type: decimal">
+<li><strong>REGION</strong>: Region where the interview took place<br />
 </li>
-<li><strong>FamIncome_PercentPoverty</strong>: Family income divided by
-the applicable poverty line based on family size and composition<br />
+<li><strong>SIZE</strong>: Size of place (city or town where respondent
+lives) in 1000s<br />
 </li>
-<li><strong>FamIncome_Categorical</strong>: Family income as a percent
-of the poverty line organized as a categorical variable<br />
-<strong>1:</strong> Poor/Negative <strong>2:</strong> Near Poor
-<strong>3:</strong> Low Income <strong>4:</strong> Middle Income
-<strong>5:</strong> High Income<br />
+<li><strong>SRCBELT</strong>: Location (Large Standard Metropolitan
+Statistical Area (SMSAs) Suburb of Large SMSA; Smaller SMSA; etc.)<br />
 </li>
-<li><strong>TotalHealthExpenditure</strong>: Total health care
-expenditures ($): all sources (public insurance, private insurance, and
-out-of-pocket)<br />
+<li><strong>XNORCSIZ</strong>: Detailed location size (City/Suburb/Rural
+and population size)<br />
+</li>
+<li><strong>HHTYPE1</strong>: Household composition (Married no kids,
+Married with kids, etc.)<br />
+</li>
+<li><strong>HOMPOP</strong>: Number of persons in household<br />
+</li>
+<li><strong>ADULTS</strong>: Number of adults (people over 18 years) in
+household<br />
+</li>
+<li><strong>BABIES</strong>: Household members less than 6 yrs old<br />
+</li>
+<li><strong>PRETEEN</strong>: Household members 6 thru 12 yrs old<br />
+</li>
+<li><strong>TEENS</strong>: Household members 13 thru 17 yrs old<br />
+</li>
+<li><strong>KidsAtHome</strong>: Sum of BABIES, PRETEEN, &amp; TEENS
+variables<br />
+</li>
+<li><strong>HappyPartner</strong>: Happiness of relationship with
+partner; Combination of happiness of relationship with GSS HAPCOHAB
+&amp; HAPMAR variables<br />
+</li>
+</ol>
+</div>
+<div id="work-and-income" class="section level4">
+<h4>Work and Income</h4>
+<ol style="list-style-type: decimal">
+<li><strong>EARNRS</strong>: How many in family earn money?<br />
+</li>
+<li><strong>WRKSTAT</strong>: Labor force status<br />
+</li>
+<li><strong>PRESTG10</strong>: Respondent’s occupational prestige score
+(0-100 scale)<br />
+</li>
+<li><strong>SEI10</strong>: Respondent’s socioeconomic index<br />
+</li>
+<li><strong>SPWRKSTA</strong>: Spouse labor force status<br />
+</li>
+<li><strong>SPPRES10</strong>: Spouse’s occupational prestige score
+(0-100 scale)<br />
+</li>
+<li><strong>SPSEI10</strong>: Spouse’s socioeconomic index<br />
+</li>
+<li><strong>FINRELA</strong>: Opinion of family income (above or below
+average)<br />
+</li>
+<li><strong>SATFIN</strong>: Satisfaction with current financial
+situation<br />
+</li>
+<li><strong>FINALTER</strong>: Over the last few years, financial
+situation gotten better or worse?<br />
+</li>
+<li><strong>SATJOB</strong>: Overall satisfaction with work/role as
+home-maker<br />
+</li>
+<li><strong>UNEMP</strong>: Ever unemployed in the last 10 years?<br />
+</li>
+<li><strong>JOBLOSE</strong>: Job security: Is respondent likely to lose
+their job?<br />
+</li>
+<li><strong>JobFind</strong>: Job mobility: How hard would it be to find
+an equally good job?<br />
+</li>
+<li><strong>InflTarget</strong>: Regional inflation index for 2023<br />
+</li>
+<li><strong>InflNominal</strong>: Regional inflation index for year of
+survey<br />
+</li>
+<li><strong>PersIncomeAdj</strong>: Estimated personal income adjusted
+for inflation Estimated income level, combining income brackets from
+eight different survey categorical definitions (RINCOME, RINCOM77,
+RINCOM82, RINCOM86, RINCOM91, RINCOM98, RINCOM06, RINCOM16) and then
+adjusted for inflation to 2023 real dollars.<br />
+</li>
+<li><strong>FamIncomeAdj</strong>: Estimated family income adjusted for
+inflation. Estimated family income level, combining income brackets from
+nine different survey categorical definitions (INCOME72, INCOME,
+INCOME77, INCOME82, INCOME86, INCOME91, INCOME98, INCOME06, INCOME16)
+and then adjusted for inflation to 2023 real dollars.<br />
+</li>
+<li><strong>Z.Inc_Pers</strong>: Year-specific Z-score of personal
+income<br />
+</li>
+<li><strong>Z.Inc_Fam</strong>: Year-specific Z-score of family
+income<br />
+</li>
+<li><strong>P.Inc_Pers</strong>: Year-specific percentile of personal
+income<br />
+</li>
+<li><strong>P.Inc_Fam</strong>: Year-specific percentile of family
+income<br />
+</li>
+</ol>
+</div>
+<div id="social-activities" class="section level4">
+<h4>Social Activities</h4>
+<ol style="list-style-type: decimal">
+<li><strong>SOCBAR</strong>: How often do you … spend evening at a
+bar/tavern?<br />
+</li>
+<li><strong>SOCFREND</strong>: How often do you … spend an evening with
+friends?<br />
+</li>
+<li><strong>SOCOMMUN</strong>: How often do you … spend an evening with
+neighbour?<br />
+</li>
+<li><strong>SOCREL</strong>: How often do you … spend an evening with
+relatives?<br />
+</li>
+<li><strong>TVHOURS</strong>: How many hours per day watching tv? (0-24
+hours)<br />
+</li>
+</ol>
+</div>
+<div id="political-idealogy-and-religion" class="section level4">
+<h4>Political Idealogy and Religion</h4>
+<ol style="list-style-type: decimal">
+<li><strong>POLVIEWS</strong>: Self-identifies as liberal or
+conservative<br />
+</li>
+<li><strong>PARTYID</strong>: Political party affiliation<br />
+</li>
+<li><strong>RELIG</strong>: Respondent’s religious preference<br />
+</li>
+<li><strong>RELITEN</strong>: Strength of religious affiliation<br />
+</li>
+<li><strong>ATTEND</strong>: How often r attends religious
+services<br />
+</li>
+<li><strong>FUND</strong>: How fundamentalist is r currently?<br />
+</li>
+</ol>
+</div>
+<div id="childhood-and-family-history" class="section level4">
+<h4>Childhood and Family History</h4>
+<ol style="list-style-type: decimal">
+<li><strong>BORN</strong>: Was respondent born in the USA<br />
+</li>
+<li><strong>MomBornUS</strong>: Was r’s mother born in USA (1=yes,
+2=no)<br />
+</li>
+<li><strong>DadBornUS</strong>: Was r’s father born in USA (1=yes,
+2=no)<br />
+</li>
+<li><strong>GRANBORN</strong>: How many grandparents born outside the
+USA?<br />
+</li>
+<li><strong>REG16</strong>: Region of residence, age 16<br />
+</li>
+<li><strong>RES16</strong>: Type of place lived in when 16 yrs old<br />
+</li>
+<li><strong>MOBILE16</strong>: Geographic mobility since age 16<br />
+</li>
+<li><strong>INCOM16</strong>: r’s family income when 16 yrs old<br />
+</li>
+<li><strong>MASEI10</strong>: r’s mother’s socioeconomic index<br />
+</li>
+<li><strong>PASEI10</strong>: r’s father’s socioeconomic index<br />
+</li>
+</ol>
+</div>
+<div id="feelings-about-community-and-society" class="section level4">
+<h4>Feelings About Community and Society</h4>
+<ol style="list-style-type: decimal">
+<li><strong>TAX</strong>: Do you consider the amount of federal income
+tax which you have to pay as too high, about right, or too low?<br />
+</li>
+<li><strong>LIFE</strong>: In general, do you find life exciting, pretty
+routine, or dull?<br />
+</li>
+<li><strong>HELPFUL</strong>: Most of the time, are people helpful or
+looking out for themselves?<br />
+</li>
+</ol>
+</div>
+<div id="confidence-in-social-institutions" class="section level4">
+<h4>Confidence in Social Institutions</h4>
+<p>I am going to name some institutions in this country. As far as the
+people running these institutions are concerned, would you say you have
+a great deal of confidence, only some confidence, or hardly any
+confidence at all in them?<br />
+</p>
+<ol style="list-style-type: decimal">
+<li><strong>CONFINAN</strong>: … banks and financial institutions<br />
+</li>
+<li><strong>CONBUS</strong>: … major companies<br />
+</li>
+<li><strong>CONCLERG</strong>: … organized religion<br />
+</li>
+<li><strong>CONEDUC</strong>: … education<br />
+</li>
+<li><strong>CONFED</strong>: … exec branch of fed govt<br />
+</li>
+<li><strong>CONLABOR</strong>: … organized labor<br />
+</li>
+<li><strong>CONPRESS</strong>: … press<br />
+</li>
+<li><strong>CONMEDIC</strong>: … medicine<br />
+</li>
+<li><strong>CONTV</strong>: … television<br />
+</li>
+<li><strong>CONJUDGE</strong>: … united states supreme court<br />
+</li>
+<li><strong>CONSCI</strong>: … scientific community<br />
+</li>
+<li><strong>CONLEGIS</strong>: … congress<br />
+</li>
+<li><strong>CONARMY</strong>: … military<br />
 </li>
 </ol>
 </div>

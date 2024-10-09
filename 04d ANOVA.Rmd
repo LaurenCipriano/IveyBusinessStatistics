@@ -477,23 +477,23 @@ Lets walk though all the steps of ANOVA for a second example.
 
 Consider the question: Does income vary by region?
 
-#### Step 1. Identify the null and alternative hypothesis
+#### **Step 1. Identify the null and alternative hypothesis**
 
 -   H0: Average income is *equal* across all regions
 
 -   HA: Average income is *not equal* across all regions
 
-#### Step 2. Confirm assumption 1
+#### **Step 2. Confirm assumption 1**
 
 -   Income is a continuous variable
 
-#### Step 3. Confirm assumption 2
+#### **Step 3. Confirm assumption 2**
 
 -   This assumption requires understanding how the data were collected.
 
 -   Our data are a random sample of the whole population so any relationships between households would be randomly occurring within the data. Therefore, the observations are independent.
 
-#### Step 4. Consider assumption 3
+#### **Step 4. Consider assumption 3**
 
 We will use histograms and QQ plots to evaluate the Normality of the data.
 
@@ -570,7 +570,7 @@ Observations: South and West region look least Normally distributed in both the 
 
 However, in the histograms, it also appears like the standard deviations are very different across groups as I move into checking assumption 4.
 
-#### Step 5. Consider assumption 4
+#### **Step 5. Consider assumption 4**
 
 There are three ways to check the constant variance assumption.
 
@@ -643,7 +643,7 @@ We observe a p-value of 0.25 indicating that we cannot reject the null hypothesi
 
 Combining all the information in our assessments, there is a risk of the combination of poor fit to Normal distribution, heteroskedasticity, and the imbalance in sample size (which aggravates the differences in variance) increasing the risk of a false finding. I am particularly worried that the distributions are not Normal enough for ANOVA. So, to reassure myself, I will also do a Kruskall-Wallis test.
 
-#### Step 6. Perform ANOVA
+#### **Step 6. Perform ANOVA**
 
 Now that we have decided that ANOVA is reasonably appropriate, we can run the test and interpret the findings.
 
@@ -652,7 +652,7 @@ Now that we have decided that ANOVA is reasonably appropriate, we can run the te
 anova(lm(study.data$INCOME ~ study.data$REGION))
 ```
 
-#### Step 7. Interpret and present the results
+#### **Step 7. Interpret and present the results**
 
 We observe a p-value of 0.1083 Therefore, we do not reject the null hypothesis that the average income is the same across regions. ' This study does not provide sufficient evidence that the regions have different incomes.
 

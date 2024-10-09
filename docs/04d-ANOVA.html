@@ -473,7 +473,7 @@ variation between groups, then the groups must be meaningfully different
 from each other.</p>
 <p>Lets look at some illustrative data points for Income by Education
 level:</p>
-<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-7-1.png" width="60%" /></p>
 <div id="overall-variance-in-income" class="section level4">
 <h4>Overall Variance in Income</h4>
 <p>The first thing we can consider, is the overall variance in
@@ -484,7 +484,7 @@ class="math display">\[\mathbb{V}(Income) = \frac{1}{N-1} \sum_i^N (y_i
 <p>The <span class="math inline">\(N-1\)</span> is required to make the
 sample variance unbiased, accommodating losing one degree of freedom
 that occurs from also estimating the sample average.</p>
-<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-8-1.png" width="60%" /></p>
 <p>When calculating the components of variance for ANOVA we will first
 focus on the sum of squares part and drop the <span
 class="math inline">\(\frac{1}{N-1}\)</span> scaling factor. We will
@@ -501,7 +501,7 @@ groups</em>.</p>
 <p>Let’s break down the sum of squared total into the two sources of
 variance.</p>
 <p>So, let’s look at the sum of squared within groups:</p>
-<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-9-1.png" width="60%" /></p>
 <p>Sum of squares within groups: <span
 class="math display">\[\mathbb{SS}_W = \sum_j^J \sum_{i \in j}^{} (y_i -
 \bar{y_j})^2 \]</span></p>
@@ -517,7 +517,7 @@ we calculate square the difference between the group mean and the
 overall mean. To put this number on the same scale at the sum of squares
 within group, we multiply the value by the sample size for each
 group.</p>
-<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-10-1.png" width="60%" /></p>
 <p>Sum of squares between groups: <span
 class="math display">\[\mathbb{SS}_B = \sum_j^J N_j (\bar{y_j} -
 \bar{Y})^2 \]</span></p>
@@ -567,7 +567,7 @@ class="math inline">\(N-J\)</span> and <span
 class="math inline">\(J-1\)</span> degrees of freedom.</p>
 <p><span class="math display">\[F = \frac{\mathbb{SS}_B / (J -
 1)}{\mathbb{SS}_W / (N - J)}\]</span> #### Calculating the p-value</p>
-<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-11-1.png" width="60%" /></p>
 <p>Recall that the null hypothesis is that all groups have the same
 average.</p>
 <p>When the p-value is more than 0.05, we do not reject the null
@@ -639,7 +639,8 @@ alternative.</p>
 <p>Consider the question: Does income vary by region?</p>
 <div id="step-1.-identify-the-null-and-alternative-hypothesis"
 class="section level4">
-<h4>Step 1. Identify the null and alternative hypothesis</h4>
+<h4><strong>Step 1. Identify the null and alternative
+hypothesis</strong></h4>
 <ul>
 <li><p>H0: Average income is <em>equal</em> across all regions</p></li>
 <li><p>HA: Average income is <em>not equal</em> across all
@@ -647,13 +648,13 @@ regions</p></li>
 </ul>
 </div>
 <div id="step-2.-confirm-assumption-1" class="section level4">
-<h4>Step 2. Confirm assumption 1</h4>
+<h4><strong>Step 2. Confirm assumption 1</strong></h4>
 <ul>
 <li>Income is a continuous variable</li>
 </ul>
 </div>
 <div id="step-3.-confirm-assumption-2" class="section level4">
-<h4>Step 3. Confirm assumption 2</h4>
+<h4><strong>Step 3. Confirm assumption 2</strong></h4>
 <ul>
 <li><p>This assumption requires understanding how the data were
 collected.</p></li>
@@ -663,11 +664,11 @@ data. Therefore, the observations are independent.</p></li>
 </ul>
 </div>
 <div id="step-4.-consider-assumption-3" class="section level4">
-<h4>Step 4. Consider assumption 3</h4>
+<h4><strong>Step 4. Consider assumption 3</strong></h4>
 <p>We will use histograms and QQ plots to evaluate the Normality of the
 data.</p>
-<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-13-1.png" width="60%" /></p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-15-1.png" width="60%" /></p>
 <p>Observations: South and West region look least Normally distributed
 in both the histograms and the QQ plots. This, at best, weakly satisfies
 the Normal assumption because ANOVA is quite tolerant to violations in
@@ -677,7 +678,7 @@ deviations are very different across groups as I move into checking
 assumption 4.</p>
 </div>
 <div id="step-5.-consider-assumption-4" class="section level4">
-<h4>Step 5. Consider assumption 4</h4>
+<h4><strong>Step 5. Consider assumption 4</strong></h4>
 <p>There are three ways to check the constant variance assumption.</p>
 <ul>
 <li>Calculate the descriptive statistics for each group. This is a best
@@ -731,7 +732,7 @@ boxplot(study.data$INCOME ~ study.data$REGION,
         ylab = &quot;&quot;,
         main = &quot;Box plot of income, by Region&quot;,
         xlab = &quot;Region&quot;)</code></pre>
-<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-17-1.png" width="60%" /></p>
 <p>There are some differences in the width of the interquartile range
 (indicated by the whiskers in the boxplot) and in the standard
 deviations (lowest at 24K and highest at 33K), but overall I would
@@ -768,7 +769,7 @@ worried that the distributions are not Normal enough for ANOVA. So, to
 reassure myself, I will also do a Kruskall-Wallis test.</p>
 </div>
 <div id="step-6.-perform-anova" class="section level4">
-<h4>Step 6. Perform ANOVA</h4>
+<h4><strong>Step 6. Perform ANOVA</strong></h4>
 <p>Now that we have decided that ANOVA is reasonably appropriate, we can
 run the test and interpret the findings.</p>
 <pre class="r"><code># H0: Families have the same average income across regions
@@ -782,7 +783,7 @@ anova(lm(study.data$INCOME ~ study.data$REGION))</code></pre>
 </div>
 <div id="step-7.-interpret-and-present-the-results"
 class="section level4">
-<h4>Step 7. Interpret and present the results</h4>
+<h4><strong>Step 7. Interpret and present the results</strong></h4>
 <p>We observe a p-value of 0.1083 Therefore, we do not reject the null
 hypothesis that the average income is the same across regions. ’ This
 study does not provide sufficient evidence that the regions have
@@ -802,7 +803,7 @@ barplot_obj &lt;- barplot(income.summary$avg,
 arrows(x0 = barplot_obj, y0 = income.summary$upper95,      # position of the upper end of bars
        x1 = barplot_obj, y1 = income.summary$lower95,       # position of the lower end of bars
        angle = 90, code = 3, length = 0.1)                                        # features of the error bars</code></pre>
-<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="04d-ANOVA_files/figure-html/unnamed-chunk-20-1.png" width="60%" /></p>
 <hr />
 </div>
 </div>

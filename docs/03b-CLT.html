@@ -403,7 +403,7 @@ text(x = true.avg + 5000,
      labels = paste0(&quot;Population average income = $&quot;, format(true.avg, nsmall = 2)), 
      col = &quot;blue&quot;, 
      cex = 0.85)     # cex is font size</code></pre>
-<p><img src="03b-CLT_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="03b-CLT_files/figure-html/unnamed-chunk-4-1.png" width="60%" /></p>
 <hr />
 </div>
 </div>
@@ -466,10 +466,12 @@ deviation of the sample.</p>
 sample.avg &lt;- mean(study.data$INCOME)
 sample.avg</code></pre>
 <pre><code>&gt; [1] 41281.56</code></pre>
+<pre><code>&gt; [1] 38942.54</code></pre>
 <pre class="r"><code># Calculate the sample sd of Income
 sample.sd &lt;- sd(study.data$INCOME)
 sample.sd</code></pre>
 <pre><code>&gt; [1] 30939.41</code></pre>
+<pre><code>&gt; [1] 29681.54</code></pre>
 <p>If you run the last two sections of code repeatedly, you will find
 that each time a new sample is selected the sample mean is a different
 number.</p>
@@ -520,10 +522,10 @@ text(x = true.avg + 250,
      labels = paste0(&quot;Population average income = $&quot;, format(true.avg, nsmall = 2)), 
      col = &quot;blue&quot;, 
      cex = 0.85)     # cex is font size</code></pre>
-<p><img src="03b-CLT_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="03b-CLT_files/figure-html/unnamed-chunk-8-1.png" width="60%" /></p>
 <p>This looks so Normally distributed!! Let’s overlay a Normal
 distribution on this graph to visualize how well it fits.</p>
-<p><img src="03b-CLT_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="03b-CLT_files/figure-html/unnamed-chunk-9-1.png" width="60%" /></p>
 <p>So, even though the underlying population distribution was not
 Normally distributed, the uncertainty in the sample average for income
 <em>is</em> Normally distributed.</p>
