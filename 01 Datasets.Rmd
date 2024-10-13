@@ -52,8 +52,14 @@ Access the CSV file saved onto your computer:
 ***
 
 ### Occupational Prestige data
-* [Data dictionary](Prestige-Description.html) 
+* [Data dictionary](Prestige-Data-Description.html) 
 * Dataset:  [CSV](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/PrestigeData.csv)  
+
+***  
+
+### Happiness
+* [Data dictionary](Happy-Data-Description.html) 
+* Dataset:  [CSV](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/GSS_HappyData.csv)  
 
 *** 
 
@@ -111,10 +117,6 @@ Access the CSV file saved onto your computer:
 ### Pennsylvania Dominion
 * Dataset:  [CSV](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/MortgageData.csv)  
 
-***  
-
-### Happiness
-* Dataset:  [CSV](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/GSS_HappyData.csv)  
   
 ***
 

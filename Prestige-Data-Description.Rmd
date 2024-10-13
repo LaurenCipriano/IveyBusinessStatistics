@@ -1,0 +1,47 @@
+---
+title: "Occupational Prestige Data Description"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
+---
+
+```{r, child="_Global-Options.Rmd"}
+```
+***
+***
+### Occupational Prestige Data
+```{r, eval=FALSE}
+tempData <- read.csv(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/PrestigeData.csv"), header = TRUE)
+
+summary(tempData)
+```
+#### Survey Variables
+1.  **YEAR**: Year for this respondent\
+2.  **ID**: Unique ID\
+
+#### Respondent Variables
+1.  **AGE**: Age of Respondent\
+2.  **SEX**: Respondent's sex\
+3.  **DEGREE**: Respondent’s highest degree\
+4.  **EDUC**: Highest year of school completed (0=no formal education)\
+5.  **CLASS_**: Self-identified social class (lower, working, middle, upper)\
+6.  **MARITAL**: Marital status\
+
+#### Respondent Home Variables
+1.  **REGION**: Region where the interview took place\
+
+#### Work and Income
+2.  **PRESTG10**: Respondent’s occupational prestige score (0-100 scale)\
+3.  **SEI10**: Respondent’s socioeconomic index\
+4.  **FINRELA**: Opinion of family income (above or below average)\
+5.  **SATFIN**: Satisfaction with current financial situation\
+6.  **UNEMP**: Ever unemployed in the last 10 years?\
+7.  **JOBLOSE**: Job security: Is respondent likely to lose their job?\
+8.  **JobFind**: Job mobility: How hard would it be to find an equally good job?\
+9.  **PersIncomeAdj**: Estimated personal income adjusted for inflation Estimated income level, combining income brackets from eight different survey categorical definitions (RINCOME, RINCOM77, RINCOM82, RINCOM86, RINCOM91, RINCOM98, RINCOM06, RINCOM16)  and then adjusted for inflation to 2023 real dollars.\
+
+#### Childhood and Family History
+1.  **BORN**: Was respondent born in the USA\

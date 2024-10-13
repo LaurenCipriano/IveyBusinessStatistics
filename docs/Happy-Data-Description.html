@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>GSS_Happy Data Description</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="images/favicon.ico">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="laurens_styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      -->
+      <a class="navbar-brand" href="index.html">Ivey Business Statistics: Home</a>
+    </div>
+  <!--/.nav-collapse
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Datasets-Home.html">Datasets</a></li>
+        <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
+      </ul>
+    </div>/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">GSS_Happy Data Description</h1>
+
+</div>
+
+
+<hr />
+<hr />
+<div id="occupational-prestige-data" class="section level3">
+<h3>Occupational Prestige Data</h3>
+<pre class="r"><code>tempData &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/GSS_HappyData.csv&quot;), header = TRUE)
+
+summary(tempData)</code></pre>
+<div id="survey-variables" class="section level4">
+<h4>Survey Variables</h4>
+<ol style="list-style-type: decimal">
+<li><strong>YEAR</strong>: Year for this respondent<br />
+</li>
+<li><strong>ID</strong>: Unique ID<br />
+</li>
+<li><strong>WEIGHT</strong>: Combined survey weight variables:
+WTSSCOMP*OVERSAMP<br />
+</li>
+</ol>
+</div>
+<div id="respondent-variables" class="section level4">
+<h4>Respondent Variables</h4>
+<ol style="list-style-type: decimal">
+<li><strong>VHAPPY</strong>: Respondent’s general happiness
+<strong>1:</strong> Very Happy <strong>0:</strong> Pretty Happy or Not
+too happy<br />
+</li>
+<li><strong>COHORT</strong>: Respondent’s year of birth<br />
+</li>
+<li><strong>AGE</strong>: Age of Respondent<br />
+</li>
+<li><strong>SEX</strong>: Respondent’s sex<br />
+</li>
+<li><strong>RACE</strong>: Race of respondent<br />
+</li>
+<li><strong>DEGREE</strong>: Respondent’s highest degree<br />
+</li>
+<li><strong>EDUC</strong>: Highest year of school completed (0=no formal
+education)<br />
+</li>
+<li><strong>CLASS_</strong>: Self-identified social class (lower,
+working, middle, upper)<br />
+</li>
+<li><strong>HEALTH</strong>: Respondent’s self-identified health
+status<br />
+</li>
+<li><strong>MARITAL</strong>: Marital status<br />
+</li>
+<li><strong>DIVORCE</strong>: Ever divorced or separated<br />
+</li>
+<li><strong>CHILDS</strong>: Number of children<br />
+</li>
+</ol>
+</div>
+<div id="respondent-home-variables" class="section level4">
+<h4>Respondent Home Variables</h4>
+<ol style="list-style-type: decimal">
+<li><strong>REGION</strong>: Region where the interview took place<br />
+</li>
+<li><strong>SIZE</strong>: Size of place (city or town where respondent
+lives) in 1000s<br />
+</li>
+<li><strong>SRCBELT</strong>: Location (Large Standard Metropolitan
+Statistical Area (SMSAs) Suburb of Large SMSA; Smaller SMSA; etc.)<br />
+</li>
+<li><strong>XNORCSIZ</strong>: Detailed location size (City/Suburb/Rural
+and population size)<br />
+</li>
+<li><strong>HHTYPE1</strong>: Household composition (Married no kids,
+Married with kids, etc.)<br />
+</li>
+<li><strong>HOMPOP</strong>: Number of persons in household<br />
+</li>
+<li><strong>ADULTS</strong>: Number of adults (people over 18 years) in
+household<br />
+</li>
+<li><strong>BABIES</strong>: Household members less than 6 yrs old<br />
+</li>
+<li><strong>PRETEEN</strong>: Household members 6 thru 12 yrs old<br />
+</li>
+<li><strong>TEENS</strong>: Household members 13 thru 17 yrs old<br />
+</li>
+<li><strong>KidsAtHome</strong>: Sum of BABIES, PRETEEN, &amp; TEENS
+variables<br />
+</li>
+<li><strong>HappyPartner</strong>: Happiness of relationship with
+partner; Combination of happiness of relationship with GSS HAPCOHAB
+&amp; HAPMAR variables<br />
+</li>
+</ol>
+</div>
+<div id="work-and-income" class="section level4">
+<h4>Work and Income</h4>
+<ol style="list-style-type: decimal">
+<li><strong>EARNRS</strong>: How many in family earn money?<br />
+</li>
+<li><strong>WRKSTAT</strong>: Labor force status<br />
+</li>
+<li><strong>PRESTG10</strong>: Respondent’s occupational prestige score
+(0-100 scale)<br />
+</li>
+<li><strong>SEI10</strong>: Respondent’s socioeconomic index<br />
+</li>
+<li><strong>SPWRKSTA</strong>: Spouse labor force status<br />
+</li>
+<li><strong>SPPRES10</strong>: Spouse’s occupational prestige score
+(0-100 scale)<br />
+</li>
+<li><strong>SPSEI10</strong>: Spouse’s socioeconomic index<br />
+</li>
+<li><strong>FINRELA</strong>: Opinion of family income (above or below
+average)<br />
+</li>
+<li><strong>SATFIN</strong>: Satisfaction with current financial
+situation<br />
+</li>
+<li><strong>FINALTER</strong>: Over the last few years, financial
+situation gotten better or worse?<br />
+</li>
+<li><strong>SATJOB</strong>: Overall satisfaction with work/role as
+home-maker<br />
+</li>
+<li><strong>UNEMP</strong>: Ever unemployed in the last 10 years?<br />
+</li>
+<li><strong>JOBLOSE</strong>: Job security: Is respondent likely to lose
+their job?<br />
+</li>
+<li><strong>JobFind</strong>: Job mobility: How hard would it be to find
+an equally good job?<br />
+</li>
+<li><strong>InflTarget</strong>: Regional inflation index for 2023<br />
+</li>
+<li><strong>InflNominal</strong>: Regional inflation index for year of
+survey<br />
+</li>
+<li><strong>PersIncomeAdj</strong>: Estimated personal income adjusted
+for inflation Estimated income level, combining income brackets from
+eight different survey categorical definitions (RINCOME, RINCOM77,
+RINCOM82, RINCOM86, RINCOM91, RINCOM98, RINCOM06, RINCOM16) and then
+adjusted for inflation to 2023 real dollars.<br />
+</li>
+<li><strong>FamIncomeAdj</strong>: Estimated family income adjusted for
+inflation. Estimated family income level, combining income brackets from
+nine different survey categorical definitions (INCOME72, INCOME,
+INCOME77, INCOME82, INCOME86, INCOME91, INCOME98, INCOME06, INCOME16)
+and then adjusted for inflation to 2023 real dollars.<br />
+</li>
+<li><strong>Z.Inc_Pers</strong>: Year-specific Z-score of personal
+income<br />
+</li>
+<li><strong>Z.Inc_Fam</strong>: Year-specific Z-score of family
+income<br />
+</li>
+<li><strong>P.Inc_Pers</strong>: Year-specific percentile of personal
+income<br />
+</li>
+<li><strong>P.Inc_Fam</strong>: Year-specific percentile of family
+income<br />
+</li>
+</ol>
+</div>
+<div id="social-activities" class="section level4">
+<h4>Social Activities</h4>
+<ol style="list-style-type: decimal">
+<li><strong>SOCBAR</strong>: How often do you … spend evening at a
+bar/tavern?<br />
+</li>
+<li><strong>SOCFREND</strong>: How often do you … spend an evening with
+friends?<br />
+</li>
+<li><strong>SOCOMMUN</strong>: How often do you … spend an evening with
+neighbour?<br />
+</li>
+<li><strong>SOCREL</strong>: How often do you … spend an evening with
+relatives?<br />
+</li>
+<li><strong>TVHOURS</strong>: How many hours per day watching tv? (0-24
+hours)<br />
+</li>
+</ol>
+</div>
+<div id="political-idealogy-and-religion" class="section level4">
+<h4>Political Idealogy and Religion</h4>
+<ol style="list-style-type: decimal">
+<li><strong>POLVIEWS</strong>: Self-identifies as liberal or
+conservative<br />
+</li>
+<li><strong>PARTYID</strong>: Political party affiliation<br />
+</li>
+<li><strong>RELIG</strong>: Respondent’s religious preference<br />
+</li>
+<li><strong>RELITEN</strong>: Strength of religious affiliation<br />
+</li>
+<li><strong>ATTEND</strong>: How often r attends religious
+services<br />
+</li>
+<li><strong>FUND</strong>: How fundamentalist is r currently?<br />
+</li>
+</ol>
+</div>
+<div id="childhood-and-family-history" class="section level4">
+<h4>Childhood and Family History</h4>
+<ol style="list-style-type: decimal">
+<li><strong>BORN</strong>: Was respondent born in the USA<br />
+</li>
+<li><strong>MomBornUS</strong>: Was r’s mother born in USA (1=yes,
+2=no)<br />
+</li>
+<li><strong>DadBornUS</strong>: Was r’s father born in USA (1=yes,
+2=no)<br />
+</li>
+<li><strong>GRANBORN</strong>: How many grandparents born outside the
+USA?<br />
+</li>
+<li><strong>REG16</strong>: Region of residence, age 16<br />
+</li>
+<li><strong>RES16</strong>: Type of place lived in when 16 yrs old<br />
+</li>
+<li><strong>MOBILE16</strong>: Geographic mobility since age 16<br />
+</li>
+<li><strong>INCOM16</strong>: r’s family income when 16 yrs old<br />
+</li>
+<li><strong>MASEI10</strong>: r’s mother’s socioeconomic index<br />
+</li>
+<li><strong>PASEI10</strong>: r’s father’s socioeconomic index<br />
+</li>
+</ol>
+</div>
+<div id="feelings-about-community-and-society" class="section level4">
+<h4>Feelings About Community and Society</h4>
+<ol style="list-style-type: decimal">
+<li><strong>TAX</strong>: Do you consider the amount of federal income
+tax which you have to pay as too high, about right, or too low?<br />
+</li>
+<li><strong>LIFE</strong>: In general, do you find life exciting, pretty
+routine, or dull?<br />
+</li>
+<li><strong>HELPFUL</strong>: Most of the time, are people helpful or
+looking out for themselves?<br />
+</li>
+</ol>
+</div>
+<div id="confidence-in-social-institutions" class="section level4">
+<h4>Confidence in Social Institutions</h4>
+<p>I am going to name some institutions in this country. As far as the
+people running these institutions are concerned, would you say you have
+a great deal of confidence, only some confidence, or hardly any
+confidence at all in them?<br />
+</p>
+<ol style="list-style-type: decimal">
+<li><strong>CONFINAN</strong>: … banks and financial institutions<br />
+</li>
+<li><strong>CONBUS</strong>: … major companies<br />
+</li>
+<li><strong>CONCLERG</strong>: … organized religion<br />
+</li>
+<li><strong>CONEDUC</strong>: … education<br />
+</li>
+<li><strong>CONFED</strong>: … exec branch of fed govt<br />
+</li>
+<li><strong>CONLABOR</strong>: … organized labor<br />
+</li>
+<li><strong>CONPRESS</strong>: … press<br />
+</li>
+<li><strong>CONMEDIC</strong>: … medicine<br />
+</li>
+<li><strong>CONTV</strong>: … television<br />
+</li>
+<li><strong>CONJUDGE</strong>: … united states supreme court<br />
+</li>
+<li><strong>CONSCI</strong>: … scientific community<br />
+</li>
+<li><strong>CONLEGIS</strong>: … congress<br />
+</li>
+<li><strong>CONARMY</strong>: … military<br />
+</li>
+</ol>
+</div>
+</div>
+
+<!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
