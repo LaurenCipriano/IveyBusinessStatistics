@@ -403,7 +403,7 @@ text(x = true.avg + 5000,
      labels = paste0(&quot;Population average income = $&quot;, format(true.avg, nsmall = 2)), 
      col = &quot;blue&quot;, 
      cex = 0.85)     # cex is font size</code></pre>
-<p><img src="03b-CLT_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="03b-CLT_files/figure-html/unnamed-chunk-4-1.png" width="60%" /></p>
 <hr />
 </div>
 </div>
@@ -465,11 +465,11 @@ deviation of the sample.</p>
 <pre class="r"><code># Calculate the sample mean of Income
 sample.avg &lt;- mean(study.data$INCOME)
 sample.avg</code></pre>
-<pre><code>&gt; [1] 42703.02</code></pre>
+<pre><code>&gt; [1] 40131.68</code></pre>
 <pre class="r"><code># Calculate the sample sd of Income
 sample.sd &lt;- sd(study.data$INCOME)
 sample.sd</code></pre>
-<pre><code>&gt; [1] 34522.92</code></pre>
+<pre><code>&gt; [1] 29127.3</code></pre>
 <p>If you run the last two sections of code repeatedly, you will find
 that each time a new sample is selected the sample mean is a different
 number.</p>
@@ -520,10 +520,10 @@ text(x = true.avg + 250,
      labels = paste0(&quot;Population average income = $&quot;, format(true.avg, nsmall = 2)), 
      col = &quot;blue&quot;, 
      cex = 0.85)     # cex is font size</code></pre>
-<p><img src="03b-CLT_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="03b-CLT_files/figure-html/unnamed-chunk-8-1.png" width="60%" /></p>
 <p>This looks so Normally distributed!! Let’s overlay a Normal
 distribution on this graph to visualize how well it fits.</p>
-<p><img src="03b-CLT_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="03b-CLT_files/figure-html/unnamed-chunk-9-1.png" width="60%" /></p>
 <p>So, even though the underlying population distribution was not
 Normally distributed, the uncertainty in the sample average for income
 <em>is</em> Normally distributed.</p>
@@ -596,8 +596,8 @@ lowerCI = sample.avg + qnorm(0.025, mean = 0, sd = 1) * se
 upperCI = sample.avg + qnorm(0.975, mean = 0, sd = 1) * se
 
 print(cbind(sample.avg, lowerCI, upperCI))</code></pre>
-<pre><code>&gt;      sample.avg  lowerCI  upperCI
-&gt; [1,]   38547.43 35874.88 41219.98</code></pre>
+<pre><code>&gt;      sample.avg  lowerCI upperCI
+&gt; [1,]   40504.94 37173.19 43836.7</code></pre>
 <hr />
 </div>
 <div id="interpreting-confidence-intervals" class="section level2">
@@ -624,7 +624,7 @@ sample.reps$outBounds[ true.avg &gt; sample.reps$upperCI ] &lt;- 1
 
 # what % of study replications reported 95% CI that did not include the true population average?
 sum(sample.reps$outBounds)/m</code></pre>
-<pre><code>&gt; [1] 0.0484</code></pre>
+<pre><code>&gt; [1] 0.0542</code></pre>
 <p>I hope it is not too much of a surprise that this is really close to
 5%!</p>
 <p>Next: Elements of a Statistical Test</p>
