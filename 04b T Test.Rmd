@@ -517,7 +517,7 @@ study.data$HasCollege[ study.data$EDUCATION >= 40 ] <- 1 # assign a 1 if Any Col
 
 ```
 
-#### Step 1. Identify the null and alternative hypothesis
+#### **Step 1. Identify the null and alternative hypothesis**
 
 -   H0: Average income for people without any college is *equal* to the average income for people with college
 
@@ -525,17 +525,17 @@ study.data$HasCollege[ study.data$EDUCATION >= 40 ] <- 1 # assign a 1 if Any Col
 
     -   This is a two-sided alternative hypothesis.
 
-#### Step 2. Confirm assumption 1
+#### **Step 2. Confirm assumption 1**
 
 -   Income is a continuous variable
 
-#### Step 3. Confirm assumption 2
+#### **Step 3. Confirm assumption 2**
 
 -   This assumption requires understanding how the data were collected.
 
 -   Our data are a random sample of the whole population so any relationships between households would be randomly occurring within the data. Therefore, the observations are independent.
 
-#### Step 4. Consider assumption 3
+#### **Step 4. Consider assumption 3**
 
 There are several reasonable approaches for evaluating whether a distribution is Normal, but some are very sensitive and will declare data not Normally distributed when it is really good enough for a t-test.
 

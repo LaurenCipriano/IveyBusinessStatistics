@@ -13,7 +13,7 @@
 
 <title>Wilcoxon Rank Sum / Mann-Whitney U Test</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -445,7 +445,7 @@ Welsh’s t-test to accommodate heteroskedasticity, combined with the
 right skewed data, it would be reasonable to be concerned about false
 findings from a t-test.</p>
 <p>Recall the histogram for each sample and the summary statistics:</p>
-<p><img src="04c-WMW-U_files/figure-html/unnamed-chunk-6-1.png" width="672" /><img src="04c-WMW-U_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<p><img src="04c-WMW-U_files/figure-html/unnamed-chunk-6-1.png" width="60%" /><img src="04c-WMW-U_files/figure-html/unnamed-chunk-6-2.png" width="60%" /></p>
 <pre><code>&gt;                                [,1]       [,2]
 &gt; study.data$HasCollege             0          1
 &gt; study.data$INCOME.avg         31221      55151
@@ -503,7 +503,7 @@ certainly well within what could be accommodated with a Welsh’s
 correction if all other assumptions were satisfied (but they are
 not).</li>
 </ul>
-<p><img src="04c-WMW-U_files/figure-html/unnamed-chunk-10-1.png" width="672" /><img src="04c-WMW-U_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<p><img src="04c-WMW-U_files/figure-html/unnamed-chunk-10-1.png" width="60%" /><img src="04c-WMW-U_files/figure-html/unnamed-chunk-10-2.png" width="60%" /></p>
 <pre><code>&gt;                                 [,1]      [,2]
 &gt; study.data$HasChildren             0         1
 &gt; study.data$INCOME.avg          45142     38620
@@ -536,7 +536,7 @@ wilcox.test(study.data$INCOME ~ study.data$HasChildren)</code></pre>
 &gt;   Wilcoxon rank sum test with continuity correction
 &gt; 
 &gt; data:  study.data$INCOME by study.data$HasChildren
-&gt; W = 22639, p-value = 0.02
+&gt; W = 22638, p-value = 0.02
 &gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
 <p>Using the MWU test, the p-value decreases from 0.034 to 0.02. We
 reject the null hypothesis that families with and without children have
@@ -659,7 +659,7 @@ p.value.table$Two.sided.p[p.value.table$U.value == 9]</code></pre>
 &gt;   Wilcoxon rank sum test with continuity correction
 &gt; 
 &gt; data:  data.NoKids and data.YesKids
-&gt; W = 22639, p-value = 0.02
+&gt; W = 22638, p-value = 0.02
 &gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
 <pre class="r"><code>MWU(data.NoKids, data.YesKids, sims = 50000)</code></pre>
 <pre><code>&gt; Business Statistics Mann-Whitney two-sided U-test

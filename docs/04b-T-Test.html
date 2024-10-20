@@ -13,7 +13,7 @@
 
 <title>t-Test</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -457,7 +457,7 @@ of this one-sample t-test, $47,500, is not within that interval, we know
 to reject the null hypothesis.</p>
 <p>This is another example of the equivalence of confidence intervals
 and p-values.</p>
-<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-5-1.png" width="60%" /></p>
 <p>Similarly, we can calculate the probability of $47,500 or something
 less likely than $47,500 being the true population mean using the
 distribution of the sample mean.</p>
@@ -597,8 +597,8 @@ pnorm(0, mean = Mean.Diff, sd = SE.Diff)*2</code></pre>
 difference in the sample means (using Normal approximation), we also
 calculate the p-value of the two-sample, two-sided, t-test to be
 0.03.</p>
-<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-11-1.png" width="60%" /></p>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-12-1.png" width="60%" /></p>
 <!--
 ### Visualizing differences between 2 groups
 
@@ -621,7 +621,7 @@ arrows(x0 = barplot_obj, y0 = income.summary["study.data$INCOME.lower95", ],    
        angle = 90, code = 3, length = 0.1)                                        # features of the error bars
 ```
 
-<img src="04b-T-Test_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<img src="04b-T-Test_files/figure-html/unnamed-chunk-13-1.png" width="60%" />
 
 If the error bars of the two groups are not overlapping, then you can surely reject the null hypothesis that the two averages are equal. However, 95% confidence interval bars of two groups will overlap until the p-value is about 0.01.
 -->
@@ -664,7 +664,8 @@ study.data$HasCollege &lt;- 0 # initialize the variable
 study.data$HasCollege[ study.data$EDUCATION &gt;= 40 ] &lt;- 1 # assign a 1 if Any College</code></pre>
 <div id="step-1.-identify-the-null-and-alternative-hypothesis"
 class="section level4">
-<h4>Step 1. Identify the null and alternative hypothesis</h4>
+<h4><strong>Step 1. Identify the null and alternative
+hypothesis</strong></h4>
 <ul>
 <li><p>H0: Average income for people without any college is
 <em>equal</em> to the average income for people with college</p></li>
@@ -676,13 +677,13 @@ equal</em> to the average income for people with college</p>
 </ul>
 </div>
 <div id="step-2.-confirm-assumption-1" class="section level4">
-<h4>Step 2. Confirm assumption 1</h4>
+<h4><strong>Step 2. Confirm assumption 1</strong></h4>
 <ul>
 <li>Income is a continuous variable</li>
 </ul>
 </div>
 <div id="step-3.-confirm-assumption-2" class="section level4">
-<h4>Step 3. Confirm assumption 2</h4>
+<h4><strong>Step 3. Confirm assumption 2</strong></h4>
 <ul>
 <li><p>This assumption requires understanding how the data were
 collected.</p></li>
@@ -692,7 +693,7 @@ data. Therefore, the observations are independent.</p></li>
 </ul>
 </div>
 <div id="step-4.-consider-assumption-3" class="section level4">
-<h4>Step 4. Consider assumption 3</h4>
+<h4><strong>Step 4. Consider assumption 3</strong></h4>
 <p>There are several reasonable approaches for evaluating whether a
 distribution is Normal, but some are very sensitive and will declare
 data not Normally distributed when it is really good enough for a
@@ -717,7 +718,7 @@ sizes.</p>
 <p>We can evaluate the distribution of income in both groups using a
 histogram. From our prior lesson, we expect that the distribution of
 income may be right skewed.</p>
-<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-15-1.png" width="672" /><img src="04b-T-Test_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-15-1.png" width="60%" /><img src="04b-T-Test_files/figure-html/unnamed-chunk-15-2.png" width="60%" /></p>
 <p>The No College income histogram is clearly right skewed. Neither
 distribution has any observations less than $0 and so neither
 distribution has a complete left tail.</p>
@@ -732,11 +733,11 @@ points form a straight line within the bounds of the blue ribbon.</p>
 # library(car)  ## the QQ plot in the car package is nice
 qqPlot(study.data$INCOME[study.data$HasCollege == 0], 
        main = &quot;QQ plot for No College&quot;)</code></pre>
-<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-17-1.png" width="60%" /></p>
 <pre><code>&gt; [1] 174 197</code></pre>
 <pre class="r"><code>qqPlot(study.data$INCOME[study.data$HasCollege == 1], 
        main = &quot;QQ plot for Some College&quot;)</code></pre>
-<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<p><img src="04b-T-Test_files/figure-html/unnamed-chunk-17-2.png" width="60%" /></p>
 <pre><code>&gt; [1] 83 16</code></pre>
 <p>When data are Normally distributed, a Q-Q plot will indicate the
 points form a straight line within the bounds of the blue ribbon.</p>
