@@ -1,0 +1,517 @@
+---
+title: "Linear Regression I"
+author: "Lauren Cipriano"
+date: "2024-10-07"
+output:
+  html_document:
+    theme: united
+    toc: true
+    toc_float: true
+css: laurens_styles.css
+---
+
+```{r, child="_Global-Options.Rmd"}
+```
+
+## Assignment 1 Solution
+
+
+## Data set
+
+For this assignment, we will use the Pilgrim dataset
+
+```{r}
+## Import the dataset
+bank <- read.csv(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/PilgrimBankData.csv"))
+
+## View the data
+View(bank)
+
+## Inspect the coding of various variables
+summary(bank)
+
+```
+
+
+##### Formatting of outputs
+```{r}
+
+## suppress scientific notation for ease of reading numbers
+options(scipen=99)  
+
+```
+
+***
+
+
+### Question 1
+
+Q1.  Calculate the mean and the 95% confidence interval around the mean customer profitability.  Draw a histogram of customer profitability.  Does the mean and 95% CI provide good insights into the central tendency of the customer profitability distribution?   
+
+```{r}
+
+## Calculate the mean of customer profitability
+m = mean(bank$X9Profit)
+sd = sd(bank$X9Profit)
+n = length(bank$X9Profit)
+se = sd/sqrt(n)
+
+##  95% CI around the mean of profitability
+lower95 = m + qnorm(0.025) * se
+upper95 = m + qnorm(0.975) * se
+
+print(c(observations = n, mean.profit = m, lower95 = lower95, upper95 = upper95))
+
+```
+
+The average customer profitabilit is $111.50. Because this data is a random sample of 31,634 customers, there is uncertainty about what the true population mean is.  The 95% confidence interval for the mean is $108.50 to $114.51.  There is a 95% probability that the true population mean is within this interval. 
+
+
+```{r}
+
+# Draw a histogram
+hist(bank$X9Profit)
+
+```
+
+The histogram reveals a very large number of customers with profitability between -$250 to $0 and a highly skewed distribution with a long tail.  
+
+The arithmetic mean does not do a good job of characterizing the central tendency of the distribution of Profit because of this high-level of skew. 
+
+
+
+***
+
+### Question 2
+
+Q2.  Evaluate whether the customer profitability data is Normally distributed.  What future analytical decisions does this evaluation inform? 
+
+The histogram presented in Question 1 demonstrates that customer profitability is not normally distributed. 
+
+We drive this point home by overlaying a Normal distribution on the histogram. 
+
+The analytical consequences are that parametric tests, like t-tests, comparing the means of two groups are unlikely to be appropriate. 
+Non-parametric tests are likely going to be more appropriate because they do not make the assumption of population Normal distribution. 
+
+```{r}
+# Histogram of the sample average income
+hist(bank$X9Profit,
+      yaxt = "n",       # don't print the numbers on the y axis
+      xlim = c(-1000, 2000),
+      freq = FALSE,      # Use density instead of frequency to scale the histogram
+      col = "grey")      # Color of the histogram bars
+
+# Generate values for the normal distribution curve
+x_values <- seq(-1000, 2000, length.out = 3000)
+y_values <- dnorm(x_values, mean = m, sd = sd)
+
+# Add the normal distribution curve to the histogram
+lines(x_values, y_values, col = "red", lwd = 2)
+
+```
+
+
+
+***
+
+### Question 3
+
+
+Q3.  Use parametric and non-parametric statistical tests to evaluate whether online customers are more or less profitable than customers who do not use the bank’s online platform.  For each test, what is the null hypothesis?  What is the result of the statistical analysis?  And, how do you interpret the results (if they are interpretable) in the context of the business case? 
+
+##### Parametric test
+
+Null hypothesis: Average profit for the Online and Not Online groups are equal
+
+Test: Two-sample t-test 
+
+Assumptions:   
+1. Outcome measure is continuous (Profit) - check  
+2. Random sample - check  
+3. Independent observations - check  
+4. Outcome measure is Normally distributed -- NO! Histogram in Questions 1 & 2, demonstrate this is not true
+5. Both groups have the same variance 
+
+To be thorough, we will check the histograms for both the Online and not Online groups. We observe that both groups are not Normally distributed. 
+
+```{r}
+# Change formatting of graphs to print two side by side
+par( mfrow= c( 1,2 ) )
+
+# Checking Normality for each group
+hist(bank$X9Profit[which(bank$X9Online == 0)],
+     main = "Histogram of Profit, Not online",
+     xlab = "Customer profit")
+hist(bank$X9Profit[which(bank$X9Online == 1)],
+     main = "Histogram of Profit, Online",
+     xlab = "Customer profit")
+
+```
+
+
+```{r}
+# Calculate the group average, number of observations, sd of income
+aggregate(bank$X9Profit~bank$X9Online ,
+                 FUN=function(x) {
+                       c(avg = mean(x), 
+                       n = length(x), 
+                       sd = sd(x)     
+                       )
+                 }
+              )
+
+```
+
+Both groups have similar standard deviation.  If the distributions were Normal and the standard deviations were different, we could use a Welsh's t-test (default in R), but because the distributions are not Normal, we, instead, use a Mann Whitney test. 
+
+Presenting the results of a t-test because the question asked for it. 
+```{r}
+# T-test
+t.test(bank$X9Profit~bank$X9Online)
+
+```
+
+Interpretation:  The p-value is greater than 0.05, so we cannot reject the null hypothesis of the two groups having the same mean. 
+The sample mean of the online group has a higher average ($116.67 vs. $110.79), but this difference is not statistically different. 
+
+
+##### Non-Parametric test
+
+Null hypothesis: Profit for the Online and Not Online groups come from the same population distribution. 
+
+Test: Mann-Whitney U test
+
+Assumptions:   
+1. Outcome measure is continuous, ordinal, or rank (Profit) - check  
+2. Random sample - check  
+3. Independent observations - check  
+
+```{r}
+# T-test
+wilcox.test(bank$X9Profit~bank$X9Online)
+
+```
+
+
+Interpretation:  The p-value is greater than 0.05, so we cannot reject the null hypothesis of the two groups coming from the same distribution. 
+
+
+***
+
+### Question 4
+
+Q4.  Both observing and not observing a statistical difference between the customers who do and do not use online banking may be the result of confounding.  That is, customers who use online banking may be systematically different in some other way from those who do not use online banking.  Are customers who use online services different demographically than customers who do not use online services?  In what way? 
+Hint: Please be mindful of missing data, appropriate analysis of categorical data, and selection of the correct statistical test when performing these analyses. 
+
+
+
+#### AGE
+
+First we create a variable with labelled categories for Age. We check our coding was correct and then we calculate the mean and standard deviation of Profit for each age group.  We observe that over 8000 customer records do not have age. 
+
+```{r}
+# create a new variable with labelled categories for Age
+bank$AgeCat <- factor(bank$X9Age, 
+                      labels = c("lt 15", "15 to 24", "25 to 34", "35 to 44",
+                                 "45 to 54", "55 to 64", "65 plus"))
+# check the coding
+table(bank$AgeCat, bank$X9Age, useNA = "ifany")
+
+# calculate the average and standard deviation by age group
+aggregate(bank$X9Profit~bank$AgeCat, 
+                 FUN=function(x) {
+                       c(avg = mean(x), 
+                       n = length(x), 
+                       sd = sd(x)     
+                       )
+                 }
+              )
+
+
+```
+
+
+
+```{r}
+
+## boxplot of Profit by Age group
+plot(bank$X9Profit~ bank$AgeCat)
+
+```
+
+Consider a statistical analysis evaluating whether Profits are different by age group. 
+
+Because Profit is continuous and Age is Categorical, the tests to consider are ANOVA and Kruskal-Wallis.  ANOVA is our first choice because it is the more powerful test, but it requires the Dependent Variable (Profit) to be Normally distributed and the variance to be similar across groups.  The box plot makes it clear that the data are highly right skewed for every group and the standard deviation also appears to be increasing with age. 
+
+As a result, the correct test to choose is the Kruskal-Wallis.  For completeness of the solution, I present both the ANOVA and K-W. 
+
+```{r}
+
+## ANOVA
+anova(lm(bank$X9Profit~ bank$AgeCat))
+
+## Kruskal-Wallis: Non-parametric alternative to ANOVA
+kruskal.test(bank$X9Profit~ bank$AgeCat)
+
+
+```
+
+The null hypothesis of the Kruskal-Wallis is that all groups come from the same population distribution of customer profit. We observe the p-value is less than 0.05 and so we reject the null hypothesis that all groups have the same distribution of Profit. 
+
+
+
+
+
+#### INCOME 
+
+First we create a variable with labelled categories for Income. We check our coding was correct and then we calculate the mean and standard deviation of Profit for each age group.  We observe that over 8000 customer records do not have income. 
+
+```{r}
+# create a new variable with labelled categories for Income
+bank$IncCat <- factor(bank$X9Inc,
+                      labels = c("lt 15K", "15-20K", "20-30K", "30-40K", "40-50K", 
+                                 "50-75K", "75-100K", "100-125K", "125K plus"))
+# check the coding
+table(bank$IncCat, bank$X9Inc, useNA = "ifany")
+
+# calculate the average and standard deviation by age group
+aggregate(bank$X9Profit~bank$IncCat, 
+                 FUN=function(x) {
+                       c(avg = mean(x), 
+                       n = length(x), 
+                       sd = sd(x)     
+                       )
+                 }
+              )
+
+
+aggregate(bank$X9Profit ~ bank$IncCat, FUN=mean, data=bank)
+
+
+
+
+```
+
+
+
+```{r}
+
+## boxplot of Profit by Age group
+plot(bank$X9Profit~ bank$IncCat)
+
+```
+
+Consider a statistical analysis evaluating whether Profits are different by income group. 
+
+Because Profit is continuous and Income is Categorical, the tests to consider are ANOVA and Kruskal-Wallis.  ANOVA is our first choice because it is the more powerful test, but it requires the Dependent Variable (Profit) to be Normally distributed and the variance to be similar across groups.  The box plot makes it clear that the data are highly right skewed for every group and the standard deviation also appears to be increasing with income. 
+
+As a result, the correct test to choose is the Kruskal-Wallis.  For completeness of the solution, I present both the ANOVA and K-W. 
+
+```{r}
+
+## ANOVA
+anova(lm(bank$X9Profit~ bank$IncCat))
+
+## Kruskal-Wallis: Non-parametric alternative to ANOVA
+kruskal.test(bank$X9Profit~ bank$IncCat)
+
+
+```
+
+The null hypothesis of the Kruskal-Wallis is that all groups come from the same population distribution of customer profit. We observe the p-value is less than 0.05 and so we reject the null hypothesis that all groups have the same distribution of Profit. 
+
+
+##### Analysis of Missing Age
+
+```{r}
+
+## Create a variable for missing age
+bank$missing.age <- NA
+bank$missing.age[is.na(bank$X9Age) == TRUE] <- 10
+bank$missing.age[is.na(bank$X9Age) == FALSE] <- 0
+
+## Is missing Age more/less likely for customers who are Online?
+t(table(bank$missing.age, bank$X9Online))/colSums(table(bank$missing.age, bank$X9Online))
+
+## Is missing Age more/less likely for customers by Region?
+t(table(bank$missing.age, bank$Region))/colSums(table(bank$missing.age, bank$Region))
+
+## Is missing Age more/less likely for customers by Income category?
+t(table(bank$missing.age, bank$IncCat))/colSums(table(bank$missing.age, bank$IncCat))
+
+## Is missing Age more/less likely for customers who are Online?
+t(table(bank$missing.age, bank$IncCat))/colSums(table(bank$missing.age, bank$IncCat))
+
+
+```
+
+
+
+
+#### REGION
+
+First we create a variable with labelled categories for Region. We check our coding was correct and then we calculate the mean and standard deviation of Profit for each age group.  We observe that over 8000 customer records do not have age. 
+
+```{r}
+# create a new variable with labelled categories for Income
+bank$Region <- factor(bank$X9District,
+                      labels = c("A", "B", "C"))
+# check the coding
+table(bank$Region, bank$X9District, useNA = "ifany")
+
+# calculate the average and standard deviation by age group
+aggregate(bank$X9Profit~bank$Region, 
+                 FUN=function(x) {
+                       c(avg = mean(x), 
+                       n = length(x), 
+                       sd = sd(x)     
+                       )
+                 }
+              )
+
+
+
+aggregate(bank$X9Profit~ bank$Region, FUN=function(x) c(obs=length(x) , avg=mean(x), #stdv=sd(x), 
+                                                         lower=(mean(x)+ qnorm(0.025)*sd(x)/sqrt(length(x))),
+                                                         upper=(mean(x)+ qnorm(0.975)*sd(x)/sqrt(length(x)))), data=bank)
+
+
+
+```
+
+
+
+```{r}
+
+## boxplot of Profit by Age group
+plot(bank$X9Profit~ bank$Region)
+
+```
+
+Consider a statistical analysis evaluating whether Profits are different by region. 
+
+Because Profit is continuous and Region is Categorical, the tests to consider are ANOVA and Kruskal-Wallis.  ANOVA is our first choice because it is the more powerful test, but it requires the Dependent Variable (Profit) to be Normally distributed and the variance to be similar across groups.  The box plot makes it clear that the data are highly right skewed for every group and the standard deviation also appears to be increasing with income. 
+
+As a result, the correct test to choose is the Kruskal-Wallis.  For completeness of the solution, I present both the ANOVA and K-W. 
+
+```{r}
+
+## ANOVA
+anova(lm(bank$X9Profit~ bank$Region))
+
+## Kruskal-Wallis: Non-parametric alternative to ANOVA
+kruskal.test(bank$X9Profit~ bank$Region)
+
+
+```
+
+The null hypothesis of the Kruskal-Wallis is that all groups come from the same population distribution of customer profit. We observe the p-value is less than 0.05 and so we reject the null hypothesis that all groups have the same distribution of Profit. 
+
+
+
+#### TENURE
+
+Tenure is a continuous variable and so we examine its histogram and bivariate relationship with profit using an X-Y scatter. 
+
+````{r}
+# summary of tenure data
+summary(bank$X9Tenure)
+
+# histogram of the distribution of Tenure
+hist(bank$X9Tenure)
+
+# X-Y scatter with line of best fit overlay
+plot(bank$X9Profit~bank$X9Tenure)
+abline(lm(bank$X9Profit~ bank$X9Tenure), col="red")
+
+```
+
+We observe that customer tenure is not evenly distributed over time.  We wee that a large number of customers have been with the bank for less than 10 years and that a decreasing number of customers have been with the bank for more than 10 years. 
+
+To evaluate whether Tenure is a statistically significant contributor to customer profit, we can perform a simple linear regression. 
+
+```{r}
+
+summary(lm(bank$X9Profit~ bank$X9Tenure))
+
+```
+
+We observe that customer Tenure does appear to be a significant predictor of bank profits, with a p-value less than 0.05. 
+However, we also note that the R-squared is only 3.6%, indicating that customer tenure only explains 3.6% of the variability in customer profitability. 
+
+
+
+
+***
+
+### Question 5
+
+Q5.  Using multiple variable linear regression to adjust for other customer features, evaluate whether online customers are more or less profitable than customers who do not use the bank’s online platform.  Evaluate whether your regression satisfies the underlying assumptions of linear regression.  If not, perform appropriate adjustments and transformations to perform the best analysis possible to inform business decision making at Pilgrim Bank. 
+
+
+##### Dataset for regression
+
+R will automatically remove NA to perform regression, but that means that as you remove non-significant variables, the dataset on which you are doing regression is changing.  Ideally, you are more deliberate about what observations are in and out of your analysis and you have made a conscious decision about how to treat missing variables. 
+
+```{r}
+
+# Regression 1 with all possible predictors
+reg1 <- lm(bank$X9Profit ~ bank$Region + bank$IncCat + bank$AgeCat + bank$X9Tenure + bank$X9Online)
+summary(reg1)
+
+plot(reg1$fitted.values, reg1$residuals)
+plot(reg1)
+
+
+````
+
+
+
+
+##### Candidate model A
+
+```{r}
+
+# Regression 1 with all possible predictors
+reg1 <- lm(bank$X9Profit ~ bank$Region + bank$IncCat + bank$AgeCat + bank$X9Tenure + bank$X9Online)
+summary(reg1)
+
+plot(reg1$fitted.values, reg1$residuals)
+plot(reg1)
+
+
+````
+
+
+
+
+***
+
+### Question 6
+
+Q6.  In light of your analysis, help Green with his dilemma: “Did the online channel make customers more profitable? And what did this imply for the management team’s decision regrading fees or rebates for use of the channel?”
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
