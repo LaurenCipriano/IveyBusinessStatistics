@@ -151,14 +151,14 @@ hist(bank$X9Profit[which(bank$X9Online == 1)],
 
 ```{r}
 # Calculate the group average, number of observations, sd of income
-aggregate(bank$X9Profit~bank$X9Online ,
+t(aggregate(bank$X9Profit~bank$X9Online ,
                  FUN=function(x) {
                        c(avg = mean(x), 
                        n = length(x), 
                        sd = sd(x)     
                        )
                  }
-              )
+              ))
 
 ```
 
@@ -203,11 +203,12 @@ Interpretation:  The p-value is greater than 0.05, so we cannot reject the null 
 Q4.  Both observing and not observing a statistical difference between the customers who do and do not use online banking may be the result of confounding.  That is, customers who use online banking may be systematically different in some other way from those who do not use online banking.  Are customers who use online services different demographically than customers who do not use online services?  In what way? 
 Hint: Please be mindful of missing data, appropriate analysis of categorical data, and selection of the correct statistical test when performing these analyses. 
 
+#### Labelling categorical variables
 
 
-#### AGE
+First we create variables with labelled categories for Age, Income, and Region. We check our coding was correct and then we calculate the mean and standard deviation of Profit for each age group.  We observe that over 8000 customer records do not have age and about the same number do not have income. 
 
-First we create a variable with labelled categories for Age. We check our coding was correct and then we calculate the mean and standard deviation of Profit for each age group.  We observe that over 8000 customer records do not have age. 
+**Age**
 
 ```{r}
 # create a new variable with labelled categories for Age
@@ -217,54 +218,11 @@ bank$AgeCat <- factor(bank$X9Age,
 # check the coding
 table(bank$AgeCat, bank$X9Age, useNA = "ifany")
 
-# calculate the average and standard deviation by age group
-aggregate(bank$X9Profit~bank$AgeCat, 
-                 FUN=function(x) {
-                       c(avg = mean(x), 
-                       n = length(x), 
-                       sd = sd(x)     
-                       )
-                 }
-              )
-
 
 ```
 
 
-
-```{r}
-
-## boxplot of Profit by Age group
-plot(bank$X9Profit~ bank$AgeCat)
-
-```
-
-Consider a statistical analysis evaluating whether Profits are different by age group. 
-
-Because Profit is continuous and Age is Categorical, the tests to consider are ANOVA and Kruskal-Wallis.  ANOVA is our first choice because it is the more powerful test, but it requires the Dependent Variable (Profit) to be Normally distributed and the variance to be similar across groups.  The box plot makes it clear that the data are highly right skewed for every group and the standard deviation also appears to be increasing with age. 
-
-As a result, the correct test to choose is the Kruskal-Wallis.  For completeness of the solution, I present both the ANOVA and K-W. 
-
-```{r}
-
-## ANOVA
-anova(lm(bank$X9Profit~ bank$AgeCat))
-
-## Kruskal-Wallis: Non-parametric alternative to ANOVA
-kruskal.test(bank$X9Profit~ bank$AgeCat)
-
-
-```
-
-The null hypothesis of the Kruskal-Wallis is that all groups come from the same population distribution of customer profit. We observe the p-value is less than 0.05 and so we reject the null hypothesis that all groups have the same distribution of Profit. 
-
-
-
-
-
-#### INCOME 
-
-First we create a variable with labelled categories for Income. We check our coding was correct and then we calculate the mean and standard deviation of Profit for each age group.  We observe that over 8000 customer records do not have income. 
+**Income**
 
 ```{r}
 # create a new variable with labelled categories for Income
@@ -274,61 +232,39 @@ bank$IncCat <- factor(bank$X9Inc,
 # check the coding
 table(bank$IncCat, bank$X9Inc, useNA = "ifany")
 
-# calculate the average and standard deviation by age group
-aggregate(bank$X9Profit~bank$IncCat, 
-                 FUN=function(x) {
-                       c(avg = mean(x), 
-                       n = length(x), 
-                       sd = sd(x)     
-                       )
-                 }
-              )
+```
 
 
-aggregate(bank$X9Profit ~ bank$IncCat, FUN=mean, data=bank)
+**Region**
 
-
+```{r}
+# create a new variable with labelled categories for Income
+bank$Region <- factor(bank$X9District,
+                      labels = c("A", "B", "C"))
+# check the coding
+table(bank$Region, bank$X9District, useNA = "ifany")
 
 
 ```
 
 
 
-```{r}
 
-## boxplot of Profit by Age group
-plot(bank$X9Profit~ bank$IncCat)
-
-```
-
-Consider a statistical analysis evaluating whether Profits are different by income group. 
-
-Because Profit is continuous and Income is Categorical, the tests to consider are ANOVA and Kruskal-Wallis.  ANOVA is our first choice because it is the more powerful test, but it requires the Dependent Variable (Profit) to be Normally distributed and the variance to be similar across groups.  The box plot makes it clear that the data are highly right skewed for every group and the standard deviation also appears to be increasing with income. 
-
-As a result, the correct test to choose is the Kruskal-Wallis.  For completeness of the solution, I present both the ANOVA and K-W. 
+##### Analysis of Missing Variables
 
 ```{r}
 
-## ANOVA
-anova(lm(bank$X9Profit~ bank$IncCat))
-
-## Kruskal-Wallis: Non-parametric alternative to ANOVA
-kruskal.test(bank$X9Profit~ bank$IncCat)
-
-
-```
-
-The null hypothesis of the Kruskal-Wallis is that all groups come from the same population distribution of customer profit. We observe the p-value is less than 0.05 and so we reject the null hypothesis that all groups have the same distribution of Profit. 
-
-
-##### Analysis of Missing Age
-
-```{r}
-
-## Create a variable for missing age
+## Create a variable to indicate missing age
 bank$missing.age <- NA
-bank$missing.age[is.na(bank$X9Age) == TRUE] <- 10
+bank$missing.age[is.na(bank$X9Age) == TRUE] <- 10 
+# Note: assigned value doesn't matter, use 10 to make it easy to identify in tables
 bank$missing.age[is.na(bank$X9Age) == FALSE] <- 0
+
+## Create a variable to indicate missing income
+bank$missing.inc <- NA
+bank$missing.inc[is.na(bank$X9Inc) == TRUE] <- 20
+bank$missing.inc[is.na(bank$X9Inc) == FALSE] <- 0
+
 
 ## Is missing Age more/less likely for customers who are Online?
 t(table(bank$missing.age, bank$X9Online))/colSums(table(bank$missing.age, bank$X9Online))
@@ -339,28 +275,70 @@ t(table(bank$missing.age, bank$Region))/colSums(table(bank$missing.age, bank$Reg
 ## Is missing Age more/less likely for customers by Income category?
 t(table(bank$missing.age, bank$IncCat))/colSums(table(bank$missing.age, bank$IncCat))
 
-## Is missing Age more/less likely for customers who are Online?
-t(table(bank$missing.age, bank$IncCat))/colSums(table(bank$missing.age, bank$IncCat))
+## Is missing Income more/less likely for customers who are Online?
+t(table(bank$missing.inc, bank$X9Online))/colSums(table(bank$missing.inc, bank$X9Online))
 
+# are records with missing age more likely to also be missing income?
+table(bank$missing.age, bank$missing.inc)
+
+## Is profit the same or different for people who have missing age?
+aggregate(bank$X9Profit~bank$missing.age, FUN=mean )
+
+## Is profit the same or different for people who have missing income?
+aggregate(bank$X9Profit~bank$missing.inc, FUN=mean )
+
+
+## Is tenure the same or different for people who have missing age?
+aggregate(bank$X9Tenure~bank$missing.age, FUN=mean )
+
+## Is tenure the same or different for people who have missing income?
+aggregate(bank$X9Tenure~bank$missing.inc, FUN=mean )
+
+```
+
+We can see that observations with missing age and missing income are not evenly distributed across the variables present in the dataset.  Missingness is more likely with people who are not online, in District A, and who have lower incomes.  Observations with missing age and missing income are more likely to be shorter tenure customers and lower profit customers. One challenge is that almost all the observations with missing age also have missing income. 
+
+
+Options for handing missing variables include   
+
+1. Delete all observations with missing variables  
+2. Replace missing data with the average (for continuous variables) or the mode (for categorical) of the variable  
+3. Impute a value relying on a regression using other variables as predictors.  
+  ** for example, replace missing values of Age using predictions from a regression:
+  $$ Age = \beta_0 + \beta_1 District + \beta_2 Tenure $$
+4. Iterative imputation.  Impute a value for each missing Age using District, Tenure, and Income.  Then impute a value for each missing Income using District, Tenure, and Age.  Repeat several times until stable values are achieved (this is called MICE -- multiple imputation by chained equations)
+5. Multiply impute values.  Using a regression like the one above, simulate multiple possible values for each missing value using the regression and regression standard error.  Usually you have the same number of imputed datasets as you have percent of the data missing.
+
+**How you handle missing data matters.**  In many fields, deleting all observations with missing data will usually bias your results to exclude marginalized, racialized, and lower-income individuals. Replacing with the average for the whole population does not use all the information available in the dataset.  Using a regression approach to generate one or more imputations is the current standard practice in most organizations because it is less likely to create biased results. 
+
+In this case, where about 25% of records are missing Age and Income, replacing missing values with the mean will dramatically affect the distribution of Age and Income in the population. 
+
+For this assignment, any treatment of missing data (other than ignoring it) is acceptable, but by Assignment #3, a thoughtful treatment of missing data is expected. 
+
+*For the purpose of moving through the rest of the questions of the assignment,* I will create a dataset removing any observations with missing data for any of the variables from year 1999. 
+
+
+```{r}
+# Select the specified columns
+bank2 <- bank[, c("X9Profit", "X9Online", "X9Tenure", "AgeCat", "IncCat", "Region")]
+
+# Remove rows with any missing values
+bank2 <- bank2[complete.cases(bank2), ]
 
 ```
 
 
 
 
-#### REGION
 
-First we create a variable with labelled categories for Region. We check our coding was correct and then we calculate the mean and standard deviation of Profit for each age group.  We observe that over 8000 customer records do not have age. 
+#### AGE
+
+We calculate the number of observations in each age category, the mean and standard deviation of Profit within each age category.
 
 ```{r}
-# create a new variable with labelled categories for Income
-bank$Region <- factor(bank$X9District,
-                      labels = c("A", "B", "C"))
-# check the coding
-table(bank$Region, bank$X9District, useNA = "ifany")
 
 # calculate the average and standard deviation by age group
-aggregate(bank$X9Profit~bank$Region, 
+aggregate(bank2$X9Profit~bank2$AgeCat, 
                  FUN=function(x) {
                        c(avg = mean(x), 
                        n = length(x), 
@@ -369,26 +347,117 @@ aggregate(bank$X9Profit~bank$Region,
                  }
               )
 
+## boxplot of Profit by Age group
+plot(bank2$X9Profit~ bank2$AgeCat)
 
+```
 
-aggregate(bank$X9Profit~ bank$Region, FUN=function(x) c(obs=length(x) , avg=mean(x), #stdv=sd(x), 
-                                                         lower=(mean(x)+ qnorm(0.025)*sd(x)/sqrt(length(x))),
-                                                         upper=(mean(x)+ qnorm(0.975)*sd(x)/sqrt(length(x)))), data=bank)
+Because Profit is continuous and Age is Categorical, the tests to consider are ANOVA and Kruskal-Wallis.  ANOVA is our first choice because it is the more powerful test, but it requires the Dependent Variable (Profit) to be Normally distributed and the variance to be similar across groups.  The box plot makes it clear that the data are highly right skewed for every group and the standard deviation also appears to be increasing with age. 
 
+As a result, the correct test to choose is the Kruskal-Wallis.  For completeness of the solution, I present both the ANOVA and K-W. 
+
+```{r}
+
+## ANOVA
+anova(lm(X9Profit~ AgeCat, data=bank2))
+
+## Kruskal-Wallis: Non-parametric alternative to ANOVA
+kruskal.test(X9Profit~ AgeCat, data=bank2)
 
 
 ```
 
+The null hypothesis of the Kruskal-Wallis is that all groups come from the same population distribution of customer profit. We observe the p-value is less than 0.05 and so we reject the null hypothesis that all groups have the same distribution of Profit. 
+
+
+Finally, because Online is our critical variable, we check to see if Online is evenly distributed across customer Age.  This will help us identify whether we expect that a multiple regression model may identify a different conclusion than the MW-U tests we performed above. 
+
+Because Age is an ordinal variable, we can evaluate this with a MW-U test. 
+
+```{r}
+
+# % Online by age group
+table(bank2$AgeCat, bank2$X9Online)/rowSums(table(bank2$AgeCat, bank2$X9Online))
+
+wilcox.test(X9Age ~ X9Online, data=bank)
+
+```
+We observe that younger people are more likely to be online.  Once we account for age, we may find that Online is no longer significant. 
+
+#### INCOME 
+
+We calculate the number of observations in each income category, the mean and standard deviation of Profit within each income category.
+
+```{r}
+
+# calculate the average and standard deviation by age group
+aggregate(bank2$X9Profit~bank2$IncCat, 
+                 FUN=function(x) {
+                       c(avg = mean(x), 
+                       n = length(x), 
+                       sd = sd(x)     
+                       )
+                 }
+              )
+
+## boxplot of Profit by Age group
+plot(bank2$X9Profit~ bank2$IncCat)
+
+```
+
+Because Profit is continuous and Income is Categorical, the tests to consider are ANOVA and Kruskal-Wallis.  ANOVA is our first choice because it is the more powerful test, but it requires the Dependent Variable (Profit) to be Normally distributed and the variance to be similar across groups.  The box plot makes it clear that the data are highly right skewed for every group and the standard deviation also appears to be increasing with income. 
+
+As a result, the correct test to choose is the Kruskal-Wallis.  For completeness of the solution, I present both the ANOVA and K-W. 
+
+```{r}
+
+## ANOVA
+anova(lm(X9Profit~ IncCat, data=bank2))
+
+## Kruskal-Wallis: Non-parametric alternative to ANOVA
+kruskal.test(X9Profit~ IncCat, data=bank2)
+
+
+```
+
+The null hypothesis of the Kruskal-Wallis is that all groups come from the same population distribution of customer profit. We observe the p-value is less than 0.05 and so we reject the null hypothesis that all groups have the same distribution of Profit. 
+
+
+Finally, because Online is our critical variable, we check to see if Online is evenly distributed across Income groups.  This will help us identify whether we expect that a multiple regression model may identify a different conclusion than the MW-U tests we performed above. 
+
+Because Income is an ordinal variable, we can evaluate this with a MW-U test. 
+
+```{r}
+
+# % Online by income group
+table(bank2$IncCat, bank2$X9Online)/rowSums(table(bank2$IncCat, bank2$X9Online))
+
+wilcox.test(X9Inc ~ X9Online, data=bank)
+
+```
+We observe that higher income people are more likely to be Online.  Once we account for age and income, we may find that Online is no longer significant. 
+
+#### REGION
+
+We calculate the number of observations in each Region, the mean and standard deviation of Profit within each Region.
 
 
 ```{r}
 
+# calculate the average and standard deviation by age group
+aggregate(bank2$X9Profit~bank2$Region, 
+                 FUN=function(x) {
+                       c(avg = mean(x), 
+                       n = length(x), 
+                       sd = sd(x)     
+                       )
+                 }
+              )
+
 ## boxplot of Profit by Age group
-plot(bank$X9Profit~ bank$Region)
+plot(bank2$X9Profit~ bank2$Region)
 
 ```
-
-Consider a statistical analysis evaluating whether Profits are different by region. 
 
 Because Profit is continuous and Region is Categorical, the tests to consider are ANOVA and Kruskal-Wallis.  ANOVA is our first choice because it is the more powerful test, but it requires the Dependent Variable (Profit) to be Normally distributed and the variance to be similar across groups.  The box plot makes it clear that the data are highly right skewed for every group and the standard deviation also appears to be increasing with income. 
 
@@ -397,10 +466,10 @@ As a result, the correct test to choose is the Kruskal-Wallis.  For completeness
 ```{r}
 
 ## ANOVA
-anova(lm(bank$X9Profit~ bank$Region))
+anova(lm(X9Profit~ Region, data=bank2))
 
 ## Kruskal-Wallis: Non-parametric alternative to ANOVA
-kruskal.test(bank$X9Profit~ bank$Region)
+kruskal.test(X9Profit~ Region, data=bank2)
 
 
 ```
@@ -408,12 +477,26 @@ kruskal.test(bank$X9Profit~ bank$Region)
 The null hypothesis of the Kruskal-Wallis is that all groups come from the same population distribution of customer profit. We observe the p-value is less than 0.05 and so we reject the null hypothesis that all groups have the same distribution of Profit. 
 
 
+Finally, because Online is our critical variable, we check to see if Online is evenly distributed across Regions.  This will help us identify whether we expect that a multiple regression model may identify a different conclusion than the MW-U tests we performed above. 
+
+Because Region is an categorical variable, we can evaluate this with a chi-squared. 
+
+```{r}
+
+# % Online by Region
+table(bank2$Region, bank2$X9Online)/rowSums(table(bank2$Region, bank2$X9Online))
+
+chisq.test(bank2$Region, bank2$X9Online)
+
+```
+We observe that higher income people are more likely to be Online.  Once we account for age and income, we may find that Online is no longer significant. 
+
 
 #### TENURE
 
 Tenure is a continuous variable and so we examine its histogram and bivariate relationship with profit using an X-Y scatter. 
 
-````{r}
+```{r}
 # summary of tenure data
 summary(bank$X9Tenure)
 
@@ -421,23 +504,24 @@ summary(bank$X9Tenure)
 hist(bank$X9Tenure)
 
 # X-Y scatter with line of best fit overlay
-plot(bank$X9Profit~bank$X9Tenure)
-abline(lm(bank$X9Profit~ bank$X9Tenure), col="red")
+plot(X9Profit~ X9Tenure, data=bank2)
+abline(lm(X9Profit~ X9Tenure, data=bank2), col="red")
 
 ```
 
-We observe that customer tenure is not evenly distributed over time.  We wee that a large number of customers have been with the bank for less than 10 years and that a decreasing number of customers have been with the bank for more than 10 years. 
+We observe that customer tenure is not evenly distributed over time.  We see that a large number of customers have been with the bank for less than 10 years and that a decreasing number of customers have been with the bank for more than 10 years. 
 
 To evaluate whether Tenure is a statistically significant contributor to customer profit, we can perform a simple linear regression. 
 
 ```{r}
 
-summary(lm(bank$X9Profit~ bank$X9Tenure))
+summary(lm(X9Profit~ X9Tenure, data=bank2))
 
 ```
 
 We observe that customer Tenure does appear to be a significant predictor of bank profits, with a p-value less than 0.05. 
 However, we also note that the R-squared is only 3.6%, indicating that customer tenure only explains 3.6% of the variability in customer profitability. 
+
 
 
 
@@ -453,19 +537,7 @@ Q5.  Using multiple variable linear regression to adjust for other customer feat
 
 R will automatically remove NA to perform regression, but that means that as you remove non-significant variables, the dataset on which you are doing regression is changing.  Ideally, you are more deliberate about what observations are in and out of your analysis and you have made a conscious decision about how to treat missing variables. 
 
-```{r}
-
-# Regression 1 with all possible predictors
-reg1 <- lm(bank$X9Profit ~ bank$Region + bank$IncCat + bank$AgeCat + bank$X9Tenure + bank$X9Online)
-summary(reg1)
-
-plot(reg1$fitted.values, reg1$residuals)
-plot(reg1)
-
-
-````
-
-
+*We addressed this in Question 4 and created a dataset without any missing variables by deleting any observation with any missing values -- this approach was acceptable for this assignment, but as you move forward in the course and professionally, a more sophisticated treatment of missing data is expected.* 
 
 
 ##### Candidate model A
@@ -473,14 +545,170 @@ plot(reg1)
 ```{r}
 
 # Regression 1 with all possible predictors
-reg1 <- lm(bank$X9Profit ~ bank$Region + bank$IncCat + bank$AgeCat + bank$X9Tenure + bank$X9Online)
+reg1 <- lm(X9Profit ~ Region + IncCat + AgeCat + X9Tenure + X9Online, data=bank2)
 summary(reg1)
 
-plot(reg1$fitted.values, reg1$residuals)
-plot(reg1)
+```
+We observe that all the predictors are significant (or some categories, but not all, are significant for categorical variables). 
+
+We can combine categories to make the regression easier to read and interpret for decision makers, but there are no variables that need to be removed. 
+
+For example,  Income category 15-20K is not statistically different than the reference group of <15K.  Because these categories are adjacent, they can be combined. 
+
+Similarly, the coefficient beside 20-30K and 30-40K are very similar, with similar standard errors, and similar p-values.   Because these categories are adjacent, they can be combined. Income category 40-50K is also similar to this group, so choosing to combine with the 20-40K group is reasonable, but it also isn't necessary. 
+
+##### Candidate model B
+
+```{r}
+
+# create new income variable
+bank2$newInc <- NA
+bank2$newInc[bank2$IncCat == "lt 15K" | bank2$IncCat == "15-20K"]   <- "lt 20K"
+bank2$newInc[bank2$IncCat == "20-30K" | bank2$IncCat == "30-40K" ]   <- "20-40K"
+bank2$newInc[bank2$IncCat == "40-50K" ]   <- "40-50K"
+bank2$newInc[bank2$IncCat == "50-75K" ]   <- "50-75K"
+bank2$newInc[bank2$IncCat == "75-100K" ]   <- "75-100K"
+bank2$newInc[bank2$IncCat == "100-125K" ]   <- "100-125K"
+bank2$newInc[bank2$IncCat == "125K plus" ]   <- "125K plus"
+bank2$newInc <- factor(bank2$newInc,  levels = c("lt 20K", "20-40K", "40-50K", "50-75K", "75-100K", "100-125K", "125K plus"))
+
+table(bank2$newInc, bank2$IncCat, useNA = "ifany")
+
+```
+
+```{r}
+
+# Regression 2 with all possible predictors, new income category
+reg2 <- lm(X9Profit ~ Region + newInc + AgeCat + X9Tenure + X9Online, data=bank2)
+summary(reg2)
+
+```
+##### Regression diagnostics for candidate model B
+
+Now we can proceed to investigate the regression diagnostics.
+
+```{r}
+
+# Evaluate the regression diagnostics
+
+## Standardized residuals vs. continuous predictors
+plot(x=bank2$X9Tenure , y=rstandard(reg2))
+abline(0, 0, lty=2, col="grey") # draw a straight line at 0 for a visual reference
+lines(lowess(x=bank2$X9Tenure, rstandard(reg2)), col = "red", lwd = 2)
+
+## Standardized residuals vs. categorical predictors
+boxplot(rstandard(reg2) ~ bank2$AgeCat)
+boxplot(rstandard(reg2) ~ bank2$newInc)
+boxplot(rstandard(reg2) ~ bank2$X9Online)
+
+## Standardized residuals vs. fitted values
+plot(x=reg2$fitted.values, y=rstandard(reg2))
+abline(0, 0, lty=2, col="grey") # draw a straight line at 0 for a visual reference
+lines(lowess(x=reg2$fitted.values, rstandard(reg2)), col = "red", lwd = 2)
 
 
-````
+## Outliers, leverage, and influence
+## Residuals vs. Leverage
+plot(reg2, 5)
+
+## Cook's distance
+plot(reg2, 4)
+
+##  Cook's distance vs. Leverage
+plot(reg2, 6)
+
+
+## Normality of the residuals
+library(car)
+qqPlot(reg2, id=FALSE)  # id=FALSE suppresses print out of two most extreme values
+
+
+```
+Across several of these graphs, it is clear that the residual error is not evenly distributed above and below the zero line and that the errors have a long right tail. 
+
+In the graph presenting the standardized residuals vs. fitted values, it is also apparent that the variance is not constant over the fitted values.  This is the concerning < pattern indicating that there is heteroskedasticity!
+
+The QQ-plot makes it clear that the residuals are not normally distributed!
+
+##### Candidate model C
+
+One transformation that might improve this model is a log-transform of the dependent variable.  Because there are negative values, we need to right shift the data before we do the log transformation. Note, that if we ever use this model for prediction, we would need to un-do both the log transformation *and* the shift. 
+
+```{r}
+bank2$adj.Profit = log(bank2$X9Profit - min(bank2$X9Profit) + 2)
+```
+
+
+Now we can do a linear regression
+```{r}
+
+# Regression 2 with all possible predictors, new income category
+reg3 <- lm(adj.Profit ~ Region + newInc + AgeCat + X9Tenure + X9Online, data=bank2)
+summary(reg3)
+
+```
+
+
+##### Regression diagnostics for candidate model C
+
+Now we can proceed to investigate the regression diagnostics.
+
+```{r}
+
+# Evaluate the regression diagnostics
+
+## Standardized residuals vs. continuous predictors
+plot(x=bank2$X9Tenure , y=rstandard(reg3))
+abline(0, 0, lty=2, col="grey") # draw a straight line at 0 for a visual reference
+lines(lowess(x=bank2$X9Tenure, rstandard(reg3)), col = "red", lwd = 2)
+
+## Standardized residuals vs. categorical predictors
+boxplot(rstandard(reg3) ~ bank2$AgeCat)
+boxplot(rstandard(reg3) ~ bank2$newInc)
+boxplot(rstandard(reg3) ~ bank2$X9Online)
+
+## Standardized residuals vs. fitted values
+plot(x=reg3$fitted.values, y=rstandard(reg3))
+abline(0, 0, lty=2, col="grey") # draw a straight line at 0 for a visual reference
+lines(lowess(x=reg2$fitted.values, rstandard(reg3)), col = "red", lwd = 2)
+
+
+## Outliers, leverage, and influence
+## Residuals vs. Leverage
+plot(reg3, 5)
+
+## Cook's distance
+plot(reg3, 4)
+
+##  Cook's distance vs. Leverage
+plot(reg3, 6)
+
+
+## Normality of the residuals
+library(car)
+qqPlot(reg3, id=FALSE)  # id=FALSE supresses print out of two most extreme values
+
+# histogram of the residuals... what does this QQ look like?
+hist(reg3$residuals)
+
+```
+
+Across all of the regression diagnostics, the log-transformed model is superior. 
+
+In the residual plots with predictors the errors are more evenly distributed above and below the zero line.
+In the residual plot with fitted values, the errors are more evenly distributed above and below the zero line and the shape of the residuals is more distributed over the range of fitted values. 
+
+Neither model had a problem with high leverage points. 
+
+Finally, the QQ plot still indicates deviation from the Normal distribution for values of the Normal distribution more than 2 standard deviations below the mean, but for the majority of values (especially for those in the mid-range of the distribution), the residuals are well characterized as a Normal distribution. 
+
+This is a high-quality linear regression model satisfying the underlying assumptions of regression. 
+
+##### Interpretation
+
+In the log-transformed model, Online is not a statistically significant predictor of Profit (p-value of 0.88).  Therefore, we do not reject the null hypothesis that Online status does not affect profit after accounting for the impact of customer age and income. 
+
+This is particularly interesting because in the original model, Online did have a p-value less than 0.05!  
 
 
 
@@ -491,7 +719,13 @@ plot(reg1)
 
 Q6.  In light of your analysis, help Green with his dilemma: “Did the online channel make customers more profitable? And what did this imply for the management team’s decision regrading fees or rebates for use of the channel?”
 
+Any recommendation provided should be consistent with your own analysis.  
 
+Based on my analysis, after adjusting for Age, Income, and Region, Online is no longer associated with customer profitability.  
+
+We did observe that younger customers and higher income customers are more likely to use Online resources; the availability of Online banking may attract these types of clients towards our bank.  In that way, Online may serve as a method of recruiting more customers to the bank. 
+
+Therefore, I do not recommend fees or rebates for Online services at this time.  
 
 
 

@@ -13,7 +13,7 @@
 
 <title>Central Limit Theorem</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -465,11 +465,11 @@ deviation of the sample.</p>
 <pre class="r"><code># Calculate the sample mean of Income
 sample.avg &lt;- mean(study.data$INCOME)
 sample.avg</code></pre>
-<pre><code>&gt; [1] 40131.68</code></pre>
+<pre><code>&gt; [1] 42452.39</code></pre>
 <pre class="r"><code># Calculate the sample sd of Income
 sample.sd &lt;- sd(study.data$INCOME)
 sample.sd</code></pre>
-<pre><code>&gt; [1] 29127.3</code></pre>
+<pre><code>&gt; [1] 32239.73</code></pre>
 <p>If you run the last two sections of code repeatedly, you will find
 that each time a new sample is selected the sample mean is a different
 number.</p>
@@ -596,8 +596,8 @@ lowerCI = sample.avg + qnorm(0.025, mean = 0, sd = 1) * se
 upperCI = sample.avg + qnorm(0.975, mean = 0, sd = 1) * se
 
 print(cbind(sample.avg, lowerCI, upperCI))</code></pre>
-<pre><code>&gt;      sample.avg  lowerCI upperCI
-&gt; [1,]   40504.94 37173.19 43836.7</code></pre>
+<pre><code>&gt;      sample.avg lowerCI  upperCI
+&gt; [1,]   36975.87 34199.4 39752.34</code></pre>
 <hr />
 </div>
 <div id="interpreting-confidence-intervals" class="section level2">
@@ -624,7 +624,7 @@ sample.reps$outBounds[ true.avg &gt; sample.reps$upperCI ] &lt;- 1
 
 # what % of study replications reported 95% CI that did not include the true population average?
 sum(sample.reps$outBounds)/m</code></pre>
-<pre><code>&gt; [1] 0.0542</code></pre>
+<pre><code>&gt; [1] 0.0502</code></pre>
 <p>I hope it is not too much of a surprise that this is really close to
 5%!</p>
 <p>Next: Elements of a Statistical Test</p>
