@@ -25,6 +25,8 @@ All of the datasets used in examples on this site and in Ivey Business Statistic
 
 ***
 
+### Linear Regression I 
+* [Webpage](06a-PilgrimSolution.html)  
 
 
 ***

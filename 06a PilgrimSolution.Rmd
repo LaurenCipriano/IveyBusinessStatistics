@@ -64,7 +64,7 @@ print(c(observations = n, mean.profit = m, lower95 = lower95, upper95 = upper95)
 
 ```
 
-The average customer profitabilit is $111.50. Because this data is a random sample of 31,634 customers, there is uncertainty about what the true population mean is.  The 95% confidence interval for the mean is $108.50 to $114.51.  There is a 95% probability that the true population mean is within this interval. 
+The average customer profitability is \$111.50. Because this data is a random sample of 31,634 customers, there is uncertainty about what the true population mean is.  The 95% confidence interval for the mean is \$108.50 to \$114.51.  There is a 95% probability that the true population mean is within this interval. 
 
 
 ```{r}
@@ -74,7 +74,7 @@ hist(bank$X9Profit)
 
 ```
 
-The histogram reveals a very large number of customers with profitability between -$250 to $0 and a highly skewed distribution with a long tail.  
+The histogram reveals a very large number of customers with profitability between -\$250 to \$0 and a highly skewed distribution with a long tail.  
 
 The arithmetic mean does not do a good job of characterizing the central tendency of the distribution of Profit because of this high-level of skew. 
 
@@ -172,7 +172,7 @@ t.test(bank$X9Profit~bank$X9Online)
 ```
 
 Interpretation:  The p-value is greater than 0.05, so we cannot reject the null hypothesis of the two groups having the same mean. 
-The sample mean of the online group has a higher average ($116.67 vs. $110.79), but this difference is not statistically different. 
+The sample mean of the online group has a higher average (\$116.67 vs. \$110.79), but this difference is not statistically different. 
 
 
 ##### Non-Parametric test
