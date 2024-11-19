@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data Manipulation In R</title>
+
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="images/favicon.ico">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="laurens_styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      -->
+      <a class="navbar-brand" href="index.html">Ivey Business Statistics: Home</a>
+    </div>
+  <!--/.nav-collapse
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Datasets-Home.html">Datasets</a></li>
+        <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
+      </ul>
+    </div>/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Data Manipulation In R</h1>
+
+</div>
+
+
+<hr />
+<hr />
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>We will use the MEPS dataset for the purposes of this tutorial. The
+MEPS dataset is a population dataset of medical expenditure data in the
+United States.</p>
+<pre class="r"><code>data &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/mepsData.csv&quot;), header = TRUE)</code></pre>
+<hr />
+</div>
+<div id="making-new-rows-and-columns" class="section level2">
+<h2>Making new rows and columns</h2>
+<p>We can use <code>rbind</code> and <code>cbind</code> to add new rows
+and columns respectively. They must have the same structure in order to
+work.</p>
+<pre class="r"><code>sample_row = data[1337, ] # Picking a random row for the example
+
+data_subset = rbind(data, sample_row)
+nrow(data)</code></pre>
+<pre><code>&gt; [1] 30461</code></pre>
+<pre class="r"><code>nrow(data_subset)</code></pre>
+<pre><code>&gt; [1] 30462</code></pre>
+<p>An easier way to make new columns when working with data.frames is by
+using the <code>$</code>.</p>
+<pre class="r"><code>data2 = data # Keep our original dataset untouched.
+data2$newColumn = 1 # Fill the column entirely with 1&#39;s
+summary(data2$newColumn)</code></pre>
+<pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+&gt;       1       1       1       1       1       1</code></pre>
+<hr />
+</div>
+<div id="taking-slices-of-data" class="section level2">
+<h2>Taking Slices of Data</h2>
+<p>Often you will find that you require only portions of a dataset.</p>
+<p>The most basic method is to directly pass the row or column number or
+name.</p>
+<pre class="r"><code>data_subset = data[ , c(&quot;Person_ID&quot;, &quot;Age&quot;, &quot;Sex&quot;)] # Keep these columns
+summary(data_subset)</code></pre>
+<pre><code>&gt;    Person_ID               Age           Sex       
+&gt;  Min.   :2290001101   Min.   : 0    Min.   :0.000  
+&gt;  1st Qu.:2294946102   1st Qu.:18    1st Qu.:0.000  
+&gt;  Median :2320170102   Median :38    Median :0.000  
+&gt;  Mean   :2310116491   Mean   :39    Mean   :0.479  
+&gt;  3rd Qu.:2325003103   3rd Qu.:59    3rd Qu.:1.000  
+&gt;  Max.   :2329687103   Max.   :85    Max.   :1.000  
+&gt;                       NA&#39;s   :375</code></pre>
+<pre class="r"><code>data_subset = data[1:10000, ] # Keeping the first 10000 rows
+summary(data_subset)</code></pre>
+<pre><code>&gt;   Observation      Person_ID          FluVaccination      Age      
+&gt;  Min.   :    1   Min.   :2290001101   Min.   :0      Min.   : 0.0  
+&gt;  1st Qu.: 2501   1st Qu.:2291636102   1st Qu.:0      1st Qu.:17.0  
+&gt;  Median : 5000   Median :2293230152   Median :0      Median :38.0  
+&gt;  Mean   : 5000   Mean   :2293240888   Mean   :0      Mean   :38.5  
+&gt;  3rd Qu.: 7500   3rd Qu.:2294875102   3rd Qu.:1      3rd Qu.:58.0  
+&gt;  Max.   :10000   Max.   :2296506103   Max.   :1      Max.   :85.0  
+&gt;                                       NA&#39;s   :3749   NA&#39;s   :98    
+&gt;       Sex       RaceEthnicity HealthInsurance NotAffordHealthCare
+&gt;  Min.   :0.00   Min.   :1.0   Min.   :1.0     Min.   :0          
+&gt;  1st Qu.:0.00   1st Qu.:1.0   1st Qu.:1.0     1st Qu.:0          
+&gt;  Median :0.00   Median :2.0   Median :1.0     Median :0          
+&gt;  Mean   :0.48   Mean   :2.1   Mean   :1.5     Mean   :0          
+&gt;  3rd Qu.:1.00   3rd Qu.:2.0   3rd Qu.:2.0     3rd Qu.:0          
+&gt;  Max.   :1.00   Max.   :5.0   Max.   :3.0     Max.   :1          
+&gt;                                               NA&#39;s   :176        
+&gt;  FamIncome_Continuous  MentalHealth FamIncome_Categorical
+&gt;  Min.   :     0       Min.   :1.0   Min.   :1.00         
+&gt;  1st Qu.: 26000       1st Qu.:1.0   1st Qu.:3.00         
+&gt;  Median : 54906       Median :2.0   Median :4.00         
+&gt;  Mean   : 73092       Mean   :2.1   Mean   :3.51         
+&gt;  3rd Qu.:100000       3rd Qu.:3.0   3rd Qu.:5.00         
+&gt;  Max.   :507855       Max.   :5.0   Max.   :5.00         
+&gt;  NA&#39;s   :4            NA&#39;s   :167                        
+&gt;  FamIncome_PercentPoverty  HealthStatus  HaveProvider  CensusRegion
+&gt;  Min.   :   0             Min.   :1.0   Min.   :0     Min.   :1.0  
+&gt;  1st Qu.: 132             1st Qu.:1.0   1st Qu.:1     1st Qu.:2.0  
+&gt;  Median : 262             Median :2.0   Median :1     Median :3.0  
+&gt;  Mean   : 352             Mean   :2.2   Mean   :1     Mean   :2.7  
+&gt;  3rd Qu.: 479             3rd Qu.:3.0   3rd Qu.:1     3rd Qu.:3.0  
+&gt;  Max.   :3020             Max.   :5.0   Max.   :1     Max.   :4.0  
+&gt;  NA&#39;s   :4                NA&#39;s   :164   NA&#39;s   :439   NA&#39;s   :98   
+&gt;  TotalHealthExpenditure HasHypertension  HasDiabetes       BMI      
+&gt;  Min.   :     0         Min.   :0       Min.   :0.0   Min.   : 0    
+&gt;  1st Qu.:   186         1st Qu.:0       1st Qu.:0.0   1st Qu.:24    
+&gt;  Median :  1062         Median :0       Median :0.0   Median :27    
+&gt;  Mean   :  6119         Mean   :0       Mean   :0.1   Mean   :28    
+&gt;  3rd Qu.:  4674         3rd Qu.:1       3rd Qu.:0.0   3rd Qu.:32    
+&gt;  Max.   :807611         Max.   :1       Max.   :1.0   Max.   :71    
+&gt;                         NA&#39;s   :2674    NA&#39;s   :94    NA&#39;s   :4072</code></pre>
+<p>We will want to do more complex slices as our data may contain
+outliers, or you are investigating specific individuals.</p>
+<p>Let’s take a look at some useful functions.</p>
+<div id="subset" class="section level3">
+<h3>Subset</h3>
+<pre class="r"><code>hist(data$FamIncome_Continuous)</code></pre>
+<p><img src="Data-Manipulation_files/figure-html/unnamed-chunk-7-1.png" width="60%" /></p>
+<p>As you can see, the majority of data points lie below $300,000. Let’s
+take a clearer look at those individuals by taking advantage of the
+<code>subset</code> function.</p>
+<pre class="r"><code>data_subset = subset(data, FamIncome_Continuous&lt;300000)
+hist(data_subset$FamIncome_Continuous)</code></pre>
+<p><img src="Data-Manipulation_files/figure-html/unnamed-chunk-8-1.png" width="60%" /></p>
+<p>The dataset now only contains individuals below our target income. We
+can investigate the impact this has on the entire dataset below.</p>
+<pre class="r"><code>summary(data$FamIncome_Continuous)
+&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+&gt;       0   26895   56532   75267  103882  583219      14
+summary(data_subset$FamIncome_Continuous)
+&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+&gt;       0   26370   55538   71651  100916  299406</code></pre>
+<blockquote>
+<p>The <code>subset</code> function can be used on vectors, matrices and
+data frames!</p>
+</blockquote>
+</div>
+<div id="which" class="section level3">
+<h3>Which</h3>
+<p>For even more complex slices of data, the <code>which</code> function
+comes in handy. It works a little differently…the <code>which</code>
+function provides indices where our logic is true, so we have to pass
+the <code>which</code> function as an input for the rows to keep.</p>
+<p>Let’s investigate individuals with Normal BMI classification
+(18.5-25) who have diabetes.</p>
+<pre class="r"><code># Will provide a vector telling us which indices are TRUE
+index = which(data$HasDiabetes==1 &amp; #Combine statements with &amp;
+              data$BMI&gt;18.5 &amp;
+              data$BMI&lt;25)
+
+head(index) #See the first six elements of index</code></pre>
+<pre><code>&gt; [1] 300 444 446 511 605 681</code></pre>
+<pre class="r"><code>data_subset = data[index, ] # We leave the column input blank to include all columns</code></pre>
+<pre class="r"><code>summary(data_subset$HasDiabetes)
+&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+&gt;       1       1       1       1       1       1
+summary(data_subset$BMI)
+&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+&gt;    18.6    21.6    23.1    22.8    24.2    24.9</code></pre>
+</div>
+<div id="removing-nas" class="section level3">
+<h3>Removing NA’s</h3>
+<p>We may be investigating the impact of hypertension. As you can see
+below, the <code>HasHypertension</code> column has some missing
+entries.</p>
+<pre class="r"><code>summary(data$HasHypertension)</code></pre>
+<pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+&gt;       0       0       0       0       1       1    7725</code></pre>
+<p>The <code>is.na</code> function tests whether a variable contains
+NA.</p>
+<pre class="r"><code>is.na(1)
+&gt; [1] FALSE
+is.na(NA)
+&gt; [1] TRUE
+is.na(c(1,2,3,NA))
+&gt; [1] FALSE FALSE FALSE  TRUE</code></pre>
+<p>We can use the <code>is.na</code> function combined with either of
+our methods above.</p>
+<pre class="r"><code>data_subset = subset(data, is.na(HasHypertension)==0)
+# or
+index = which(is.na(data$HasHypertension)==0)
+data_subset = data[index, ]</code></pre>
+<p>The data now contains only rows where hypertension is not
+missing.</p>
+<pre class="r"><code>summary(data$HasHypertension)</code></pre>
+<pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+&gt;       0       0       0       0       1       1    7725</code></pre>
+<pre class="r"><code>summary(data_subset$HasHypertension)  </code></pre>
+<pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+&gt;   0.000   0.000   0.000   0.348   1.000   1.000</code></pre>
+<div id="replacing-missing-data" class="section level4">
+<h4>Replacing Missing Data</h4>
+<p>We can take this one step further. Rather than simply removing
+missing data, we can replace is with the population average. Notice BMI
+has many missing entries.</p>
+<pre class="r"><code>summary(data$BMI)</code></pre>
+<pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+&gt;       0      24      27      28      32      71   12209</code></pre>
+<p>Let’s replace it with the average BMI from the remaining
+population.</p>
+<pre class="r"><code># Keeping our original dataset untouched
+data2 = data
+
+# First find the indices where BMI is missing
+index = which(is.na(data2$BMI)==1)
+
+# Replace the BMI at those indices
+data2[index, &quot;BMI&quot;] = mean(data2$BMI, na.rm = TRUE)
+
+summary(data2$BMI)</code></pre>
+<pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+&gt;     0.1    26.1    28.2    28.2    28.5    71.1</code></pre>
+<blockquote>
+<p>We can use any method to replace the missing data, try using the
+<code>median</code> and <code>mode</code> functions on your own!</p>
+</blockquote>
+</div>
+</div>
+<div id="merge" class="section level3">
+<h3>Merge</h3>
+<p>If we try to use <code>rbind</code> to combine datasets we may get
+some unwanted behaviour.</p>
+<pre class="r"><code>data_subset_diab = subset(data, HasDiabetes==1)
+data_subset_hyper = subset(data, HasHypertension==1)
+
+data_subset = rbind(data_subset_diab, data_subset_hyper) # Use rbind to directly combine the tables by row
+
+nrow(unique(data_subset)) # Number of unique observations
+&gt; [1] 8633
+nrow(data_subset) # Total Observations
+&gt; [1] 10805</code></pre>
+<p>As you can see, there are more total observations than unique
+observations. We are double counting some observations as there are
+people with both diabetes and hypertension. This is where the
+<code>merge</code> function comes in handy.</p>
+<pre class="r"><code>data_subset = merge(data_subset_diab, data_subset_hyper, by = &quot;Person_ID&quot;, all = TRUE, sort = TRUE)
+
+nrow(data_subset)</code></pre>
+<pre><code>&gt; [1] 8633</code></pre>
+<p>The <code>all</code> parameter tells the function to keep any
+observation that does not have a matching ID, achieving the behaviour we
+desire.</p>
+<blockquote>
+<p>Remember to check out the help page for any function (using
+<code>help(merge)</code>), they have even more useful information!</p>
+</blockquote>
+<hr />
+</div>
+</div>
+<div id="converting-continuous-to-categorical-factors"
+class="section level2">
+<h2>Converting Continuous to Categorical (Factors)</h2>
+<p>Sometimes we may want to investigate our variables as categories. We
+can convert columns in our table easily. Let’s convert our continuous
+BMI variable into commonly used classifications. We will use the dataset
+where we replaced missing values with mean BMI.</p>
+<pre class="r"><code>BMICategories = c(&quot;Underweight&quot;, &quot;Normal Weight&quot;, &quot;Overweight&quot;, &quot;Obese&quot;)
+
+# Initializing column with zeros
+data2$BMICategory = 0</code></pre>
+<p>We must first initialize our categories with simple integers, we will
+use 1-4 to represent our four categories. The logic within the square
+brackets tells our data.frame to update only the rows where the
+statement is true.</p>
+<pre class="r"><code># Underweight
+data2$BMICategory[ data2$BMI&lt;18.5 ] = 1
+# Normal Weight
+data2$BMICategory[ data2$BMI&gt;=18.5 &amp; data2$BMI&lt;25 ] = 2
+# Overweight
+data2$BMICategory[ data2$BMI&gt;=25 &amp; data2$BMI&lt;30 ] = 3
+# Obese
+data2$BMICategory[ data2$BMI&gt;=30 ] = 4</code></pre>
+<p>Next we can apply labels and convert the column to a factor, making
+it easier to read. The levels and labels parameters are telling our
+factor to associate the values of 1-4 with the labels we made
+earlier.</p>
+<pre class="r"><code>data2$BMICategory = factor(data2$BMICategory,
+                           levels = c(1,2,3,4),
+                           labels = BMICategories)</code></pre>
+<p>We can see now our new column now.</p>
+<pre class="r"><code>summary(data2$BMICategory)</code></pre>
+<pre><code>&gt;   Underweight Normal Weight    Overweight         Obese 
+&gt;           709          5362         18158          6232</code></pre>
+<hr />
+</div>
+<div id="making-a-binary-from-continuous" class="section level2">
+<h2>Making a Binary from Continuous</h2>
+<p>Perhaps we would like to do something even simpler. We can make a new
+binary column called <code>HealthyWeight</code>.</p>
+<pre class="r"><code># Create new column as FALSE
+data2$HealthyWeight = FALSE
+
+# Convert individuals to TRUE 
+data2$HealthyWeight[ data2$BMI&gt;=18.5 &amp; data2$BMI&lt;25 ] = TRUE
+
+summary(data2$HealthyWeight)</code></pre>
+<pre><code>&gt;    Mode   FALSE    TRUE 
+&gt; logical   25099    5362</code></pre>
+<p>Notice we could also use our new <code>BMICategory</code> column!</p>
+<pre class="r"><code># Set column as FALSE
+data2$HealthyWeight = FALSE
+
+# Convert individuals to TRUE 
+data2$HealthyWeight[ data2$BMICategory==&quot;Normal Weight&quot; ] = TRUE
+
+summary(data2$HealthyWeight)</code></pre>
+<pre><code>&gt;    Mode   FALSE    TRUE 
+&gt; logical   25099    5362</code></pre>
+<hr />
+</div>
+
+<!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -109,6 +109,12 @@ Access the CSV file saved onto your computer:
   
 *** 
 
+### Direct Marketing
+* Dataset:  [CSV](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/SubscribeBank.csv)  
+* [Data dictionary](Subscription-Description.html) 
+
+*** 
+
 ### BigEast Bank
 * Dataset:  [CSV](https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/BigEastData.csv)  
 

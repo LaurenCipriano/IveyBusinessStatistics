@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lauren Cipriano" />
+
+<meta name="date" content="2024-10-07" />
+
+<title>Linear Regression I</title>
+
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="images/favicon.ico">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="laurens_styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      -->
+      <a class="navbar-brand" href="index.html">Ivey Business Statistics: Home</a>
+    </div>
+  <!--/.nav-collapse
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Datasets-Home.html">Datasets</a></li>
+        <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
+      </ul>
+    </div>/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Linear Regression I</h1>
+<h4 class="author">Lauren Cipriano</h4>
+<h4 class="date">2024-10-07</h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Learning objectives of this asynchronous lesson:</p>
+<ul>
+<li>Demonstrate simple regression</li>
+<li>Interpret regression coefficients and hypothesis tests</li>
+<li>Evaluate underlying assumptions of regression</li>
+</ul>
+<hr />
+</div>
+<div id="data-set" class="section level2">
+<h2>Data set</h2>
+<p>For this set of examples, I will use the Occupational Prestige
+dataset. This dataset was created using survey responses to the General
+Social Survey from 1971–2021. The dataset includes variables for the
+survey year (YEAR), respondent age (AGE), SEX, etc. The variable
+PersIncomeAdj was created by me combining many different categorical
+income variables over time using the average value within each range and
+then inflation adjusting to 2023 dollars. Occupational Prestige, a
+continuous variable measured on a 0-100 scale, is reported in
+PRESTG10.</p>
+<p>You can look up any of the variables on the <a
+href="https://gssdataexplorer.norc.org/variables/vfilter">GSS
+Website</a>.</p>
+<p>To keep things straightforward, I have removed any observation with
+missing data for any variable in this dataset. We will talk about more
+appropriate strategies for handling missing data in a later
+discussion.</p>
+<pre class="r"><code>occup &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/PrestigeData.csv&quot;), 
+                        header = TRUE)
+
+## suppress scientific notation for ease of reading numbers
+options(scipen=99)  </code></pre>
+<hr />
+</div>
+<div id="simple-linear-regression" class="section level2">
+<h2>Simple linear regression</h2>
+<p>The first thing we always need to consider is what will be our
+Dependent Variable. For these examples, we will use Occupational
+Prestige. The Dependent Variable for a linear regression is always a
+continuous measure.</p>
+<p>In our first example, we will have one Predictor Variable. Predictor
+Variables can be continuous, binary, or categorical. Continuous
+variables have the most straightforward interpretation, so let’s start
+there.</p>
+<p>Our first regression model will be <span
+class="math display">\[\text{Occupational Prestige} = \beta_0 + \beta_1
+\times \text{Income}\]</span>.</p>
+<pre class="r"><code>## perform a linear regression
+## dependent variable:  occupational prestige (continuous)
+## independent variable:  income (continuous)
+
+reg1 &lt;- lm(PRESTG10 ~ PersIncomeAdj, data=occup)
+summary(reg1)</code></pre>
+<pre><code>&gt; 
+&gt; Call:
+&gt; lm(formula = PRESTG10 ~ PersIncomeAdj, data = occup)
+&gt; 
+&gt; Residuals:
+&gt;    Min     1Q Median     3Q    Max 
+&gt; -41.79  -9.21  -0.86   7.22  37.51 
+&gt; 
+&gt; Coefficients:
+&gt;                  Estimate  Std. Error t value            Pr(&gt;|t|)    
+&gt; (Intercept)   40.91359352  0.16354296   250.2 &lt;0.0000000000000002 ***
+&gt; PersIncomeAdj  0.00005114  0.00000158    32.3 &lt;0.0000000000000002 ***
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+&gt; 
+&gt; Residual standard error: 12.5 on 9935 degrees of freedom
+&gt; Multiple R-squared:  0.095,   Adjusted R-squared:  0.0949 
+&gt; F-statistic: 1.04e+03 on 1 and 9935 DF,  p-value: &lt;0.0000000000000002</code></pre>
+<p>From this output, we can see that the equation of the line is <span
+class="math display">\[\text{Occupational Prestige} = 40.91 + 0.000051
+\times \text{Income}\]</span>.</p>
+<p>In the line reporting the coefficient for <span
+class="math inline">\(\text{PersIncomeAdj}\)</span>, there is also a
+hypothesis test. This hypothesis test is evaluating whether the slope of
+the line, <span class="math inline">\(\beta_1\)</span> is zero or not.
+The hypothesis test is a one-sample t-test and so the test reports a
+t-value and a p-value. If the p-value is &lt;0.05, we say that the
+predictor is statistically significant.</p>
+<p>R also outputs the R-squared and Adjusted R-squared values. R-squared
+represents the proportion of the variation in the Dependent Variable
+that is explained by the linear combination of the Predictor
+Variables.</p>
+<p>The F-statistic and it’s associated p-value represent the output of
+an overall ANOVA test. The null hypothesis of this test is that all the
+slope coefficients are zero. In this case, that is only <span
+class="math inline">\(\beta_1\)</span>. As a result, the p-value for the
+t-test evaluating whether that single coefficient is equal to zero is
+exactly the same as the p-value for the F-test.</p>
+<p>Finally, R presents the Residual Standard Error; in this case, 12.45.
+This value is the standard error for the prediction. So, if you use this
+regression model to predict the Occupational Prestige value of a single
+new observation, this standard error represents the uncertainty for that
+individual observation. This is often used for simulation!</p>
+<p>Note:</p>
+<p>In R, it is not necessary, but frequently useful to create a
+regression object by assigning the output of the regression to a new
+object (in this case, ‘reg1’). There are many pieces of information
+contained in the regression object that you will be able to extract. The
+most useful starting report is simply summary() of the linear regression
+object which provides a complete overview of the model.</p>
+<p>If you do not create a regression object, R will simply print the
+intercept and slope coefficients without hypothesis tests.</p>
+<p>Let’s visualize the line of best fit that we have generated on the
+data.</p>
+<pre class="r"><code>## visualize the line of best fit
+plot(occup$PersIncomeAdj, occup$PRESTG10)
+abline(reg1, col=&quot;red&quot;)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-4-1.png" width="60%" /></p>
+<p>This visualization already begins to raise red flags that this is not
+a good regression model. Let’s take a look at all the steps of a linear
+regression to see what we could improve about this one.</p>
+<hr />
+</div>
+<div id="assumptions-of-a-linear-regression" class="section level2">
+<h2>Assumptions of a linear regression</h2>
+<p>A regression line can be fit to any set of data, but this doesn’t
+mean that linear regression is a good model of the system.</p>
+<p>Regression models must satisfy a set of key assumptions to be
+useful</p>
+<ul>
+<li><p><strong>Assumption 1: Linearity.</strong> The system is linear
+for each predictor variable and overall.</p></li>
+<li><p><strong>Assumption 2: Independent observations.</strong> The data
+need to come from a random sample where each observation is independent
+of other observations. Each observation has equal contribution to the
+regression line.</p></li>
+<li><p><strong>Assumption 3: Independent Predictor variables.</strong>
+The predictor variables must be independent of each other for the
+coefficients to be interpretable. If the predictor variables are highly
+correlated it is called “multicollinearity”.</p></li>
+<li><p><strong>Assumption 4: Homogeneity of variance.</strong> The
+regression residuals are equally likely to be large or small over the
+range of predicted values.</p></li>
+<li><p><strong>Assumption 5: Normality.</strong> The distribution of the
+residuals should be Normally distributed.</p></li>
+</ul>
+<hr />
+</div>
+<div id="step-by-step-how-to-perform-linear-regression"
+class="section level2">
+<h2>Step-by-Step: How to perform linear regression</h2>
+<ol start="0" style="list-style-type: decimal">
+<li><p>Identify your Dependent variable and potential predictor
+variables</p></li>
+<li><p>Visualize the data</p>
+<ul>
+<li>Visualize the distribution of Dependent and potential predictor
+variables (histograms)</li>
+<li>Visualize the bivariate relationships between Dependent and
+potential predictor variables (XY scatters, bargraphs, boxplots)</li>
+</ul></li>
+<li><p>Evaluate the correlation among potential predictor
+variables</p></li>
+<li><p>Develop candidate multiple regression models</p></li>
+<li><p>Revise and compare your models (e.g., drop predictors with high
+p-values)</p></li>
+<li><p>Assess whether the underlying assumptions of regression are
+satisfied</p></li>
+<li><p>Choose between models satisfying underlying assumptions of
+regression</p></li>
+<li><p>Analyze and interpret model output</p>
+<ul>
+<li>Interpretation of coefficients</li>
+<li>Prediction intervals</li>
+</ul></li>
+</ol>
+<hr />
+<hr />
+</div>
+<div id="example-step-by-step" class="section level2">
+<h2>Example Step-by-Step</h2>
+<p>This example is highly simplified because there is only one predictor
+(Income).</p>
+<div id="step-0.-identify-variables" class="section level3">
+<h3>Step 0. Identify variables</h3>
+<p>In this example, we are trying to identify the role of Income in
+predicting Occupational Prestige.</p>
+<p>The Dependent Variable is Occupational Prestige, a continuous
+variable measured on 0-100.</p>
+<p>The (sole) predictor variable is Income, also a continuous
+variable.</p>
+</div>
+<div id="step-1.-visualize-the-data" class="section level3">
+<h3>Step 1. Visualize the data</h3>
+<p>You can never really visualize your data too much.</p>
+<div id="a.-visualize-univariate-distributions" class="section level4">
+<h4>1a. Visualize univariate distributions</h4>
+<p>First, make histograms of your Dependent Variable and all your
+continuous predictor variables. For categorical predictor variables,
+draw boxplots. At this stage, this is for information only.</p>
+<p>But, it is common to transform highly skewed variables. Often highly
+skewed variables cause the residuals to be non-normal and contribute to
+problems with variance. Log-transforming or square-root transforming
+right skewed variables, and exponentiating left-skewed variables can
+improve the regression model. Generally, it is useful to wait until – at
+least – after step 1b, when we evaluate linearity of the relationship
+between potential predictors and the dependent variable, before
+considering transformations.</p>
+<pre class="r"><code>## Histogram of Occupational Prestige (Dependent Variable)
+hist(occup$PRESTG10)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-5-1.png" width="60%" /></p>
+<pre class="r"><code>## Histogram of Income (Predictor Variable)
+hist(occup$PersIncomeAdj)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-5-2.png" width="60%" /></p>
+<p>Immediately, we can see that Occupational Prestige, while not really
+Normally distributed, is not highly skewed in either direction.</p>
+<p>Income, on the other hand, is highly right skewed. We note this for
+later because it makes Income a candidate for transformation.</p>
+</div>
+<div id="b.-visualize-bivariate-relationships-with-dependent-variable"
+class="section level4">
+<h4>1b. Visualize bivariate relationships with Dependent Variable</h4>
+<p>This step is important for evaluating whether the relationship
+between the Dependent Variable and each Predictor is linear. In a simple
+regression, this assessment is straightforward. In a multiple
+regression, linear relationships can be conditional on the behaviour of
+another variable. In a complex multiple regression, linearity of the
+relationship is better assessed using the residuals vs each predictor
+and the residuals vs. the fitted values.</p>
+<pre class="r"><code>## visualize the line of best fit
+plot(occup$PersIncomeAdj, occup$PRESTG10, ylim=c(0,100))
+abline(lm(occup$PRESTG10 ~ occup$PersIncomeAdj), col=&quot;red&quot;)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-6-1.png" width="60%" /></p>
+<p>This is not a good representation of a linear relationship. Because
+this is a simple linear regression with no other Predictor Variables, we
+can make a decision right now to explore transformation of Income and
+simultaneous transformation of both Income and Occupational Prestige in
+order to improve the regression.</p>
+<p>What we are looking for at this stage is whether or not we can
+improve the linearity of the relationship between the Dependent Variable
+and the Predictor Variables.</p>
+<pre class="r"><code>## Consider log-transforming Income
+plot(log(occup$PersIncomeAdj), occup$PRESTG10, ylim=c(0,100))
+abline(lm(occup$PRESTG10 ~ log(occup$PersIncomeAdj)), col=&quot;red&quot;)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-7-1.png" width="60%" /></p>
+<pre class="r"><code>## Consider log-transforming of both Income and Occupational Prestige
+plot(log(occup$PersIncomeAdj), log(occup$PRESTG10), ylim=c(2,5))
+abline(lm(log(occup$PRESTG10) ~ log(occup$PersIncomeAdj)), col=&quot;red&quot;)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-7-2.png" width="60%" /></p>
+<p>Based on these graphs, both of these appear to be better than the
+bivariate relationship without any transformation.</p>
+<p>In the graph with log(Income) only, the observations are not evenly
+distributed above and below the line. There appear to be more
+observations clustered below the line.</p>
+<p>In the graph with log(Income) and log(Occupational Prestige), the
+line appears more centered in the observations, the data appears
+somewhat more linear, but there also appears to be substantial impact of
+the ceiling effect with a lot of points crowding into the top of the
+graph.</p>
+<p>Because it is the best representation of a linear relationship, we
+take the log transformed model forward to Step 3.</p>
+</div>
+</div>
+<div
+id="step-2.-evaluate-the-correlation-among-potential-predictor-variables"
+class="section level3">
+<h3>Step 2. Evaluate the correlation among potential predictor
+variables</h3>
+<p>This example is only simple linear regression, so there is nothing to
+do at this step because there is only one predictor.</p>
+</div>
+<div id="step-3.-develop-candidate-multiple-regression-models"
+class="section level3">
+<h3>Step 3. Develop candidate multiple regression models</h3>
+<p>We only have one predictor, so you might think that there is only one
+candidate regression model. However, different transformations that can
+improve the linearity, stability of variance, or the Normality of the
+residuals can also be considered as material for candidate models. We
+can evaluate all three of the possible log-transformed models from Step
+1.</p>
+<pre class="r"><code>## simple linear regression 1
+## dependent variable:  occupational prestige (continuous)
+## independent variable:  income (continuous)
+
+reg1 &lt;- lm(PRESTG10 ~ PersIncomeAdj, data=occup)
+summary(reg1)</code></pre>
+<pre><code>&gt; 
+&gt; Call:
+&gt; lm(formula = PRESTG10 ~ PersIncomeAdj, data = occup)
+&gt; 
+&gt; Residuals:
+&gt;    Min     1Q Median     3Q    Max 
+&gt; -41.79  -9.21  -0.86   7.22  37.51 
+&gt; 
+&gt; Coefficients:
+&gt;                  Estimate  Std. Error t value            Pr(&gt;|t|)    
+&gt; (Intercept)   40.91359352  0.16354296   250.2 &lt;0.0000000000000002 ***
+&gt; PersIncomeAdj  0.00005114  0.00000158    32.3 &lt;0.0000000000000002 ***
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+&gt; 
+&gt; Residual standard error: 12.5 on 9935 degrees of freedom
+&gt; Multiple R-squared:  0.095,   Adjusted R-squared:  0.0949 
+&gt; F-statistic: 1.04e+03 on 1 and 9935 DF,  p-value: &lt;0.0000000000000002</code></pre>
+<pre class="r"><code>## simple linear regression 2
+## dependent variable:  occupational prestige (continuous)
+## independent variable:  income (continuous) - log transformed
+
+reg2 &lt;- lm(PRESTG10 ~ log(PersIncomeAdj), data=occup)
+summary(reg2)</code></pre>
+<pre><code>&gt; 
+&gt; Call:
+&gt; lm(formula = PRESTG10 ~ log(PersIncomeAdj), data = occup)
+&gt; 
+&gt; Residuals:
+&gt;    Min     1Q Median     3Q    Max 
+&gt; -33.13  -9.12  -0.94   8.14  43.25 
+&gt; 
+&gt; Coefficients:
+&gt;                    Estimate Std. Error t value             Pr(&gt;|t|)    
+&gt; (Intercept)          -4.392      1.245   -3.53              0.00042 ***
+&gt; log(PersIncomeAdj)    4.575      0.116   39.30 &lt; 0.0000000000000002 ***
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+&gt; 
+&gt; Residual standard error: 12.2 on 9935 degrees of freedom
+&gt; Multiple R-squared:  0.135,   Adjusted R-squared:  0.134 
+&gt; F-statistic: 1.54e+03 on 1 and 9935 DF,  p-value: &lt;0.0000000000000002</code></pre>
+<pre class="r"><code>## simple linear regression 3
+## dependent variable:  occupational prestige (continuous) - log transformed
+## independent variable:  income (continuous) - log transformed
+
+reg3 &lt;- lm(log(PRESTG10) ~ log(PersIncomeAdj), data=occup)
+summary(reg3)</code></pre>
+<pre><code>&gt; 
+&gt; Call:
+&gt; lm(formula = log(PRESTG10) ~ log(PersIncomeAdj), data = occup)
+&gt; 
+&gt; Residuals:
+&gt;    Min     1Q Median     3Q    Max 
+&gt; -1.033 -0.189  0.017  0.210  0.876 
+&gt; 
+&gt; Coefficients:
+&gt;                    Estimate Std. Error t value            Pr(&gt;|t|)    
+&gt; (Intercept)         2.60371    0.02914    89.4 &lt;0.0000000000000002 ***
+&gt; log(PersIncomeAdj)  0.10728    0.00272    39.4 &lt;0.0000000000000002 ***
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+&gt; 
+&gt; Residual standard error: 0.285 on 9935 degrees of freedom
+&gt; Multiple R-squared:  0.135,   Adjusted R-squared:  0.135 
+&gt; F-statistic: 1.55e+03 on 1 and 9935 DF,  p-value: &lt;0.0000000000000002</code></pre>
+</div>
+<div
+id="step-4.-revise-and-compare-your-models-e.g.-drop-predictors-with-high-p-values"
+class="section level3">
+<h3>Step 4. Revise and compare your models (e.g., drop predictors with
+high p-values)</h3>
+<p>We can see that in all three of our candidate models, the single
+Predictor Variable has a p-value less than 0.05.</p>
+</div>
+<div
+id="step-5.-assess-whether-the-underlying-assumptions-of-regression-are-satisfied"
+class="section level3">
+<h3>Step 5. Assess whether the underlying assumptions of regression are
+satisfied</h3>
+<div id="assumption-1-linearity" class="section level5">
+<h5>Assumption 1: Linearity</h5>
+<p>We already looked at linearity directly in Step 1b. This is more
+straightforward in a simple linear regression than in a multiple
+regression. In multiple regression, we can also use the residual plots
+to evaluate linearity.</p>
+<p>Residuals are the difference between the actual data point and the
+predicted y-value on the line of best fit. You can either graph them in
+their raw units, or standardize them. Standardizing means Z-scores.
+Standardizing isn’t required, but it can help get an early peak at the
+influence of outliers and whether or not the residuals are Normally
+distributed.</p>
+<p>For contrast, I will make the plots for Regression 1 (no
+transformation) and Regression 3 (with both log transformations)
+side-by-side.</p>
+</div>
+<div id="illustrations-1-plot-of-standardized-residuals-vs.-predictor"
+class="section level5">
+<h5>Illustrations 1: Plot of standardized residuals vs. Predictor</h5>
+<pre class="r"><code>par( mfrow= c( 1,2 ) )
+
+## simple linear regression 1
+plot(x=occup$PersIncomeAdj , y=rstandard(reg1))
+abline(0, 0, lty=2, col=&quot;grey&quot;) # draw a straight line at 0 for a visual reference
+lines(lowess(occup$PersIncomeAdj, rstandard(reg1)), col = &quot;red&quot;, lwd = 2)
+
+## simple linear regression 3
+plot(x=log(occup$PersIncomeAdj) , y=rstandard(reg3))
+abline(0, 0, lty=2, col=&quot;grey&quot;) # draw a straight line at 0 for a visual reference
+lines(lowess(log(occup$PersIncomeAdj), rstandard(reg3)), col = &quot;red&quot;, lwd = 2)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-9-1.png" width="60%" />
+Ideally, the residual points are evenly distributed above and below the
+grey dashed line, evenly distributed from left to right, 66% of the
+points will be within +/- 1 SD on the y-axis, and less than 5% of points
+will be further than +/- 2 SD on the y-axis. The red line illustrates
+the lowess line (the locally weighted scatterplot smoothing line).
+Ideally, this line is a straight horizontal line at zero.</p>
+<p>Compared to the graph on the left, the graph on the right
+representing the log transformed regression is much better, but it is
+not ideal.</p>
+<p>Patterns of specific concern include<br />
+1. If you see something that looks like a U or upside-down U. This
+pattern generally indicates that there is a non-linearity with respect
+the predictor. In this case, consider adding a squared term to the model
+or categorize the data.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>If you see something that looks like a &gt; or &lt; pattern. This
+pattern generally indicates that the variance is not constant with
+respect to that variable. A variance stabilizing transformation may
+improve the model quality.</li>
+</ol>
+</div>
+<div
+id="illustrations-2-plot-of-standardized-residuals-vs.-fitted-values"
+class="section level5">
+<h5>Illustrations 2: Plot of standardized residuals vs. Fitted
+Values</h5>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-10-1.png" width="60%" /></p>
+<p>These graphs look identical to the previous ones because there is
+only one predictor. In a multiple variable regression, they would be
+different than any of the individual predictor graphs.</p>
+<p>Ideally, the residual points are evenly distributed above and below
+the grey dashed line, evenly distributed from left to right, 66% of the
+points will be within +/- 1 SD on the y-axis, and less than 5% of points
+will be further than +/- 2 SD on the y-axis. The red line illustrates
+the lowess line (the locally weighted scatterplot smoothing line).
+Ideally, this line is a straight horizontal line at zero.</p>
+<p>Patterns of specific concern include<br />
+1. If you see something that looks like a U or upside-down U. This
+pattern generally indicates that there is a non-linearity with respect
+one or more predictor. Inspecting the graphs for each predictor should
+help narrow down the source of the problem.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>If you see something that looks like a &gt; or &lt; pattern. This
+pattern generally indicates that the variance is not constant. A
+variance stabilizing transformation may improve the model quality.
+Inspecting the graphs for each predictor should help narrow down the
+source of the problem and transforming a single predictor may solve the
+problem. It may also be necessary to transform the dependent
+variable.</li>
+</ol>
+</div>
+<div
+id="assumption-2-independent-errors-equal-contribution-of-each-observation"
+class="section level5">
+<h5>Assumption 2: Independent errors &amp; equal contribution of each
+observation</h5>
+<p>First, we can evaluate the assumption of independent errors by
+inspecting the residual plots. If there appears to be a pattern in the
+residuals, there may be remaining variance that can be explained by
+additional predictor variables, or by a non-linear term of that
+predictor.</p>
+<p>In some datasets, when the observations are collected in a sequence
+(over time), it is particularly important to inspect the data for
+correlation between values in sequence. One way of evaluating that is to
+look at the residuals against the observation order.</p>
+</div>
+<div
+id="illustrations-3-plot-of-standardized-residuals-vs.-observation-number"
+class="section level5">
+<h5>Illustrations 3: Plot of standardized residuals vs. Observation
+number</h5>
+<pre class="r"><code>par( mfrow= c( 1,2 ) )
+
+## simple linear regression 1
+plot(rstandard(reg1))
+abline(0, 0, lty=2, col=&quot;grey&quot;) # draw a straight line at 0 for a visual reference
+lines(lowess( rstandard(reg1)), col = &quot;red&quot;, lwd = 2)
+
+## simple linear regression 3
+plot(rstandard(reg3))
+abline(0, 0, lty=2, col=&quot;grey&quot;) # draw a straight line at 0 for a visual reference
+lines(lowess(rstandard(reg3)), col = &quot;red&quot;, lwd = 2)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-11-1.png" width="60%" /></p>
+<p>This plot is generally only considered when the observation order is
+meaningful.</p>
+<p>In this case, the survey respondent number is not a meaningful order
+and we see exactly what we would expect: The residual points are evenly
+distributed above and below the grey dashed line, evenly distributed
+from left to right, 66% of the points will be within +/- 1 SD on the
+y-axis, and less than 5% of points will be further than +/- 2 SD on the
+y-axis. The red lowess line illustrates a straight horizontal line at
+zero.</p>
+</div>
+<div
+id="illustrations-4-evaluating-whether-any-observation-has-too-much-influence"
+class="section level5">
+<h5>Illustrations 4: Evaluating whether any observation has too much
+influence</h5>
+<p>No single point should contribute more than any other to the position
+the the regression line. But, sometimes individual observations will
+have greater “influence” than others. Sometimes these points will be
+outliers, but that is not always the case.</p>
+<p><strong>Outliers</strong>: Any point with a very large residual
+(standardized residual &gt; 3 or 4). Outliers can draw the regression
+line to themselves actually worsening the fit to other points. Any
+outlier should be investigated for whether it has high leverage, and,
+more importantly, high influence. Sometimes outliers are data entry
+errors. Other times they represent true heterogeneity in the data.
+Outliers should never be summarily removed just for being outliers.</p>
+<p><strong>Leverage</strong>: A point has high leverage if it
+contributes more than the average amount to the regression line.
+Leverage is only remarkable when it is combined with high influence.
+Leverage values greater than 2 times the number of predictors divided by
+the sample size to indicate high leverage observations.</p>
+<p><strong>Influence</strong>: A point is influential if its deletion
+substantially changes the fitted model. There are several measures of
+influence; we will only introduce Cook’s distance which is precisely the
+measure of the change in the fitted model with and without the
+observation. Often Cook’s distance of greater than 1 is considered
+highly influential.</p>
+<pre class="r"><code>par( mfrow= c( 1,1 ) )
+
+## Residuals vs. Leverage
+plot(reg3, 5)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-12-1.png" width="60%" /></p>
+<pre class="r"><code>## Cook&#39;s distance
+plot(reg3, 4)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-12-2.png" width="60%" /></p>
+<pre class="r"><code>##  Cook&#39;s distance vs. Leverage
+plot(reg3, 6)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-12-3.png" width="60%" /></p>
+<p>If these plots identify any points with high leverage and high
+influence, those points can and should be inspected for their impact on
+the model.</p>
+<p>A cluster of highly influential points may identify a source of
+variance that has not yet been captured by the model and may be captured
+with an additional predictor variable.</p>
+<p>A cluster of highly influential points that cannot be explained with
+an additional predictor may be a challenge to deal with. Alternative
+modelling approaches, including weighted least squares, may be
+appropriate.</p>
+</div>
+<div id="assumption-3-no-multicollinearity-independent-predictors"
+class="section level5">
+<h5>Assumption 3: No multicollinearity (Independent predictors)</h5>
+<p>With only one predictor, this assumption is not relevent because it
+speaks to the relationship of Predictor Variables with other Predictor
+Variables.</p>
+<p>Methods to evaluate this assumptions are<br />
+1. Evaluate correlation matrix in advance. Do not put two Predictor
+Variables in the same candidate model if they have more than <span
+class="math inline">\(|0.4|\)</span> correlation.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Variance inflation factor (VIF). VIF above 4 warrant additional
+scrutiny. VIF over 10 indicates substantial multicollinearity.</li>
+</ol>
+</div>
+<div id="assumption-4-homogeneity-of-residual-variance"
+class="section level5">
+<h5>Assumption 4: Homogeneity of residual variance</h5>
+<p>The residual plots developed to evaluate Assumption 1 (Linearity)
+also illustrate insight into this assumption.</p>
+<p>If any of the residual plots (vs. any predictor or fitted values)
+display a &lt; or &gt; pattern in the residuals, this indicates the
+residual variance is not constant. A variance stabilizing transformation
+may improve the model quality. Inspecting the graphs for each predictor
+should help narrow down the source of the problem and transforming a
+single predictor may solve the problem. It may also be necessary to
+transform the dependent variable.</p>
+</div>
+<div id="assumption-5-residuals-are-normally-distributed"
+class="section level5">
+<h5>Assumption 5: Residuals are Normally distributed</h5>
+</div>
+<div id="illustrations-5-evaluating-normality-of-the-residuals"
+class="section level5">
+<h5>Illustrations 5: Evaluating Normality of the residuals</h5>
+<p>We use a QQ plot to evaluate whether the residuals are Normally
+distributed. Ideally, the residuals form a straight line. Deviation from
+the straight line is common in the tails of the distribution.</p>
+<pre class="r"><code>library(car)
+par( mfrow= c( 1,2 ) )
+
+## simple linear regression 1: qq plot
+qqPlot(reg1$residuals)</code></pre>
+<pre><code>&gt; [1] 7408  447</code></pre>
+<pre class="r"><code>## simple linear regression 3: qq plot
+qqPlot(reg3$residuals)</code></pre>
+<p><img src="05a-Linear-Regression_files/figure-html/unnamed-chunk-13-1.png" width="60%" /></p>
+<pre><code>&gt; [1] 3799 7048</code></pre>
+</div>
+</div>
+<div
+id="step-6.-choose-between-models-satisfying-underlying-assumptions-of-regression"
+class="section level3">
+<h3>Step 6. Choose between models satisfying underlying assumptions of
+regression</h3>
+<p>In this case, primarily based on the linearity, Regression 3 is the
+best fitting model. There is room for improvement in this model; the
+residual graphs indicate that addition of a nonlinear term may improve
+the model.</p>
+</div>
+<div id="step-7.-analyze-and-interpret-model-output"
+class="section level3">
+<h3>Step 7. Analyze and interpret model output</h3>
+<div id="a.-interpretation-of-coefficients" class="section level4">
+<h4>7a. Interpretation of coefficients</h4>
+<p>In this case, we can identify that it appears the relationship
+between Income and Occupational Prestige is statistically
+significant.</p>
+<pre class="r"><code>## simple linear regression 3
+summary(reg3)</code></pre>
+<pre><code>&gt; 
+&gt; Call:
+&gt; lm(formula = log(PRESTG10) ~ log(PersIncomeAdj), data = occup)
+&gt; 
+&gt; Residuals:
+&gt;    Min     1Q Median     3Q    Max 
+&gt; -1.033 -0.189  0.017  0.210  0.876 
+&gt; 
+&gt; Coefficients:
+&gt;                    Estimate Std. Error t value            Pr(&gt;|t|)    
+&gt; (Intercept)         2.60371    0.02914    89.4 &lt;0.0000000000000002 ***
+&gt; log(PersIncomeAdj)  0.10728    0.00272    39.4 &lt;0.0000000000000002 ***
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+&gt; 
+&gt; Residual standard error: 0.285 on 9935 degrees of freedom
+&gt; Multiple R-squared:  0.135,   Adjusted R-squared:  0.135 
+&gt; F-statistic: 1.55e+03 on 1 and 9935 DF,  p-value: &lt;0.0000000000000002</code></pre>
+<p>For each 1 unit change in log(Income), there is a 0.107-point
+increase in log(Occupational Prestige). This is not very
+interpretable.</p>
+<p>It turns out that log-log models have a special interpretability: A
+1% increase in the predictor corresponds to a <span
+class="math inline">\(\beta\)</span>-% increase in the dependent
+variable. In this case, that means a 1% increase in Income corresponds
+to a 0.1-% increase in Occupational Prestige.</p>
+</div>
+<div id="b.-prediction-intervals" class="section level4">
+<h4>7b. Prediction intervals</h4>
+<p>There are two types of prediction.</p>
+<p>First, we can want to predict a new observation. For example, what is
+the estimated Occupational Prestige for a single individual with an
+income of $50,000? The uncertainty around this estimate represents the
+full standard deviation of the population of people with an income of
+$50,000. In this case, we use the predict function with <span
+class="math inline">\(interval = ``prediction&#39;&#39;\)</span>. In
+this case, note that we generate predicted values of log(Occupational
+Prestige).</p>
+<pre class="r"><code>## make a dataframe of the new observations
+newperson = data.frame(PersIncomeAdj = 50000)
+
+## generate a prediction of log(Occupational Prestige)
+predict(reg3, newdata=newperson, interval = &quot;prediction&quot;)</code></pre>
+<pre><code>&gt;    fit  lwr  upr
+&gt; 1 3.76 3.21 4.32</code></pre>
+<pre class="r"><code>## generate a prediction of Occupational Prestige
+exp(predict(reg3, newdata=newperson, interval = &quot;prediction&quot;))</code></pre>
+<pre><code>&gt;    fit  lwr  upr
+&gt; 1 43.1 24.7 75.4</code></pre>
+<p>Second, we might be interested in the mean and the uncertainty around
+the mean for a population of people with incomes of $50,000. In that
+case, the uncertainy represents the standard error, or uncertainty
+around the mean estimate, not the full heterogeneity in the population.
+In this case, we use the predict function with <span
+class="math inline">\(interval = ``confidence&#39;&#39;\)</span>. Again,
+we generate predicted values of log(Occupational Prestige).</p>
+<pre class="r"><code>## make a dataframe of the new observations
+newperson = data.frame(PersIncomeAdj = 50000)
+
+## generate a prediction of log(Occupational Prestige)
+predict(reg3, newdata=newperson, interval = &quot;confidence&quot;)</code></pre>
+<pre><code>&gt;    fit  lwr  upr
+&gt; 1 3.76 3.76 3.77</code></pre>
+<pre class="r"><code>## generate a prediction of Occupational Prestige
+exp(predict(reg3, newdata=newperson, interval = &quot;confidence&quot;))</code></pre>
+<pre><code>&gt;    fit  lwr  upr
+&gt; 1 43.1 42.9 43.4</code></pre>
+<p>We are much less uncertain about where the mean value is for a
+population of people with income of $50,000 than we are for a single
+member of that population.</p>
+</div>
+</div>
+</div>
+
+<!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

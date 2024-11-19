@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lauren Cipriano" />
+
+<meta name="date" content="2024-10-07" />
+
+<title>Linear Regression I</title>
+
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="images/favicon.ico">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="laurens_styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      -->
+      <a class="navbar-brand" href="index.html">Ivey Business Statistics: Home</a>
+    </div>
+  <!--/.nav-collapse
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Datasets-Home.html">Datasets</a></li>
+        <li><a href="Intro-To-Coding-R.html">Intro to Coding and R</a></li>
+      </ul>
+    </div>/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Linear Regression I</h1>
+<h4 class="author">Lauren Cipriano</h4>
+<h4 class="date">2024-10-07</h4>
+
+</div>
+
+
+<div id="assignment-1-solution" class="section level2">
+<h2>Assignment 1 Solution</h2>
+</div>
+<div id="data-set" class="section level2">
+<h2>Data set</h2>
+<p>For this assignment, we will use the Pilgrim dataset</p>
+<pre class="r"><code>## Import the dataset
+bank &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/PilgrimBankData.csv&quot;))
+
+## View the data
+View(bank)
+
+## Inspect the coding of various variables
+summary(bank)</code></pre>
+<pre><code>&gt;        ID           X9Profit       X9Online         X9Age          X9Inc     
+&gt;  Min.   :    1   Min.   :-221   Min.   :0.000   Min.   :1      Min.   :1     
+&gt;  1st Qu.: 7909   1st Qu.: -34   1st Qu.:0.000   1st Qu.:3      1st Qu.:4     
+&gt;  Median :15818   Median :   9   Median :0.000   Median :4      Median :6     
+&gt;  Mean   :15818   Mean   : 112   Mean   :0.122   Mean   :4      Mean   :5     
+&gt;  3rd Qu.:23726   3rd Qu.: 164   3rd Qu.:0.000   3rd Qu.:5      3rd Qu.:7     
+&gt;  Max.   :31634   Max.   :2071   Max.   :1.000   Max.   :7      Max.   :9     
+&gt;                                                 NA&#39;s   :8289   NA&#39;s   :8261  
+&gt;     X9Tenure      X9District      X0Profit        X0Online      X9Billpay    
+&gt;  Min.   : 0.2   Min.   :1100   Min.   :-5643   Min.   :0      Min.   :0.000  
+&gt;  1st Qu.: 3.8   1st Qu.:1200   1st Qu.:  -30   1st Qu.:0      1st Qu.:0.000  
+&gt;  Median : 7.4   Median :1200   Median :   23   Median :0      Median :0.000  
+&gt;  Mean   :10.2   Mean   :1203   Mean   :  145   Mean   :0      Mean   :0.017  
+&gt;  3rd Qu.:14.8   3rd Qu.:1200   3rd Qu.:  206   3rd Qu.:0      3rd Qu.:0.000  
+&gt;  Max.   :41.2   Max.   :1300   Max.   :27086   Max.   :1      Max.   :1.000  
+&gt;                                NA&#39;s   :5238    NA&#39;s   :5219                  
+&gt;    X0Billpay   
+&gt;  Min.   :0     
+&gt;  1st Qu.:0     
+&gt;  Median :0     
+&gt;  Mean   :0     
+&gt;  3rd Qu.:0     
+&gt;  Max.   :1     
+&gt;  NA&#39;s   :5219</code></pre>
+<div id="formatting-of-outputs" class="section level5">
+<h5>Formatting of outputs</h5>
+<pre class="r"><code>## suppress scientific notation for ease of reading numbers
+options(scipen=99)  </code></pre>
+<hr />
+</div>
+<div id="question-1" class="section level3">
+<h3>Question 1</h3>
+<p>Q1. Calculate the mean and the 95% confidence interval around the
+mean customer profitability. Draw a histogram of customer profitability.
+Does the mean and 95% CI provide good insights into the central tendency
+of the customer profitability distribution?</p>
+<pre class="r"><code>## Calculate the mean of customer profitability
+m = mean(bank$X9Profit)
+sd = sd(bank$X9Profit)
+n = length(bank$X9Profit)
+se = sd/sqrt(n)
+
+##  95% CI around the mean of profitability
+lower95 = m + qnorm(0.025) * se
+upper95 = m + qnorm(0.975) * se
+
+print(c(observations = n, mean.profit = m, lower95 = lower95, upper95 = upper95))</code></pre>
+<pre><code>&gt; observations  mean.profit      lower95      upper95 
+&gt;        31634          112          108          115</code></pre>
+<p>The average customer profitability is $111.50. Because this data is a
+random sample of 31,634 customers, there is uncertainty about what the
+true population mean is. The 95% confidence interval for the mean is
+$108.50 to $114.51. There is a 95% probability that the true population
+mean is within this interval.</p>
+<pre class="r"><code># Draw a histogram
+hist(bank$X9Profit)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-5-1.png" width="60%" /></p>
+<p>The histogram reveals a very large number of customers with
+profitability between -$250 to $0 and a highly skewed distribution with
+a long tail.</p>
+<p>The arithmetic mean does not do a good job of characterizing the
+central tendency of the distribution of Profit because of this
+high-level of skew.</p>
+<hr />
+</div>
+<div id="question-2" class="section level3">
+<h3>Question 2</h3>
+<p>Q2. Evaluate whether the customer profitability data is Normally
+distributed. What future analytical decisions does this evaluation
+inform?</p>
+<p>The histogram presented in Question 1 demonstrates that customer
+profitability is not normally distributed.</p>
+<p>We drive this point home by overlaying a Normal distribution on the
+histogram.</p>
+<p>The analytical consequences are that parametric tests, like t-tests,
+comparing the means of two groups are unlikely to be appropriate.
+Non-parametric tests are likely going to be more appropriate because
+they do not make the assumption of population Normal distribution.</p>
+<pre class="r"><code># Histogram of the sample average income
+hist(bank$X9Profit,
+      yaxt = &quot;n&quot;,       # don&#39;t print the numbers on the y axis
+      xlim = c(-1000, 2000),
+      freq = FALSE,      # Use density instead of frequency to scale the histogram
+      col = &quot;grey&quot;)      # Color of the histogram bars
+
+# Generate values for the normal distribution curve
+x_values &lt;- seq(-1000, 2000, length.out = 3000)
+y_values &lt;- dnorm(x_values, mean = m, sd = sd)
+
+# Add the normal distribution curve to the histogram
+lines(x_values, y_values, col = &quot;red&quot;, lwd = 2)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-6-1.png" width="60%" /></p>
+<hr />
+</div>
+<div id="question-3" class="section level3">
+<h3>Question 3</h3>
+<p>Q3. Use parametric and non-parametric statistical tests to evaluate
+whether online customers are more or less profitable than customers who
+do not use the bank’s online platform. For each test, what is the null
+hypothesis? What is the result of the statistical analysis? And, how do
+you interpret the results (if they are interpretable) in the context of
+the business case?</p>
+<div id="parametric-test" class="section level5">
+<h5>Parametric test</h5>
+<p>Null hypothesis: Average profit for the Online and Not Online groups
+are equal</p>
+<p>Test: Two-sample t-test</p>
+<p>Assumptions:<br />
+1. Outcome measure is continuous (Profit) - check<br />
+2. Random sample - check<br />
+3. Independent observations - check<br />
+4. Outcome measure is Normally distributed – NO! Histogram in Questions
+1 &amp; 2, demonstrate this is not true 5. Both groups have the same
+variance</p>
+<p>To be thorough, we will check the histograms for both the Online and
+not Online groups. We observe that both groups are not Normally
+distributed.</p>
+<pre class="r"><code># Change formatting of graphs to print two side by side
+par( mfrow= c( 1,2 ) )
+
+# Checking Normality for each group
+hist(bank$X9Profit[which(bank$X9Online == 0)],
+     main = &quot;Histogram of Profit, Not online&quot;,
+     xlab = &quot;Customer profit&quot;)
+hist(bank$X9Profit[which(bank$X9Online == 1)],
+     main = &quot;Histogram of Profit, Online&quot;,
+     xlab = &quot;Customer profit&quot;)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-7-1.png" width="60%" /></p>
+<pre class="r"><code># Calculate the group average, number of observations, sd of income
+t(aggregate(bank$X9Profit~bank$X9Online ,
+                 FUN=function(x) {
+                       c(avg = mean(x), 
+                       n = length(x), 
+                       sd = sd(x)     
+                       )
+                 }
+              ))</code></pre>
+<pre><code>&gt;                    [,1] [,2]
+&gt; bank$X9Online         0    1
+&gt; bank$X9Profit.avg   111  117
+&gt; bank$X9Profit.n   27780 3854
+&gt; bank$X9Profit.sd    271  284</code></pre>
+<p>Both groups have similar standard deviation. If the distributions
+were Normal and the standard deviations were different, we could use a
+Welsh’s t-test (default in R), but because the distributions are not
+Normal, we, instead, use a Mann Whitney test.</p>
+<p>Presenting the results of a t-test because the question asked for
+it.</p>
+<pre class="r"><code># T-test
+t.test(bank$X9Profit~bank$X9Online)</code></pre>
+<pre><code>&gt; 
+&gt;   Welch Two Sample t-test
+&gt; 
+&gt; data:  bank$X9Profit by bank$X9Online
+&gt; t = -1, df = 4882, p-value = 0.2
+&gt; alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+&gt; 95 percent confidence interval:
+&gt;  -15.39   3.63
+&gt; sample estimates:
+&gt; mean in group 0 mean in group 1 
+&gt;             111             117</code></pre>
+<p>Interpretation: The p-value is greater than 0.05, so we cannot reject
+the null hypothesis of the two groups having the same mean. The sample
+mean of the online group has a higher average ($116.67 vs. $110.79), but
+this difference is not statistically different.</p>
+</div>
+<div id="non-parametric-test" class="section level5">
+<h5>Non-Parametric test</h5>
+<p>Null hypothesis: Profit for the Online and Not Online groups come
+from the same population distribution.</p>
+<p>Test: Mann-Whitney U test</p>
+<p>Assumptions:<br />
+1. Outcome measure is continuous, ordinal, or rank (Profit) -
+check<br />
+2. Random sample - check<br />
+3. Independent observations - check</p>
+<pre class="r"><code># T-test
+wilcox.test(bank$X9Profit~bank$X9Online)</code></pre>
+<pre><code>&gt; 
+&gt;   Wilcoxon rank sum test with continuity correction
+&gt; 
+&gt; data:  bank$X9Profit by bank$X9Online
+&gt; W = 54267758, p-value = 0.2
+&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>Interpretation: The p-value is greater than 0.05, so we cannot reject
+the null hypothesis of the two groups coming from the same
+distribution.</p>
+<hr />
+</div>
+</div>
+<div id="question-4" class="section level3">
+<h3>Question 4</h3>
+<p>Q4. Both observing and not observing a statistical difference between
+the customers who do and do not use online banking may be the result of
+confounding. That is, customers who use online banking may be
+systematically different in some other way from those who do not use
+online banking. Are customers who use online services different
+demographically than customers who do not use online services? In what
+way? Hint: Please be mindful of missing data, appropriate analysis of
+categorical data, and selection of the correct statistical test when
+performing these analyses.</p>
+<div id="labelling-categorical-variables" class="section level4">
+<h4>Labelling categorical variables</h4>
+<p>First we create variables with labelled categories for Age, Income,
+and Region. We check our coding was correct and then we calculate the
+mean and standard deviation of Profit for each age group. We observe
+that over 8000 customer records do not have age and about the same
+number do not have income.</p>
+<p><strong>Age</strong></p>
+<pre class="r"><code># create a new variable with labelled categories for Age
+bank$AgeCat &lt;- factor(bank$X9Age, 
+                      labels = c(&quot;lt 15&quot;, &quot;15 to 24&quot;, &quot;25 to 34&quot;, &quot;35 to 44&quot;,
+                                 &quot;45 to 54&quot;, &quot;55 to 64&quot;, &quot;65 plus&quot;))
+# check the coding
+table(bank$AgeCat, bank$X9Age, useNA = &quot;ifany&quot;)</code></pre>
+<pre><code>&gt;           
+&gt;               1    2    3    4    5    6    7 &lt;NA&gt;
+&gt;   lt 15     710    0    0    0    0    0    0    0
+&gt;   15 to 24    0 3650    0    0    0    0    0    0
+&gt;   25 to 34    0    0 5390    0    0    0    0    0
+&gt;   35 to 44    0    0    0 5376    0    0    0    0
+&gt;   45 to 54    0    0    0    0 3236    0    0    0
+&gt;   55 to 64    0    0    0    0    0 2290    0    0
+&gt;   65 plus     0    0    0    0    0    0 2693    0
+&gt;   &lt;NA&gt;        0    0    0    0    0    0    0 8289</code></pre>
+<p><strong>Income</strong></p>
+<pre class="r"><code># create a new variable with labelled categories for Income
+bank$IncCat &lt;- factor(bank$X9Inc,
+                      labels = c(&quot;lt 15K&quot;, &quot;15-20K&quot;, &quot;20-30K&quot;, &quot;30-40K&quot;, &quot;40-50K&quot;, 
+                                 &quot;50-75K&quot;, &quot;75-100K&quot;, &quot;100-125K&quot;, &quot;125K plus&quot;))
+# check the coding
+table(bank$IncCat, bank$X9Inc, useNA = &quot;ifany&quot;)</code></pre>
+<pre><code>&gt;            
+&gt;                1    2    3    4    5    6    7    8    9 &lt;NA&gt;
+&gt;   lt 15K    2044    0    0    0    0    0    0    0    0    0
+&gt;   15-20K       0  810    0    0    0    0    0    0    0    0
+&gt;   20-30K       0    0 2571    0    0    0    0    0    0    0
+&gt;   30-40K       0    0    0 2312    0    0    0    0    0    0
+&gt;   40-50K       0    0    0    0 2369    0    0    0    0    0
+&gt;   50-75K       0    0    0    0    0 5413    0    0    0    0
+&gt;   75-100K      0    0    0    0    0    0 3152    0    0    0
+&gt;   100-125K     0    0    0    0    0    0    0 1742    0    0
+&gt;   125K plus    0    0    0    0    0    0    0    0 2960    0
+&gt;   &lt;NA&gt;         0    0    0    0    0    0    0    0    0 8261</code></pre>
+<p><strong>Region</strong></p>
+<pre class="r"><code># create a new variable with labelled categories for Income
+bank$Region &lt;- factor(bank$X9District,
+                      labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;))
+# check the coding
+table(bank$Region, bank$X9District, useNA = &quot;ifany&quot;)</code></pre>
+<pre><code>&gt;    
+&gt;      1100  1200  1300
+&gt;   A  3142     0     0
+&gt;   B     0 24342     0
+&gt;   C     0     0  4150</code></pre>
+<div id="analysis-of-missing-variables" class="section level5">
+<h5>Analysis of Missing Variables</h5>
+<pre class="r"><code>## Create a variable to indicate missing age
+bank$missing.age &lt;- NA
+bank$missing.age[is.na(bank$X9Age) == TRUE] &lt;- 10 
+# Note: assigned value doesn&#39;t matter, use 10 to make it easy to identify in tables
+bank$missing.age[is.na(bank$X9Age) == FALSE] &lt;- 0
+
+## Create a variable to indicate missing income
+bank$missing.inc &lt;- NA
+bank$missing.inc[is.na(bank$X9Inc) == TRUE] &lt;- 20
+bank$missing.inc[is.na(bank$X9Inc) == FALSE] &lt;- 0
+
+
+## Is missing Age more/less likely for customers who are Online?
+t(table(bank$missing.age, bank$X9Online))/colSums(table(bank$missing.age, bank$X9Online))</code></pre>
+<pre><code>&gt;    
+&gt;         0    10
+&gt;   0 0.733 0.267
+&gt;   1 0.777 0.223</code></pre>
+<pre class="r"><code>## Is missing Age more/less likely for customers by Region?
+t(table(bank$missing.age, bank$Region))/colSums(table(bank$missing.age, bank$Region))</code></pre>
+<pre><code>&gt;    
+&gt;         0    10
+&gt;   A 0.708 0.292
+&gt;   B 0.745 0.255
+&gt;   C 0.722 0.278</code></pre>
+<pre class="r"><code>## Is missing Age more/less likely for customers by Income category?
+t(table(bank$missing.age, bank$IncCat))/colSums(table(bank$missing.age, bank$IncCat))</code></pre>
+<pre><code>&gt;            
+&gt;                   0      10
+&gt;   lt 15K    0.93787 0.06213
+&gt;   15-20K    0.96296 0.03704
+&gt;   20-30K    0.96383 0.03617
+&gt;   30-40K    0.97967 0.02033
+&gt;   40-50K    0.98312 0.01688
+&gt;   50-75K    0.98079 0.01921
+&gt;   75-100K   0.98033 0.01967
+&gt;   100-125K  0.97704 0.02296
+&gt;   125K plus 0.99392 0.00608</code></pre>
+<pre class="r"><code>## Is missing Income more/less likely for customers who are Online?
+t(table(bank$missing.inc, bank$X9Online))/colSums(table(bank$missing.inc, bank$X9Online))</code></pre>
+<pre><code>&gt;    
+&gt;         0    20
+&gt;   0 0.733 0.267
+&gt;   1 0.783 0.217</code></pre>
+<pre class="r"><code># are records with missing age more likely to also be missing income?
+table(bank$missing.age, bank$missing.inc)</code></pre>
+<pre><code>&gt;     
+&gt;          0    20
+&gt;   0  22812   533
+&gt;   10   561  7728</code></pre>
+<pre class="r"><code>## Is profit the same or different for people who have missing age?
+aggregate(bank$X9Profit~bank$missing.age, FUN=mean )</code></pre>
+<pre><code>&gt;   bank$missing.age bank$X9Profit
+&gt; 1                0           125
+&gt; 2               10            73</code></pre>
+<pre class="r"><code>## Is profit the same or different for people who have missing income?
+aggregate(bank$X9Profit~bank$missing.inc, FUN=mean )</code></pre>
+<pre><code>&gt;   bank$missing.inc bank$X9Profit
+&gt; 1                0         125.7
+&gt; 2               20          71.4</code></pre>
+<pre class="r"><code>## Is tenure the same or different for people who have missing age?
+aggregate(bank$X9Tenure~bank$missing.age, FUN=mean )</code></pre>
+<pre><code>&gt;   bank$missing.age bank$X9Tenure
+&gt; 1                0         10.91
+&gt; 2               10          8.07</code></pre>
+<pre class="r"><code>## Is tenure the same or different for people who have missing income?
+aggregate(bank$X9Tenure~bank$missing.inc, FUN=mean )</code></pre>
+<pre><code>&gt;   bank$missing.inc bank$X9Tenure
+&gt; 1                0         10.91
+&gt; 2               20          8.05</code></pre>
+<p>We can see that observations with missing age and missing income are
+not evenly distributed across the variables present in the dataset.
+Missingness is more likely with people who are not online, in District
+A, and who have lower incomes. Observations with missing age and missing
+income are more likely to be shorter tenure customers and lower profit
+customers. One challenge is that almost all the observations with
+missing age also have missing income.</p>
+<p>Options for handing missing variables include</p>
+<ol style="list-style-type: decimal">
+<li>Delete all observations with missing variables<br />
+</li>
+<li>Replace missing data with the average (for continuous variables) or
+the mode (for categorical) of the variable<br />
+</li>
+<li>Impute a value relying on a regression using other variables as
+predictors.<br />
+** for example, replace missing values of Age using predictions from a
+regression: <span class="math display">\[ Age = \beta_0 + \beta_1
+District + \beta_2 Tenure \]</span></li>
+<li>Iterative imputation. Impute a value for each missing Age using
+District, Tenure, and Income. Then impute a value for each missing
+Income using District, Tenure, and Age. Repeat several times until
+stable values are achieved (this is called MICE – multiple imputation by
+chained equations)</li>
+<li>Multiply impute values. Using a regression like the one above,
+simulate multiple possible values for each missing value using the
+regression and regression standard error. Usually you have the same
+number of imputed datasets as you have percent of the data missing.</li>
+</ol>
+<p><strong>How you handle missing data matters.</strong> In many fields,
+deleting all observations with missing data will usually bias your
+results to exclude marginalized, racialized, and lower-income
+individuals. Replacing with the average for the whole population does
+not use all the information available in the dataset. Using a regression
+approach to generate one or more imputations is the current standard
+practice in most organizations because it is less likely to create
+biased results.</p>
+<p>In this case, where about 25% of records are missing Age and Income,
+replacing missing values with the mean will dramatically affect the
+distribution of Age and Income in the population.</p>
+<p>For this assignment, any treatment of missing data (other than
+ignoring it) is acceptable, but by Assignment #3, a thoughtful treatment
+of missing data is expected.</p>
+<p><em>For the purpose of moving through the rest of the questions of
+the assignment,</em> I will create a dataset removing any observations
+with missing data for any of the variables from year 1999.</p>
+<pre class="r"><code># Select the specified columns
+bank2 &lt;- bank[, c(&quot;X9Profit&quot;, &quot;X9Online&quot;, &quot;X9Tenure&quot;, &quot;AgeCat&quot;, &quot;IncCat&quot;, &quot;Region&quot;)]
+
+# Remove rows with any missing values
+bank2 &lt;- bank2[complete.cases(bank2), ]</code></pre>
+</div>
+</div>
+<div id="age" class="section level4">
+<h4>AGE</h4>
+<p>We calculate the number of observations in each age category, the
+mean and standard deviation of Profit within each age category.</p>
+<pre class="r"><code># calculate the average and standard deviation by age group
+aggregate(bank2$X9Profit~bank2$AgeCat, 
+                 FUN=function(x) {
+                       c(avg = mean(x), 
+                       n = length(x), 
+                       sd = sd(x)     
+                       )
+                 }
+              )</code></pre>
+<pre><code>&gt;   bank2$AgeCat bank2$X9Profit.avg bank2$X9Profit.n bank2$X9Profit.sd
+&gt; 1        lt 15               5.56           624.00            107.84
+&gt; 2     15 to 24              59.37          3516.00            191.38
+&gt; 3     25 to 34             116.89          5263.00            270.96
+&gt; 4     35 to 44             137.01          5310.00            292.07
+&gt; 5     45 to 54             146.90          3199.00            300.03
+&gt; 6     55 to 64             161.56          2257.00            326.42
+&gt; 7      65 plus             193.53          2643.00            325.32</code></pre>
+<pre class="r"><code>## boxplot of Profit by Age group
+plot(bank2$X9Profit~ bank2$AgeCat)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-16-1.png" width="60%" /></p>
+<p>Because Profit is continuous and Age is Categorical, the tests to
+consider are ANOVA and Kruskal-Wallis. ANOVA is our first choice because
+it is the more powerful test, but it requires the Dependent Variable
+(Profit) to be Normally distributed and the variance to be similar
+across groups. The box plot makes it clear that the data are highly
+right skewed for every group and the standard deviation also appears to
+be increasing with age.</p>
+<p>As a result, the correct test to choose is the Kruskal-Wallis. For
+completeness of the solution, I present both the ANOVA and K-W.</p>
+<pre class="r"><code>## ANOVA
+anova(lm(X9Profit~ AgeCat, data=bank2))</code></pre>
+<pre><code>&gt; Analysis of Variance Table
+&gt; 
+&gt; Response: X9Profit
+&gt;              Df     Sum Sq Mean Sq F value              Pr(&gt;F)    
+&gt; AgeCat        6   42015539 7002590    89.6 &lt;0.0000000000000002 ***
+&gt; Residuals 22805 1783035441   78186                                
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>## Kruskal-Wallis: Non-parametric alternative to ANOVA
+kruskal.test(X9Profit~ AgeCat, data=bank2)</code></pre>
+<pre><code>&gt; 
+&gt;   Kruskal-Wallis rank sum test
+&gt; 
+&gt; data:  X9Profit by AgeCat
+&gt; Kruskal-Wallis chi-squared = 473, df = 6, p-value &lt;0.0000000000000002</code></pre>
+<p>The null hypothesis of the Kruskal-Wallis is that all groups come
+from the same population distribution of customer profit. We observe the
+p-value is less than 0.05 and so we reject the null hypothesis that all
+groups have the same distribution of Profit.</p>
+<p>Finally, because Online is our critical variable, we check to see if
+Online is evenly distributed across customer Age. This will help us
+identify whether we expect that a multiple regression model may identify
+a different conclusion than the MW-U tests we performed above.</p>
+<p>Because Age is an ordinal variable, we can evaluate this with a MW-U
+test.</p>
+<pre class="r"><code># % Online by age group
+table(bank2$AgeCat, bank2$X9Online)/rowSums(table(bank2$AgeCat, bank2$X9Online))</code></pre>
+<pre><code>&gt;           
+&gt;                 0      1
+&gt;   lt 15    0.8029 0.1971
+&gt;   15 to 24 0.7796 0.2204
+&gt;   25 to 34 0.8434 0.1566
+&gt;   35 to 44 0.8652 0.1348
+&gt;   45 to 54 0.9047 0.0953
+&gt;   55 to 64 0.9499 0.0501
+&gt;   65 plus  0.9629 0.0371</code></pre>
+<pre class="r"><code>wilcox.test(X9Age ~ X9Online, data=bank)</code></pre>
+<pre><code>&gt; 
+&gt;   Wilcoxon rank sum test with continuity correction
+&gt; 
+&gt; data:  X9Age by X9Online
+&gt; W = 39042504, p-value &lt;0.0000000000000002
+&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>We observe that younger people are more likely to be online. Once we
+account for age, we may find that Online is no longer significant.</p>
+</div>
+<div id="income" class="section level4">
+<h4>INCOME</h4>
+<p>We calculate the number of observations in each income category, the
+mean and standard deviation of Profit within each income category.</p>
+<pre class="r"><code># calculate the average and standard deviation by age group
+aggregate(bank2$X9Profit~bank2$IncCat, 
+                 FUN=function(x) {
+                       c(avg = mean(x), 
+                       n = length(x), 
+                       sd = sd(x)     
+                       )
+                 }
+              )</code></pre>
+<pre><code>&gt;   bank2$IncCat bank2$X9Profit.avg bank2$X9Profit.n bank2$X9Profit.sd
+&gt; 1       lt 15K               74.0           1917.0             239.9
+&gt; 2       15-20K               90.4            780.0             262.4
+&gt; 3       20-30K               90.8           2478.0             242.4
+&gt; 4       30-40K               94.9           2265.0             251.6
+&gt; 5       40-50K               95.6           2329.0             245.1
+&gt; 6       50-75K              119.5           5309.0             269.9
+&gt; 7      75-100K              139.1           3090.0             285.7
+&gt; 8     100-125K              159.7           1702.0             299.4
+&gt; 9    125K plus              234.5           2942.0             364.3</code></pre>
+<pre class="r"><code>## boxplot of Profit by Age group
+plot(bank2$X9Profit~ bank2$IncCat)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-19-1.png" width="60%" /></p>
+<p>Because Profit is continuous and Income is Categorical, the tests to
+consider are ANOVA and Kruskal-Wallis. ANOVA is our first choice because
+it is the more powerful test, but it requires the Dependent Variable
+(Profit) to be Normally distributed and the variance to be similar
+across groups. The box plot makes it clear that the data are highly
+right skewed for every group and the standard deviation also appears to
+be increasing with income.</p>
+<p>As a result, the correct test to choose is the Kruskal-Wallis. For
+completeness of the solution, I present both the ANOVA and K-W.</p>
+<pre class="r"><code>## ANOVA
+anova(lm(X9Profit~ IncCat, data=bank2))</code></pre>
+<pre><code>&gt; Analysis of Variance Table
+&gt; 
+&gt; Response: X9Profit
+&gt;              Df     Sum Sq Mean Sq F value              Pr(&gt;F)    
+&gt; IncCat        8   50889123 6361140    81.8 &lt;0.0000000000000002 ***
+&gt; Residuals 22803 1774161857   77804                                
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>## Kruskal-Wallis: Non-parametric alternative to ANOVA
+kruskal.test(X9Profit~ IncCat, data=bank2)</code></pre>
+<pre><code>&gt; 
+&gt;   Kruskal-Wallis rank sum test
+&gt; 
+&gt; data:  X9Profit by IncCat
+&gt; Kruskal-Wallis chi-squared = 600, df = 8, p-value &lt;0.0000000000000002</code></pre>
+<p>The null hypothesis of the Kruskal-Wallis is that all groups come
+from the same population distribution of customer profit. We observe the
+p-value is less than 0.05 and so we reject the null hypothesis that all
+groups have the same distribution of Profit.</p>
+<p>Finally, because Online is our critical variable, we check to see if
+Online is evenly distributed across Income groups. This will help us
+identify whether we expect that a multiple regression model may identify
+a different conclusion than the MW-U tests we performed above.</p>
+<p>Because Income is an ordinal variable, we can evaluate this with a
+MW-U test.</p>
+<pre class="r"><code># % Online by income group
+table(bank2$IncCat, bank2$X9Online)/rowSums(table(bank2$IncCat, bank2$X9Online))</code></pre>
+<pre><code>&gt;            
+&gt;                  0      1
+&gt;   lt 15K    0.9212 0.0788
+&gt;   15-20K    0.9179 0.0821
+&gt;   20-30K    0.8898 0.1102
+&gt;   30-40K    0.8940 0.1060
+&gt;   40-50K    0.8716 0.1284
+&gt;   50-75K    0.8706 0.1294
+&gt;   75-100K   0.8518 0.1482
+&gt;   100-125K  0.8449 0.1551
+&gt;   125K plus 0.8239 0.1761</code></pre>
+<pre class="r"><code>wilcox.test(X9Inc ~ X9Online, data=bank)</code></pre>
+<pre><code>&gt; 
+&gt;   Wilcoxon rank sum test with continuity correction
+&gt; 
+&gt; data:  X9Inc by X9Online
+&gt; W = 26522163, p-value &lt;0.0000000000000002
+&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>We observe that higher income people are more likely to be Online.
+Once we account for age and income, we may find that Online is no longer
+significant.</p>
+</div>
+<div id="region" class="section level4">
+<h4>REGION</h4>
+<p>We calculate the number of observations in each Region, the mean and
+standard deviation of Profit within each Region.</p>
+<pre class="r"><code># calculate the average and standard deviation by age group
+aggregate(bank2$X9Profit~bank2$Region, 
+                 FUN=function(x) {
+                       c(avg = mean(x), 
+                       n = length(x), 
+                       sd = sd(x)     
+                       )
+                 }
+              )</code></pre>
+<pre><code>&gt;   bank2$Region bank2$X9Profit.avg bank2$X9Profit.n bank2$X9Profit.sd
+&gt; 1            A               95.5           2189.0             272.3
+&gt; 2            B              134.7          17686.0             286.3
+&gt; 3            C              105.1           2937.0             266.4</code></pre>
+<pre class="r"><code>## boxplot of Profit by Age group
+plot(bank2$X9Profit~ bank2$Region)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-22-1.png" width="60%" /></p>
+<p>Because Profit is continuous and Region is Categorical, the tests to
+consider are ANOVA and Kruskal-Wallis. ANOVA is our first choice because
+it is the more powerful test, but it requires the Dependent Variable
+(Profit) to be Normally distributed and the variance to be similar
+across groups. The box plot makes it clear that the data are highly
+right skewed for every group and the standard deviation also appears to
+be increasing with income.</p>
+<p>As a result, the correct test to choose is the Kruskal-Wallis. For
+completeness of the solution, I present both the ANOVA and K-W.</p>
+<pre class="r"><code>## ANOVA
+anova(lm(X9Profit~ Region, data=bank2))</code></pre>
+<pre><code>&gt; Analysis of Variance Table
+&gt; 
+&gt; Response: X9Profit
+&gt;              Df     Sum Sq Mean Sq F value           Pr(&gt;F)    
+&gt; Region        2    4637308 2318654    29.1 0.00000000000025 ***
+&gt; Residuals 22809 1820413671   79811                             
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>## Kruskal-Wallis: Non-parametric alternative to ANOVA
+kruskal.test(X9Profit~ Region, data=bank2)</code></pre>
+<pre><code>&gt; 
+&gt;   Kruskal-Wallis rank sum test
+&gt; 
+&gt; data:  X9Profit by Region
+&gt; Kruskal-Wallis chi-squared = 101, df = 2, p-value &lt;0.0000000000000002</code></pre>
+<p>The null hypothesis of the Kruskal-Wallis is that all groups come
+from the same population distribution of customer profit. We observe the
+p-value is less than 0.05 and so we reject the null hypothesis that all
+groups have the same distribution of Profit.</p>
+<p>Finally, because Online is our critical variable, we check to see if
+Online is evenly distributed across Regions. This will help us identify
+whether we expect that a multiple regression model may identify a
+different conclusion than the MW-U tests we performed above.</p>
+<p>Because Region is an categorical variable, we can evaluate this with
+a chi-squared.</p>
+<pre class="r"><code># % Online by Region
+table(bank2$Region, bank2$X9Online)/rowSums(table(bank2$Region, bank2$X9Online))</code></pre>
+<pre><code>&gt;    
+&gt;          0      1
+&gt;   A 0.9182 0.0818
+&gt;   B 0.8598 0.1402
+&gt;   C 0.8992 0.1008</code></pre>
+<pre class="r"><code>chisq.test(bank2$Region, bank2$X9Online)</code></pre>
+<pre><code>&gt; 
+&gt;   Pearson&#39;s Chi-squared test
+&gt; 
+&gt; data:  bank2$Region and bank2$X9Online
+&gt; X-squared = 84, df = 2, p-value &lt;0.0000000000000002</code></pre>
+<p>We observe that higher income people are more likely to be Online.
+Once we account for age and income, we may find that Online is no longer
+significant.</p>
+</div>
+<div id="tenure" class="section level4">
+<h4>TENURE</h4>
+<p>Tenure is a continuous variable and so we examine its histogram and
+bivariate relationship with profit using an X-Y scatter.</p>
+<pre class="r"><code># summary of tenure data
+summary(bank$X9Tenure)</code></pre>
+<pre><code>&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+&gt;     0.2     3.8     7.4    10.2    14.8    41.2</code></pre>
+<pre class="r"><code># histogram of the distribution of Tenure
+hist(bank$X9Tenure)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-25-1.png" width="60%" /></p>
+<pre class="r"><code># X-Y scatter with line of best fit overlay
+plot(X9Profit~ X9Tenure, data=bank2)
+abline(lm(X9Profit~ X9Tenure, data=bank2), col=&quot;red&quot;)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-25-2.png" width="60%" /></p>
+<p>We observe that customer tenure is not evenly distributed over time.
+We see that a large number of customers have been with the bank for less
+than 10 years and that a decreasing number of customers have been with
+the bank for more than 10 years.</p>
+<p>To evaluate whether Tenure is a statistically significant contributor
+to customer profit, we can perform a simple linear regression.</p>
+<pre class="r"><code>summary(lm(X9Profit~ X9Tenure, data=bank2))</code></pre>
+<pre><code>&gt; 
+&gt; Call:
+&gt; lm(formula = X9Profit ~ X9Tenure, data = bank2)
+&gt; 
+&gt; Residuals:
+&gt;    Min     1Q Median     3Q    Max 
+&gt; -475.7 -154.1  -87.4   66.7 1989.8 
+&gt; 
+&gt; Coefficients:
+&gt;             Estimate Std. Error t value            Pr(&gt;|t|)    
+&gt; (Intercept)   65.172      3.012    21.6 &lt;0.0000000000000002 ***
+&gt; X9Tenure       5.638      0.216    26.0 &lt;0.0000000000000002 ***
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+&gt; 
+&gt; Residual standard error: 279 on 22810 degrees of freedom
+&gt; Multiple R-squared:  0.0289,  Adjusted R-squared:  0.0288 
+&gt; F-statistic:  678 on 1 and 22810 DF,  p-value: &lt;0.0000000000000002</code></pre>
+<p>We observe that customer Tenure does appear to be a significant
+predictor of bank profits, with a p-value less than 0.05. However, we
+also note that the R-squared is only 3.6%, indicating that customer
+tenure only explains 3.6% of the variability in customer
+profitability.</p>
+<hr />
+</div>
+</div>
+<div id="question-5" class="section level3">
+<h3>Question 5</h3>
+<p>Q5. Using multiple variable linear regression to adjust for other
+customer features, evaluate whether online customers are more or less
+profitable than customers who do not use the bank’s online platform.
+Evaluate whether your regression satisfies the underlying assumptions of
+linear regression. If not, perform appropriate adjustments and
+transformations to perform the best analysis possible to inform business
+decision making at Pilgrim Bank.</p>
+<div id="dataset-for-regression" class="section level5">
+<h5>Dataset for regression</h5>
+<p>R will automatically remove NA to perform regression, but that means
+that as you remove non-significant variables, the dataset on which you
+are doing regression is changing. Ideally, you are more deliberate about
+what observations are in and out of your analysis and you have made a
+conscious decision about how to treat missing variables.</p>
+<p><em>We addressed this in Question 4 and created a dataset without any
+missing variables by deleting any observation with any missing values –
+this approach was acceptable for this assignment, but as you move
+forward in the course and professionally, a more sophisticated treatment
+of missing data is expected.</em></p>
+</div>
+<div id="candidate-model-a" class="section level5">
+<h5>Candidate model A</h5>
+<pre class="r"><code># Regression 1 with all possible predictors
+reg1 &lt;- lm(X9Profit ~ Region + IncCat + AgeCat + X9Tenure + X9Online, data=bank2)
+summary(reg1)</code></pre>
+<pre><code>&gt; 
+&gt; Call:
+&gt; lm(formula = X9Profit ~ Region + IncCat + AgeCat + X9Tenure + 
+&gt;     X9Online, data = bank2)
+&gt; 
+&gt; Residuals:
+&gt;    Min     1Q Median     3Q    Max 
+&gt; -522.7 -155.1  -70.7   66.4 1959.2 
+&gt; 
+&gt; Coefficients:
+&gt;                 Estimate Std. Error t value             Pr(&gt;|t|)    
+&gt; (Intercept)      -56.397     13.196   -4.27   0.0000192930154078 ***
+&gt; RegionB           18.640      6.379    2.92               0.0035 ** 
+&gt; RegionC            7.096      7.758    0.91               0.3604    
+&gt; IncCat15-20K       0.993     11.651    0.09               0.9321    
+&gt; IncCat20-30K      10.936      8.395    1.30               0.1927    
+&gt; IncCat30-40K      10.861      8.553    1.27               0.2041    
+&gt; IncCat40-50K      15.902      8.537    1.86               0.0625 .  
+&gt; IncCat50-75K      39.696      7.471    5.31   0.0000001085586389 ***
+&gt; IncCat75-100K     60.790      8.159    7.45   0.0000000000000964 ***
+&gt; IncCat100-125K    78.551      9.316    8.43 &lt; 0.0000000000000002 ***
+&gt; IncCat125K plus  146.812      8.367   17.55 &lt; 0.0000000000000002 ***
+&gt; AgeCat15 to 24    29.947     11.932    2.51               0.0121 *  
+&gt; AgeCat25 to 34    69.800     11.709    5.96   0.0000000025423582 ***
+&gt; AgeCat35 to 44    74.612     11.794    6.33   0.0000000002558697 ***
+&gt; AgeCat45 to 54    79.435     12.250    6.48   0.0000000000909716 ***
+&gt; AgeCat55 to 64   100.086     12.705    7.88   0.0000000000000035 ***
+&gt; AgeCat65 plus    135.746     12.528   10.84 &lt; 0.0000000000000002 ***
+&gt; X9Tenure           4.088      0.235   17.36 &lt; 0.0000000000000002 ***
+&gt; X9Online          17.025      5.498    3.10               0.0020 ** 
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+&gt; 
+&gt; Residual standard error: 274 on 22793 degrees of freedom
+&gt; Multiple R-squared:  0.0649,  Adjusted R-squared:  0.0641 
+&gt; F-statistic: 87.9 on 18 and 22793 DF,  p-value: &lt;0.0000000000000002</code></pre>
+<p>We observe that all the predictors are significant (or some
+categories, but not all, are significant for categorical variables).</p>
+<p>We can combine categories to make the regression easier to read and
+interpret for decision makers, but there are no variables that need to
+be removed.</p>
+<p>For example, Income category 15-20K is not statistically different
+than the reference group of &lt;15K. Because these categories are
+adjacent, they can be combined.</p>
+<p>Similarly, the coefficient beside 20-30K and 30-40K are very similar,
+with similar standard errors, and similar p-values. Because these
+categories are adjacent, they can be combined. Income category 40-50K is
+also similar to this group, so choosing to combine with the 20-40K group
+is reasonable, but it also isn’t necessary.</p>
+</div>
+<div id="candidate-model-b" class="section level5">
+<h5>Candidate model B</h5>
+<pre class="r"><code># create new income variable
+bank2$newInc &lt;- NA
+bank2$newInc[bank2$IncCat == &quot;lt 15K&quot; | bank2$IncCat == &quot;15-20K&quot;]   &lt;- &quot;lt 20K&quot;
+bank2$newInc[bank2$IncCat == &quot;20-30K&quot; | bank2$IncCat == &quot;30-40K&quot; ]   &lt;- &quot;20-40K&quot;
+bank2$newInc[bank2$IncCat == &quot;40-50K&quot; ]   &lt;- &quot;40-50K&quot;
+bank2$newInc[bank2$IncCat == &quot;50-75K&quot; ]   &lt;- &quot;50-75K&quot;
+bank2$newInc[bank2$IncCat == &quot;75-100K&quot; ]   &lt;- &quot;75-100K&quot;
+bank2$newInc[bank2$IncCat == &quot;100-125K&quot; ]   &lt;- &quot;100-125K&quot;
+bank2$newInc[bank2$IncCat == &quot;125K plus&quot; ]   &lt;- &quot;125K plus&quot;
+bank2$newInc &lt;- factor(bank2$newInc,  levels = c(&quot;lt 20K&quot;, &quot;20-40K&quot;, &quot;40-50K&quot;, &quot;50-75K&quot;, &quot;75-100K&quot;, &quot;100-125K&quot;, &quot;125K plus&quot;))
+
+table(bank2$newInc, bank2$IncCat, useNA = &quot;ifany&quot;)</code></pre>
+<pre><code>&gt;            
+&gt;             lt 15K 15-20K 20-30K 30-40K 40-50K 50-75K 75-100K 100-125K
+&gt;   lt 20K      1917    780      0      0      0      0       0        0
+&gt;   20-40K         0      0   2478   2265      0      0       0        0
+&gt;   40-50K         0      0      0      0   2329      0       0        0
+&gt;   50-75K         0      0      0      0      0   5309       0        0
+&gt;   75-100K        0      0      0      0      0      0    3090        0
+&gt;   100-125K       0      0      0      0      0      0       0     1702
+&gt;   125K plus      0      0      0      0      0      0       0        0
+&gt;            
+&gt;             125K plus
+&gt;   lt 20K            0
+&gt;   20-40K            0
+&gt;   40-50K            0
+&gt;   50-75K            0
+&gt;   75-100K           0
+&gt;   100-125K          0
+&gt;   125K plus      2942</code></pre>
+<pre class="r"><code># Regression 2 with all possible predictors, new income category
+reg2 &lt;- lm(X9Profit ~ Region + newInc + AgeCat + X9Tenure + X9Online, data=bank2)
+summary(reg2)</code></pre>
+<pre><code>&gt; 
+&gt; Call:
+&gt; lm(formula = X9Profit ~ Region + newInc + AgeCat + X9Tenure + 
+&gt;     X9Online, data = bank2)
+&gt; 
+&gt; Residuals:
+&gt;    Min     1Q Median     3Q    Max 
+&gt; -522.8 -155.1  -70.8   66.4 1959.2 
+&gt; 
+&gt; Coefficients:
+&gt;                 Estimate Std. Error t value             Pr(&gt;|t|)    
+&gt; (Intercept)      -56.154     12.884   -4.36  0.00001315763504207 ***
+&gt; RegionB           18.675      6.349    2.94               0.0033 ** 
+&gt; RegionC            7.128      7.747    0.92               0.3576    
+&gt; newInc20-40K      10.611      6.651    1.60               0.1107    
+&gt; newInc40-50K      15.614      7.839    1.99               0.0464 *  
+&gt; newInc50-75K      39.406      6.652    5.92  0.00000000318188153 ***
+&gt; newInc75-100K     60.500      7.416    8.16  0.00000000000000036 ***
+&gt; newInc100-125K    78.260      8.668    9.03 &lt; 0.0000000000000002 ***
+&gt; newInc125K plus  146.520      7.632   19.20 &lt; 0.0000000000000002 ***
+&gt; AgeCat15 to 24    29.955     11.928    2.51               0.0120 *  
+&gt; AgeCat25 to 34    69.811     11.699    5.97  0.00000000245084812 ***
+&gt; AgeCat35 to 44    74.624     11.784    6.33  0.00000000024516579 ***
+&gt; AgeCat45 to 54    79.446     12.241    6.49  0.00000000008748792 ***
+&gt; AgeCat55 to 64   100.110     12.695    7.89  0.00000000000000326 ***
+&gt; AgeCat65 plus    135.770     12.522   10.84 &lt; 0.0000000000000002 ***
+&gt; X9Tenure           4.088      0.235   17.37 &lt; 0.0000000000000002 ***
+&gt; X9Online          17.028      5.497    3.10               0.0020 ** 
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+&gt; 
+&gt; Residual standard error: 274 on 22795 degrees of freedom
+&gt; Multiple R-squared:  0.0649,  Adjusted R-squared:  0.0642 
+&gt; F-statistic: 98.8 on 16 and 22795 DF,  p-value: &lt;0.0000000000000002</code></pre>
+</div>
+<div id="regression-diagnostics-for-candidate-model-b"
+class="section level5">
+<h5>Regression diagnostics for candidate model B</h5>
+<p>Now we can proceed to investigate the regression diagnostics.</p>
+<pre class="r"><code># Evaluate the regression diagnostics
+
+## Standardized residuals vs. continuous predictors
+plot(x=bank2$X9Tenure , y=rstandard(reg2))
+abline(0, 0, lty=2, col=&quot;grey&quot;) # draw a straight line at 0 for a visual reference
+lines(lowess(x=bank2$X9Tenure, rstandard(reg2)), col = &quot;red&quot;, lwd = 2)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-30-1.png" width="60%" /></p>
+<pre class="r"><code>## Standardized residuals vs. categorical predictors
+boxplot(rstandard(reg2) ~ bank2$AgeCat)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-30-2.png" width="60%" /></p>
+<pre class="r"><code>boxplot(rstandard(reg2) ~ bank2$newInc)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-30-3.png" width="60%" /></p>
+<pre class="r"><code>boxplot(rstandard(reg2) ~ bank2$X9Online)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-30-4.png" width="60%" /></p>
+<pre class="r"><code>## Standardized residuals vs. fitted values
+plot(x=reg2$fitted.values, y=rstandard(reg2))
+abline(0, 0, lty=2, col=&quot;grey&quot;) # draw a straight line at 0 for a visual reference
+lines(lowess(x=reg2$fitted.values, rstandard(reg2)), col = &quot;red&quot;, lwd = 2)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-30-5.png" width="60%" /></p>
+<pre class="r"><code>## Outliers, leverage, and influence
+## Residuals vs. Leverage
+plot(reg2, 5)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-30-6.png" width="60%" /></p>
+<pre class="r"><code>## Cook&#39;s distance
+plot(reg2, 4)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-30-7.png" width="60%" /></p>
+<pre class="r"><code>##  Cook&#39;s distance vs. Leverage
+plot(reg2, 6)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-30-8.png" width="60%" /></p>
+<pre class="r"><code>## Normality of the residuals
+library(car)
+qqPlot(reg2, id=FALSE)  # id=FALSE suppresses print out of two most extreme values</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-30-9.png" width="60%" />
+Across several of these graphs, it is clear that the residual error is
+not evenly distributed above and below the zero line and that the errors
+have a long right tail.</p>
+<p>In the graph presenting the standardized residuals vs. fitted values,
+it is also apparent that the variance is not constant over the fitted
+values. This is the concerning &lt; pattern indicating that there is
+heteroskedasticity!</p>
+<p>The QQ-plot makes it clear that the residuals are not normally
+distributed!</p>
+</div>
+<div id="candidate-model-c" class="section level5">
+<h5>Candidate model C</h5>
+<p>One transformation that might improve this model is a log-transform
+of the dependent variable. Because there are negative values, we need to
+right shift the data before we do the log transformation. Note, that if
+we ever use this model for prediction, we would need to un-do both the
+log transformation <em>and</em> the shift.</p>
+<pre class="r"><code>bank2$adj.Profit = log(bank2$X9Profit - min(bank2$X9Profit) + 2)</code></pre>
+<p>Now we can do a linear regression</p>
+<pre class="r"><code># Regression 2 with all possible predictors, new income category
+reg3 &lt;- lm(adj.Profit ~ Region + newInc + AgeCat + X9Tenure + X9Online, data=bank2)
+summary(reg3)</code></pre>
+<pre><code>&gt; 
+&gt; Call:
+&gt; lm(formula = adj.Profit ~ Region + newInc + AgeCat + X9Tenure + 
+&gt;     X9Online, data = bank2)
+&gt; 
+&gt; Residuals:
+&gt;    Min     1Q Median     3Q    Max 
+&gt; -4.982 -0.362 -0.066  0.401  2.216 
+&gt; 
+&gt; Coefficients:
+&gt;                 Estimate Std. Error t value             Pr(&gt;|t|)    
+&gt; (Intercept)     5.164270   0.031443  164.24 &lt; 0.0000000000000002 ***
+&gt; RegionB         0.081260   0.015495    5.24   0.0000001581383680 ***
+&gt; RegionC         0.042252   0.018906    2.23               0.0254 *  
+&gt; newInc20-40K    0.029778   0.016232    1.83               0.0666 .  
+&gt; newInc40-50K    0.051086   0.019131    2.67               0.0076 ** 
+&gt; newInc50-75K    0.099250   0.016233    6.11   0.0000000009862463 ***
+&gt; newInc75-100K   0.142774   0.018097    7.89   0.0000000000000032 ***
+&gt; newInc100-125K  0.188658   0.021154    8.92 &lt; 0.0000000000000002 ***
+&gt; newInc125K plus 0.327268   0.018626   17.57 &lt; 0.0000000000000002 ***
+&gt; AgeCat15 to 24  0.087983   0.029110    3.02               0.0025 ** 
+&gt; AgeCat25 to 34  0.180112   0.028552    6.31   0.0000000002872909 ***
+&gt; AgeCat35 to 44  0.192624   0.028757    6.70   0.0000000000215744 ***
+&gt; AgeCat45 to 54  0.204273   0.029873    6.84   0.0000000000082327 ***
+&gt; AgeCat55 to 64  0.226118   0.030981    7.30   0.0000000000003001 ***
+&gt; AgeCat65 plus   0.348739   0.030560   11.41 &lt; 0.0000000000000002 ***
+&gt; X9Tenure        0.007785   0.000574   13.55 &lt; 0.0000000000000002 ***
+&gt; X9Online        0.002041   0.013416    0.15               0.8791    
+&gt; ---
+&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+&gt; 
+&gt; Residual standard error: 0.668 on 22795 degrees of freedom
+&gt; Multiple R-squared:  0.0535,  Adjusted R-squared:  0.0529 
+&gt; F-statistic: 80.6 on 16 and 22795 DF,  p-value: &lt;0.0000000000000002</code></pre>
+</div>
+<div id="regression-diagnostics-for-candidate-model-c"
+class="section level5">
+<h5>Regression diagnostics for candidate model C</h5>
+<p>Now we can proceed to investigate the regression diagnostics.</p>
+<pre class="r"><code># Evaluate the regression diagnostics
+
+## Standardized residuals vs. continuous predictors
+plot(x=bank2$X9Tenure , y=rstandard(reg3))
+abline(0, 0, lty=2, col=&quot;grey&quot;) # draw a straight line at 0 for a visual reference
+lines(lowess(x=bank2$X9Tenure, rstandard(reg3)), col = &quot;red&quot;, lwd = 2)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-33-1.png" width="60%" /></p>
+<pre class="r"><code>## Standardized residuals vs. categorical predictors
+boxplot(rstandard(reg3) ~ bank2$AgeCat)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-33-2.png" width="60%" /></p>
+<pre class="r"><code>boxplot(rstandard(reg3) ~ bank2$newInc)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-33-3.png" width="60%" /></p>
+<pre class="r"><code>boxplot(rstandard(reg3) ~ bank2$X9Online)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-33-4.png" width="60%" /></p>
+<pre class="r"><code>## Standardized residuals vs. fitted values
+plot(x=reg3$fitted.values, y=rstandard(reg3))
+abline(0, 0, lty=2, col=&quot;grey&quot;) # draw a straight line at 0 for a visual reference
+lines(lowess(x=reg3$fitted.values, rstandard(reg3)), col = &quot;red&quot;, lwd = 2)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-33-5.png" width="60%" /></p>
+<pre class="r"><code>## Outliers, leverage, and influence
+## Residuals vs. Leverage
+plot(reg3, 5)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-33-6.png" width="60%" /></p>
+<pre class="r"><code>## Cook&#39;s distance
+plot(reg3, 4)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-33-7.png" width="60%" /></p>
+<pre class="r"><code>##  Cook&#39;s distance vs. Leverage
+plot(reg3, 6)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-33-8.png" width="60%" /></p>
+<pre class="r"><code>## Normality of the residuals
+library(car)
+qqPlot(reg3, id=FALSE)  # id=FALSE supresses print out of two most extreme values</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-33-9.png" width="60%" /></p>
+<pre class="r"><code># histogram of the residuals... what does this QQ look like?
+hist(reg3$residuals)</code></pre>
+<p><img src="06a-PilgrimSolution_files/figure-html/unnamed-chunk-33-10.png" width="60%" /></p>
+<p>Across all of the regression diagnostics, the log-transformed model
+is superior.</p>
+<p>In the residual plots with predictors the errors are more evenly
+distributed above and below the zero line. In the residual plot with
+fitted values, the errors are more evenly distributed above and below
+the zero line and the shape of the residuals is more distributed over
+the range of fitted values.</p>
+<p>Neither model had a problem with high leverage points.</p>
+<p>Finally, the QQ plot still indicates deviation from the Normal
+distribution for values of the Normal distribution more than 2 standard
+deviations below the mean, but for the majority of values (especially
+for those in the mid-range of the distribution), the residuals are well
+characterized as a Normal distribution.</p>
+<p>This is a high-quality linear regression model satisfying the
+underlying assumptions of regression.</p>
+</div>
+<div id="interpretation" class="section level5">
+<h5>Interpretation</h5>
+<p>In the log-transformed model, Online is not a statistically
+significant predictor of Profit (p-value of 0.88). Therefore, we do not
+reject the null hypothesis that Online status does not affect profit
+after accounting for the impact of customer age and income.</p>
+<p>This is particularly interesting because in the original model,
+Online did have a p-value less than 0.05!</p>
+<hr />
+</div>
+</div>
+<div id="question-6" class="section level3">
+<h3>Question 6</h3>
+<p>Q6. In light of your analysis, help Green with his dilemma: “Did the
+online channel make customers more profitable? And what did this imply
+for the management team’s decision regrading fees or rebates for use of
+the channel?”</p>
+<p>Any recommendation provided should be consistent with your own
+analysis.</p>
+<p>Based on my analysis, after adjusting for Age, Income, and Region,
+Online is no longer associated with customer profitability.</p>
+<p>We did observe that younger customers and higher income customers are
+more likely to use Online resources; the availability of Online banking
+may attract these types of clients towards our bank. In that way, Online
+may serve as a method of recruiting more customers to the bank.</p>
+<p>Therefore, I do not recommend fees or rebates for Online services at
+this time.</p>
+</div>
+</div>
+
+<!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
+<div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0;"></div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
