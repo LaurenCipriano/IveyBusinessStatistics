@@ -14,7 +14,7 @@ css: laurens_styles.css
 ***
 ### Direct Marketing dataset
 ```{r}
-tempData <- read.csv(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/Subscribe-bank-full.csv"), header = TRUE)
+tempData <- read.csv(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/SubscribeBank.csv"), header = TRUE)
 
 summary(tempData)
 ```
