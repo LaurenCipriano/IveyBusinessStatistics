@@ -11,7 +11,7 @@
 
 
 
-<title>Ivey Business Statistics: R Learning Support Materials</title>
+<title>Direct Marketing Dataset Description</title>
 
 <script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -334,52 +334,182 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Ivey Business Statistics:<br />
-R Learning Support Materials</h1>
+<h1 class="title toc-ignore">Direct Marketing Dataset Description</h1>
 
 </div>
 
 
 <hr />
 <hr />
-<div id="datasets" class="section level2">
-<h2>Datasets</h2>
-<p>All of the datasets used in examples on this site and in Ivey
-Business Statistics are available here:</p>
-<p><a href="01-Datasets.html">Datasets Home Page</a></p>
-<hr />
+<div id="direct-marketing-dataset" class="section level3">
+<h3>Direct Marketing dataset</h3>
+<pre class="r"><code>tempData &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/SubscribeBank.csv&quot;), header = TRUE)
+
+summary(tempData)</code></pre>
+<pre><code>&gt;  age.job.marital.education.default.balance.housing.loan.contact.day.month.duration.campaign.pdays.previous.poutcome.y
+&gt;  Length:45211                                                                                                        
+&gt;  Class :character                                                                                                    
+&gt;  Mode  :character</code></pre>
 </div>
-<div id="lessons" class="section level2">
-<h2>Lessons</h2>
-<div id="introduction-to-r" class="section level3">
-<h3>Introduction to R</h3>
-<ul>
-<li><a href="Intro-To-R.html">Webpage</a></li>
-</ul>
-<hr />
+<div id="summary-of-dataset" class="section level3">
+<h3>Summary of dataset</h3>
+<p>The data is related with direct marketing campaigns of a Portuguese
+banking institution. The marketing campaigns were based on phone calls.
+Often, more than one contact to the same client was required, in order
+to access if the product (bank term deposit) would be (or not)
+subscribed.</p>
 </div>
-<div id="hypothesis-testing" class="section level3">
-<h3>Hypothesis Testing</h3>
-<ul>
-<li><a href="Hypothesis-Testing.html">Webpage</a></li>
-</ul>
-<hr />
+<div id="data-dictionary" class="section level3">
+<h3>Data dictionary</h3>
+<table>
+<caption>List of Variables and Definitions</caption>
+<colgroup>
+<col width="8%" />
+<col width="91%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Dependent variable</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">subscribe</td>
+<td align="left">Has the client subscribed a term deposit? (binary:
+‘yes’, ‘no’)</td>
+</tr>
+<tr class="odd">
+<td align="left">Predictor variables</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">age</td>
+<td align="left">Age of the client (numeric)</td>
+</tr>
+<tr class="odd">
+<td align="left">job</td>
+<td align="left">Type of job (categorical: ‘admin.’, ‘unknown’,
+‘unemployed’, ‘management’, ‘housemaid’, ‘entrepreneur’, ‘student’,
+‘blue-collar’, ‘self-employed’, ‘retired’, ‘technician’,
+‘services’)</td>
+</tr>
+<tr class="even">
+<td align="left">marital</td>
+<td align="left">Marital status (categorical: ‘married’, ‘divorced’,
+‘single’; ‘divorced’ includes divorced or widowed)</td>
+</tr>
+<tr class="odd">
+<td align="left">education</td>
+<td align="left">Education level (categorical: ‘unknown’, ‘secondary’,
+‘primary’, ‘tertiary’)</td>
+</tr>
+<tr class="even">
+<td align="left">default</td>
+<td align="left">Has credit in default? (binary: ‘yes’, ‘no’)</td>
+</tr>
+<tr class="odd">
+<td align="left">balance</td>
+<td align="left">Average yearly balance, in euros (numeric)</td>
+</tr>
+<tr class="even">
+<td align="left">housing</td>
+<td align="left">Has housing loan? (binary: ‘yes’, ‘no’)</td>
+</tr>
+<tr class="odd">
+<td align="left">loan</td>
+<td align="left">Has personal loan? (binary: ‘yes’, ‘no’)</td>
+</tr>
+<tr class="even">
+<td align="left">contact</td>
+<td align="left">Contact communication type (categorical: ‘unknown’,
+‘telephone’, ‘cellular’)</td>
+</tr>
+<tr class="odd">
+<td align="left">day</td>
+<td align="left">Last contact day of the month (numeric)</td>
+</tr>
+<tr class="even">
+<td align="left">month</td>
+<td align="left">Last contact month of year (categorical: ‘jan’, ‘feb’,
+…, ‘nov’, ‘dec’)</td>
+</tr>
+<tr class="odd">
+<td align="left">duration</td>
+<td align="left">Last contact duration, in seconds (numeric)</td>
+</tr>
+<tr class="even">
+<td align="left">campaign</td>
+<td align="left">Number of contacts during this campaign (numeric,
+includes last contact)</td>
+</tr>
+<tr class="odd">
+<td align="left">pdays</td>
+<td align="left">Number of days since last contact from a previous
+campaign (numeric, -1 if not previously contacted)</td>
+</tr>
+<tr class="even">
+<td align="left">previous</td>
+<td align="left">Number of contacts before this campaign (numeric)</td>
+</tr>
+<tr class="odd">
+<td align="left">poutcome</td>
+<td align="left">Outcome of the previous marketing campaign
+(categorical: ‘unknown’, ‘other’, ‘failure’, ‘success’)</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="linear-regression" class="section level3">
-<h3>Linear Regression</h3>
-<ul>
-<li><a href="Linear-Regression.html">Webpage</a></li>
-</ul>
-<hr />
-</div>
-<div id="logistic-regression" class="section level3">
-<h3>Logistic Regression</h3>
-<ul>
-<li><a href="Logistic-Regression.html">Webpage</a></li>
-</ul>
-<hr />
-<hr />
-</div>
+<div id="dataset-access-details" class="section level3">
+<h3>Dataset access details</h3>
+<p>This dataset is public available for research. The details are
+described in [Moro et al., 2011]. Please include this citation if you
+plan to use this database:</p>
+<p>[Moro et al., 2011] S. Moro, R. Laureano and P. Cortez. Using Data
+Mining for Bank Direct Marketing: An Application of the CRISP-DM
+Methodology. In P. Novais et al. (Eds.), Proceedings of the European
+Simulation and Modelling Conference - ESM’2011, pp. 117-121, Guimarães,
+Portugal, October, 2011. EUROSIS.</p>
+<p>Available at: [pdf] <a href="http://hdl.handle.net/1822/14838"
+class="uri">http://hdl.handle.net/1822/14838</a> [bib] <a
+href="http://www3.dsi.uminho.pt/pcortez/bib/2011-esm-1.txt"
+class="uri">http://www3.dsi.uminho.pt/pcortez/bib/2011-esm-1.txt</a></p>
+<ol style="list-style-type: decimal">
+<li><p>Title: Bank Marketing</p></li>
+<li><p>Sources Created by: Paulo Cortez (Univ. Minho) and Sérgio Moro
+(ISCTE-IUL) @ 2012</p></li>
+<li><p>Past Usage:</p></li>
+</ol>
+<p>The full dataset was described and analyzed in:</p>
+<p>S. Moro, R. Laureano and P. Cortez. Using Data Mining for Bank Direct
+Marketing: An Application of the CRISP-DM Methodology. In P. Novais et
+al. (Eds.), Proceedings of the European Simulation and Modelling
+Conference - ESM’2011, pp. 117-121, Guimarães, Portugal, October, 2011.
+EUROSIS.</p>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Relevant Information:</p>
+<p>The data is related with direct marketing campaigns of a Portuguese
+banking institution. The marketing campaigns were based on phone calls.
+Often, more than one contact to the same client was required, in order
+to access if the product (bank term deposit) would be (or not)
+subscribed.</p>
+<p>There are two datasets:</p>
+<ol style="list-style-type: decimal">
+<li>bank-full.csv with all examples, ordered by date (from May 2008 to
+November 2010).</li>
+<li>bank.csv with 10% of the examples (4521), randomly selected from
+bank-full.csv. The smallest dataset is provided to test more
+computationally demanding machine learning algorithms (e.g. SVM).</li>
+</ol>
+<p>The classification goal is to predict if the client will subscribe a
+term deposit (variable y).</p></li>
+<li><p>Number of Instances: 45211 for bank-full.csv (4521 for
+bank.csv)</p></li>
+</ol>
 </div>
 
 <!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->

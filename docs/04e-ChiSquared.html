@@ -13,7 +13,7 @@
 
 <title>Chi-Squared</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -587,7 +587,7 @@ chi.edu.kids$expected</code></pre>
 &gt;                   1 18.23 32.17   20.25      19.35
 &gt;                   2 15.39 27.17   17.10      16.34
 &gt;                   3  7.29 12.87    8.10       7.74
-&gt;                   4  1.22  2.15    1.35       1.29</code></pre>
+&gt;                   4  1.22  2.14    1.35       1.29</code></pre>
 <p>Observe that some of the expected cell sizes are less than 5 (which
 is not surprising since some of the observed cell sizes were 0s and 2s).
 As a result, we should re-visit this example in the Fisher Exact test
@@ -783,7 +783,7 @@ chi.edu.kids$expected</code></pre>
 &gt;                   1 18.23 32.17   20.25      19.35
 &gt;                   2 15.39 27.17   17.10      16.34
 &gt;                   3  7.29 12.87    8.10       7.74
-&gt;                   4  1.22  2.15    1.35       1.29</code></pre>
+&gt;                   4  1.22  2.14    1.35       1.29</code></pre>
 <p>If we try to use a Fisher Exact test, R will indicate an error for
 not having enough memory. Increasing the memory is an option, but this
 is a very large contingency table (4x4) with 400 observations in
