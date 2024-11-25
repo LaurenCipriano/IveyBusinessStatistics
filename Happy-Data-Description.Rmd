@@ -16,111 +16,112 @@ css: laurens_styles.css
 ```{r, eval=FALSE}
 tempData <- read.csv(url("https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/GSS_HappyData.csv"), header = TRUE)
 
+#Not run due to large size of data
 summary(tempData)
 ```
-#### Survey Variables
-1.  **YEAR**: Year for this respondent\
-2.  **ID**: Unique ID\
-3.  **WEIGHT**: Combined survey weight variables: WTSSCOMP*OVERSAMP\
 
-#### Respondent Variables
-1.  **VHAPPY**: Respondent’s general happiness
-    **1:** Very Happy **0:** Pretty Happy or Not too happy\
-2.  **COHORT**: Respondent's year of birth\
-3.  **AGE**: Age of Respondent\
-4.  **SEX**: Respondent's sex\
-5.  **RACE**: Race of respondent\
-6.  **DEGREE**: Respondent’s highest degree\
-7.  **EDUC**: Highest year of school completed (0=no formal education)\
-8.  **CLASS_**: Self-identified social class (lower, working, middle, upper)\
-9.  **HEALTH**: Respondent’s self-identified health status\
-10.  **MARITAL**: Marital status\
-11.  **DIVORCE**: Ever divorced or separated\
-12.  **CHILDS**: Number of children\
+```{r, echo=FALSE}
+# Create the individual dataframes for each section with the variable name removed from descriptions
+survey_variables <- data.frame(
+  Variable = c("**YEAR**", "**ID**", "**WEIGHT**"),
+  Description = c("Year for this respondent", "Unique ID", "Combined survey weight variables: WTSSCOMP*OVERSAMP")
+)
 
-#### Respondent Home Variables
-1.  **REGION**: Region where the interview took place\
-2.  **SIZE**: Size of place (city or town where respondent lives) in 1000s\
-3.  **SRCBELT**: Location (Large Standard Metropolitan Statistical Area (SMSAs) Suburb of Large SMSA; Smaller SMSA; etc.)\
-4.  **XNORCSIZ**: Detailed location size (City/Suburb/Rural and population size)\
-5.  **HHTYPE1**: Household composition (Married no kids, Married with kids, etc.)\
-6.  **HOMPOP**: Number of persons in household\
-7.  **ADULTS**: Number of adults (people over 18 years) in household\
-8.  **BABIES**: Household members less than 6 yrs old\
-9.  **PRETEEN**: Household members 6 thru 12 yrs old\
-10.  **TEENS**: Household members 13 thru 17 yrs old\
-11.  **KidsAtHome**: Sum of BABIES, PRETEEN, & TEENS variables\
-12.  **HappyPartner**: Happiness of relationship with partner; Combination of happiness of relationship with GSS HAPCOHAB & HAPMAR variables\
+respondent_variables <- data.frame(
+  Variable = c("**VHAPPY**", "**COHORT**", "**AGE**", "**SEX**", "**RACE**",
+               "**DEGREE**", "**EDUC**", "**CLASS_**", "**HEALTH**", "**MARITAL**",
+               "**DIVORCE**", "**CHILDS**"),
+  Description = c("Respondent’s general happiness **1:** Very Happy **0:** Pretty Happy or Not too happy",
+                  "Respondent's year of birth", "Age of Respondent", "Respondent's sex", "Race of respondent",
+                  "Respondent’s highest degree", "Highest year of school completed (0=no formal education)",
+                  "Self-identified social class (lower, working, middle, upper)", "Respondent’s self-identified health status",
+                  "Marital status", "Ever divorced or separated", "Number of children")
+)
 
-#### Work and Income
-1.  **EARNRS**: How many in family earn money?\
-2.  **WRKSTAT**: Labor force status\
-3.  **PRESTG10**: Respondent’s occupational prestige score (0-100 scale)\
-4.  **SEI10**: Respondent’s socioeconomic index\
-5.  **SPWRKSTA**: Spouse labor force status\
-6.  **SPPRES10**: Spouse’s occupational prestige score (0-100 scale)\
-7.  **SPSEI10**: Spouse’s socioeconomic index\
-8.  **FINRELA**: Opinion of family income (above or below average)\
-9.  **SATFIN**: Satisfaction with current financial situation\
-10.  **FINALTER**: Over the last few years, financial situation gotten better or worse?\
-11.  **SATJOB**: Overall satisfaction with work/role as  home-maker\
-12.  **UNEMP**: Ever unemployed in the last 10 years?\
-13.  **JOBLOSE**: Job security: Is respondent likely to lose their job?\
-14.  **JobFind**: Job mobility: How hard would it be to find an equally good job?\
-15.  **InflTarget**: Regional inflation index for 2023\
-16.  **InflNominal**: Regional inflation index for year of survey\
-17.  **PersIncomeAdj**: Estimated personal income adjusted for inflation Estimated income level, combining income brackets from eight different survey categorical definitions (RINCOME, RINCOM77, RINCOM82, RINCOM86, RINCOM91, RINCOM98, RINCOM06, RINCOM16)  and then adjusted for inflation to 2023 real dollars.\
-18.  **FamIncomeAdj**: Estimated family income adjusted for inflation. Estimated family income level, combining income brackets from nine different survey categorical definitions (INCOME72, INCOME, INCOME77, INCOME82, INCOME86, INCOME91, INCOME98, INCOME06, INCOME16) and then adjusted for inflation to 2023 real dollars.\
-19.  **Z.Inc_Pers**: Year-specific Z-score of personal income\
-20.  **Z.Inc_Fam**: Year-specific Z-score of family income\
-21.  **P.Inc_Pers**: Year-specific percentile of personal income\
-22.  **P.Inc_Fam**: Year-specific percentile of family income\
+respondent_home_variables <- data.frame(
+  Variable = c("**REGION**", "**SIZE**", "**SRCBELT**", "**XNORCSIZ**",
+               "**HHTYPE1**", "**HOMPOP**", "**ADULTS**", "**BABIES**", "**PRETEEN**",
+               "**TEENS**", "**KidsAtHome**", "**HappyPartner**"),
+  Description = c("Region where the interview took place", "Size of place (city or town where respondent lives) in 1000s",
+                  "Location (Large Standard Metropolitan Statistical Area (SMSAs) Suburb of Large SMSA; Smaller SMSA; etc.)",
+                  "Detailed location size (City/Suburb/Rural and population size)", "Household composition (Married no kids, Married with kids, etc.)",
+                  "Number of persons in household", "Number of adults (people over 18 years) in household", "Household members less than 6 yrs old",
+                  "Household members 6 thru 12 yrs old", "Household members 13 thru 17 yrs old", "Sum of BABIES, PRETEEN, & TEENS variables",
+                  "Happiness of relationship with partner; Combination of happiness of relationship with GSS HAPCOHAB & HAPMAR variables")
+)
 
-#### Social Activities
-1.  **SOCBAR**: How often do you ... spend evening at a bar/tavern?\
-2.  **SOCFREND**: How often do you ... spend an evening with friends?\
-3.  **SOCOMMUN**: How often do you ... spend an evening with neighbour?\
-4.  **SOCREL**: How often do you ... spend an evening with relatives?\
-5.  **TVHOURS**: How many hours per day watching tv?  (0-24 hours)\
+work_and_income <- data.frame(
+  Variable = c("**EARNRS**", "**WRKSTAT**", "**PRESTG10**", "**SEI10**",
+               "**SPWRKSTA**", "**SPPRES10**", "**SPSEI10**", "**FINRELA**",
+               "**SATFIN**", "**FINALTER**", "**SATJOB**", "**UNEMP**",
+               "**JOBLOSE**", "**JobFind**", "**InflTarget**", "**InflNominal**",
+               "**PersIncomeAdj**", "**FamIncomeAdj**", "**Z.Inc_Pers**", "**Z.Inc_Fam**",
+               "**P.Inc_Pers**", "**P.Inc_Fam**"),
+  Description = c("How many in family earn money?", "Labor force status", "Respondent’s occupational prestige score (0-100 scale)",
+                  "Respondent’s socioeconomic index", "Spouse labor force status", "Spouse’s occupational prestige score (0-100 scale)",
+                  "Spouse’s socioeconomic index", "Opinion of family income (above or below average)", "Satisfaction with current financial situation",
+                  "Over the last few years, financial situation gotten better or worse?", "Overall satisfaction with work/role as home-maker",
+                  "Ever unemployed in the last 10 years?", "Job security: Is respondent likely to lose their job?", "Job mobility: How hard would it be to find an equally good job?",
+                  "Regional inflation index for 2023", "Regional inflation index for year of survey", "Estimated personal income adjusted for inflation Estimated income level, combining income brackets from eight different survey categorical definitions (RINCOME, RINCOM77, RINCOM82, RINCOM86, RINCOM91, RINCOM98, RINCOM06, RINCOM16) and then adjusted for inflation to 2023 real dollars.",
+                  "Estimated family income adjusted for inflation. Estimated family income level, combining income brackets from nine different survey categorical definitions (INCOME72, INCOME, INCOME77, INCOME82, INCOME86, INCOME91, INCOME98, INCOME06, INCOME16) and then adjusted for inflation to 2023 real dollars.",
+                  "Year-specific Z-score of personal income", "Year-specific Z-score of family income", "Year-specific percentile of personal income", "Year-specific percentile of family income")
+)
 
-#### Political Idealogy and Religion
-1.  **POLVIEWS**: Self-identifies as liberal or conservative\
-2.  **PARTYID**: Political party affiliation\
-3.  **RELIG**: Respondent’s religious preference\
-4.  **RELITEN**: Strength of religious affiliation\
-5.  **ATTEND**: How often r attends religious services\
-6.  **FUND**: How fundamentalist is r currently?\
+social_activities <- data.frame(
+  Variable = c("**SOCBAR**", "**SOCFREND**", "**SOCOMMUN**", "**SOCREL**",
+               "**TVHOURS**"),
+  Description = c("How often do you ... spend evening at a bar/tavern?", "How often do you ... spend an evening with friends?", "How often do you ... spend an evening with neighbour?",
+                  "How often do you ... spend an evening with relatives?", "How many hours per day watching tv? (0-24 hours)")
+)
 
-#### Childhood and Family History
-1.  **BORN**: Was respondent born in the USA\
-2.  **MomBornUS**: Was r’s mother born in USA (1=yes, 2=no)\
-3.  **DadBornUS**: Was r’s father born in USA (1=yes, 2=no)\
-4.  **GRANBORN**: How many grandparents born outside the USA?\
-5.  **REG16**: Region of residence, age 16\
-6.  **RES16**: Type of place lived in when 16 yrs old\
-7.  **MOBILE16**: Geographic mobility since age 16\
-8.  **INCOM16**: r's family income when 16 yrs old\
-9.  **MASEI10**: r's mother's socioeconomic index\
-10.  **PASEI10**: r's father's socioeconomic index\
+political_and_religion <- data.frame(
+  Variable = c("**POLVIEWS**", "**PARTYID**", "**RELIG**", "**RELITEN**",
+               "**ATTEND**", "**FUND**"),
+  Description = c("Self-identifies as liberal or conservative", "Political party affiliation", "Respondent’s religious preference",
+                  "Strength of religious affiliation", "How often r attends religious services", "How fundamentalist is r currently?")
+)
 
-#### Feelings About Community and Society
-1.  **TAX**: Do you consider the amount of federal income tax which you have to pay as too high, about right, or too low?\
-2.  **LIFE**: In general, do you find life exciting, pretty routine, or dull?\
-3.  **HELPFUL**: Most of the time, are people helpful or looking out for themselves?\
+childhood_and_family_history <- data.frame(
+  Variable = c("**BORN**", "**MomBornUS**", "**DadBornUS**", "**GRANBORN**",
+               "**REG16**", "**RES16**", "**MOBILE16**", "**INCOM16**",
+               "**MASEI10**", "**PASEI10**"),
+  Description = c("Was respondent born in the USA", "Was r’s mother born in USA (1=yes, 2=no)", "Was r’s father born in USA (1=yes, 2=no)", "How many grandparents born outside the USA?",
+                  "Region of residence, age 16", "Type of place lived in when 16 yrs old", "Geographic mobility since age 16", "r's family income when 16 yrs old", "r's mother's socioeconomic index", "r's father's socioeconomic index")
+)
 
-#### Confidence in Social Institutions
-I am going to name some institutions in this country. As far as the people running these institutions are concerned, would you say you have a great deal of confidence, only some confidence, or hardly any confidence at all in them?\
+community_and_society <- data.frame(
+  Variable = c("**TAX**", "**LIFE**", "**HELPFUL**"),
+  Description = c("Do you consider the amount of federal income tax which you have to pay as too high, about right, or too low?",
+                  "In general, do you find life exciting, pretty routine, or dull?", "Most of the time, are people helpful or looking out for themselves?")
+)
 
-1.  **CONFINAN**: … banks and financial institutions\
-2.  **CONBUS**: … major companies\
-3.  **CONCLERG**: … organized religion\
-4.  **CONEDUC**: … education\
-5.  **CONFED**: … exec branch of fed govt\
-6.  **CONLABOR**: … organized labor\
-7.  **CONPRESS**: … press\
-8.  **CONMEDIC**: … medicine\
-9.  **CONTV**: … television\
-10.  **CONJUDGE**: … united states supreme court\
-11.  **CONSCI**: … scientific community\
-12.  **CONLEGIS**: … congress\
-13.  **CONARMY**: … military\
+confidence_in_social_institutions <- data.frame(
+  Variable = c("**CONFINAN**", "**CONBUS**", "**CONCLERG**", "**CONEDUC**",
+               "**CONFED**", "**CONLABOR**", "**CONPRESS**", "**CONMEDIC**",
+               "**CONTV**", "**CONJUDGE**", "**CONSCI**", "**CONLEGIS**",
+               "**CONARMY**"),
+  Description = c("… banks and financial institutions", "… major companies", "… organized religion", "… education",
+                  "… exec branch of fed govt", "… organized labor", "… press", "… medicine",
+                  "… television", "… united states supreme court", "… scientific community", "… congress", "… military")
+)
+
+# Print the tables using kable
+kable(survey_variables, format = "markdown", caption = "Survey Variables and Descriptions")
+
+kable(respondent_variables, format = "markdown", caption = "Respondent Variables and Descriptions")
+
+kable(respondent_home_variables, format = "markdown", caption = "Respondent Home Variables and Descriptions")
+
+kable(work_and_income, format = "markdown", caption = "Work and Income Variables and Descriptions")
+
+kable(social_activities, format = "markdown", caption = "Social Activities Variables and Descriptions")
+
+kable(political_and_religion, format = "markdown", caption = "Political Ideology and Religion Variables and Descriptions")
+
+kable(childhood_and_family_history, format = "markdown", caption = "Childhood and Family History Variables and Descriptions")
+
+kable(community_and_society, format = "markdown", caption = "Feelings About Community and Society Variables and Descriptions")
+
+kable(confidence_in_social_institutions, format = "markdown", caption = "Confidence in Social Institutions Variables and Descriptions")
+```
+

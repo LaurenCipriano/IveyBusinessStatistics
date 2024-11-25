@@ -13,7 +13,7 @@
 
 <title>GSS_Happy Data Description</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -345,277 +345,498 @@ div.tocify {
 <h3>Occupational Prestige Data</h3>
 <pre class="r"><code>tempData &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/GSS_HappyData.csv&quot;), header = TRUE)
 
+#Not run due to large size of data
 summary(tempData)</code></pre>
-<div id="survey-variables" class="section level4">
-<h4>Survey Variables</h4>
-<ol style="list-style-type: decimal">
-<li><strong>YEAR</strong>: Year for this respondent<br />
-</li>
-<li><strong>ID</strong>: Unique ID<br />
-</li>
-<li><strong>WEIGHT</strong>: Combined survey weight variables:
-WTSSCOMP*OVERSAMP<br />
-</li>
-</ol>
-</div>
-<div id="respondent-variables" class="section level4">
-<h4>Respondent Variables</h4>
-<ol style="list-style-type: decimal">
-<li><strong>VHAPPY</strong>: Respondent’s general happiness
-<strong>1:</strong> Very Happy <strong>0:</strong> Pretty Happy or Not
-too happy<br />
-</li>
-<li><strong>COHORT</strong>: Respondent’s year of birth<br />
-</li>
-<li><strong>AGE</strong>: Age of Respondent<br />
-</li>
-<li><strong>SEX</strong>: Respondent’s sex<br />
-</li>
-<li><strong>RACE</strong>: Race of respondent<br />
-</li>
-<li><strong>DEGREE</strong>: Respondent’s highest degree<br />
-</li>
-<li><strong>EDUC</strong>: Highest year of school completed (0=no formal
-education)<br />
-</li>
-<li><strong>CLASS_</strong>: Self-identified social class (lower,
-working, middle, upper)<br />
-</li>
-<li><strong>HEALTH</strong>: Respondent’s self-identified health
-status<br />
-</li>
-<li><strong>MARITAL</strong>: Marital status<br />
-</li>
-<li><strong>DIVORCE</strong>: Ever divorced or separated<br />
-</li>
-<li><strong>CHILDS</strong>: Number of children<br />
-</li>
-</ol>
-</div>
-<div id="respondent-home-variables" class="section level4">
-<h4>Respondent Home Variables</h4>
-<ol style="list-style-type: decimal">
-<li><strong>REGION</strong>: Region where the interview took place<br />
-</li>
-<li><strong>SIZE</strong>: Size of place (city or town where respondent
-lives) in 1000s<br />
-</li>
-<li><strong>SRCBELT</strong>: Location (Large Standard Metropolitan
-Statistical Area (SMSAs) Suburb of Large SMSA; Smaller SMSA; etc.)<br />
-</li>
-<li><strong>XNORCSIZ</strong>: Detailed location size (City/Suburb/Rural
-and population size)<br />
-</li>
-<li><strong>HHTYPE1</strong>: Household composition (Married no kids,
-Married with kids, etc.)<br />
-</li>
-<li><strong>HOMPOP</strong>: Number of persons in household<br />
-</li>
-<li><strong>ADULTS</strong>: Number of adults (people over 18 years) in
-household<br />
-</li>
-<li><strong>BABIES</strong>: Household members less than 6 yrs old<br />
-</li>
-<li><strong>PRETEEN</strong>: Household members 6 thru 12 yrs old<br />
-</li>
-<li><strong>TEENS</strong>: Household members 13 thru 17 yrs old<br />
-</li>
-<li><strong>KidsAtHome</strong>: Sum of BABIES, PRETEEN, &amp; TEENS
-variables<br />
-</li>
-<li><strong>HappyPartner</strong>: Happiness of relationship with
-partner; Combination of happiness of relationship with GSS HAPCOHAB
-&amp; HAPMAR variables<br />
-</li>
-</ol>
-</div>
-<div id="work-and-income" class="section level4">
-<h4>Work and Income</h4>
-<ol style="list-style-type: decimal">
-<li><strong>EARNRS</strong>: How many in family earn money?<br />
-</li>
-<li><strong>WRKSTAT</strong>: Labor force status<br />
-</li>
-<li><strong>PRESTG10</strong>: Respondent’s occupational prestige score
-(0-100 scale)<br />
-</li>
-<li><strong>SEI10</strong>: Respondent’s socioeconomic index<br />
-</li>
-<li><strong>SPWRKSTA</strong>: Spouse labor force status<br />
-</li>
-<li><strong>SPPRES10</strong>: Spouse’s occupational prestige score
-(0-100 scale)<br />
-</li>
-<li><strong>SPSEI10</strong>: Spouse’s socioeconomic index<br />
-</li>
-<li><strong>FINRELA</strong>: Opinion of family income (above or below
-average)<br />
-</li>
-<li><strong>SATFIN</strong>: Satisfaction with current financial
-situation<br />
-</li>
-<li><strong>FINALTER</strong>: Over the last few years, financial
-situation gotten better or worse?<br />
-</li>
-<li><strong>SATJOB</strong>: Overall satisfaction with work/role as
-home-maker<br />
-</li>
-<li><strong>UNEMP</strong>: Ever unemployed in the last 10 years?<br />
-</li>
-<li><strong>JOBLOSE</strong>: Job security: Is respondent likely to lose
-their job?<br />
-</li>
-<li><strong>JobFind</strong>: Job mobility: How hard would it be to find
-an equally good job?<br />
-</li>
-<li><strong>InflTarget</strong>: Regional inflation index for 2023<br />
-</li>
-<li><strong>InflNominal</strong>: Regional inflation index for year of
-survey<br />
-</li>
-<li><strong>PersIncomeAdj</strong>: Estimated personal income adjusted
-for inflation Estimated income level, combining income brackets from
-eight different survey categorical definitions (RINCOME, RINCOM77,
-RINCOM82, RINCOM86, RINCOM91, RINCOM98, RINCOM06, RINCOM16) and then
-adjusted for inflation to 2023 real dollars.<br />
-</li>
-<li><strong>FamIncomeAdj</strong>: Estimated family income adjusted for
-inflation. Estimated family income level, combining income brackets from
-nine different survey categorical definitions (INCOME72, INCOME,
-INCOME77, INCOME82, INCOME86, INCOME91, INCOME98, INCOME06, INCOME16)
-and then adjusted for inflation to 2023 real dollars.<br />
-</li>
-<li><strong>Z.Inc_Pers</strong>: Year-specific Z-score of personal
-income<br />
-</li>
-<li><strong>Z.Inc_Fam</strong>: Year-specific Z-score of family
-income<br />
-</li>
-<li><strong>P.Inc_Pers</strong>: Year-specific percentile of personal
-income<br />
-</li>
-<li><strong>P.Inc_Fam</strong>: Year-specific percentile of family
-income<br />
-</li>
-</ol>
-</div>
-<div id="social-activities" class="section level4">
-<h4>Social Activities</h4>
-<ol style="list-style-type: decimal">
-<li><strong>SOCBAR</strong>: How often do you … spend evening at a
-bar/tavern?<br />
-</li>
-<li><strong>SOCFREND</strong>: How often do you … spend an evening with
-friends?<br />
-</li>
-<li><strong>SOCOMMUN</strong>: How often do you … spend an evening with
-neighbour?<br />
-</li>
-<li><strong>SOCREL</strong>: How often do you … spend an evening with
-relatives?<br />
-</li>
-<li><strong>TVHOURS</strong>: How many hours per day watching tv? (0-24
-hours)<br />
-</li>
-</ol>
-</div>
-<div id="political-idealogy-and-religion" class="section level4">
-<h4>Political Idealogy and Religion</h4>
-<ol style="list-style-type: decimal">
-<li><strong>POLVIEWS</strong>: Self-identifies as liberal or
-conservative<br />
-</li>
-<li><strong>PARTYID</strong>: Political party affiliation<br />
-</li>
-<li><strong>RELIG</strong>: Respondent’s religious preference<br />
-</li>
-<li><strong>RELITEN</strong>: Strength of religious affiliation<br />
-</li>
-<li><strong>ATTEND</strong>: How often r attends religious
-services<br />
-</li>
-<li><strong>FUND</strong>: How fundamentalist is r currently?<br />
-</li>
-</ol>
-</div>
-<div id="childhood-and-family-history" class="section level4">
-<h4>Childhood and Family History</h4>
-<ol style="list-style-type: decimal">
-<li><strong>BORN</strong>: Was respondent born in the USA<br />
-</li>
-<li><strong>MomBornUS</strong>: Was r’s mother born in USA (1=yes,
-2=no)<br />
-</li>
-<li><strong>DadBornUS</strong>: Was r’s father born in USA (1=yes,
-2=no)<br />
-</li>
-<li><strong>GRANBORN</strong>: How many grandparents born outside the
-USA?<br />
-</li>
-<li><strong>REG16</strong>: Region of residence, age 16<br />
-</li>
-<li><strong>RES16</strong>: Type of place lived in when 16 yrs old<br />
-</li>
-<li><strong>MOBILE16</strong>: Geographic mobility since age 16<br />
-</li>
-<li><strong>INCOM16</strong>: r’s family income when 16 yrs old<br />
-</li>
-<li><strong>MASEI10</strong>: r’s mother’s socioeconomic index<br />
-</li>
-<li><strong>PASEI10</strong>: r’s father’s socioeconomic index<br />
-</li>
-</ol>
-</div>
-<div id="feelings-about-community-and-society" class="section level4">
-<h4>Feelings About Community and Society</h4>
-<ol style="list-style-type: decimal">
-<li><strong>TAX</strong>: Do you consider the amount of federal income
-tax which you have to pay as too high, about right, or too low?<br />
-</li>
-<li><strong>LIFE</strong>: In general, do you find life exciting, pretty
-routine, or dull?<br />
-</li>
-<li><strong>HELPFUL</strong>: Most of the time, are people helpful or
-looking out for themselves?<br />
-</li>
-</ol>
-</div>
-<div id="confidence-in-social-institutions" class="section level4">
-<h4>Confidence in Social Institutions</h4>
-<p>I am going to name some institutions in this country. As far as the
-people running these institutions are concerned, would you say you have
-a great deal of confidence, only some confidence, or hardly any
-confidence at all in them?<br />
-</p>
-<ol style="list-style-type: decimal">
-<li><strong>CONFINAN</strong>: … banks and financial institutions<br />
-</li>
-<li><strong>CONBUS</strong>: … major companies<br />
-</li>
-<li><strong>CONCLERG</strong>: … organized religion<br />
-</li>
-<li><strong>CONEDUC</strong>: … education<br />
-</li>
-<li><strong>CONFED</strong>: … exec branch of fed govt<br />
-</li>
-<li><strong>CONLABOR</strong>: … organized labor<br />
-</li>
-<li><strong>CONPRESS</strong>: … press<br />
-</li>
-<li><strong>CONMEDIC</strong>: … medicine<br />
-</li>
-<li><strong>CONTV</strong>: … television<br />
-</li>
-<li><strong>CONJUDGE</strong>: … united states supreme court<br />
-</li>
-<li><strong>CONSCI</strong>: … scientific community<br />
-</li>
-<li><strong>CONLEGIS</strong>: … congress<br />
-</li>
-<li><strong>CONARMY</strong>: … military<br />
-</li>
-</ol>
-</div>
+<table>
+<caption>Survey Variables and Descriptions</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>YEAR</strong></td>
+<td align="left">Year for this respondent</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>ID</strong></td>
+<td align="left">Unique ID</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>WEIGHT</strong></td>
+<td align="left">Combined survey weight variables:
+WTSSCOMP*OVERSAMP</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Respondent Variables and Descriptions</caption>
+<colgroup>
+<col width="12%" />
+<col width="87%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>VHAPPY</strong></td>
+<td align="left">Respondent’s general happiness <strong>1:</strong> Very
+Happy <strong>0:</strong> Pretty Happy or Not too happy</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>COHORT</strong></td>
+<td align="left">Respondent’s year of birth</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>AGE</strong></td>
+<td align="left">Age of Respondent</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>SEX</strong></td>
+<td align="left">Respondent’s sex</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>RACE</strong></td>
+<td align="left">Race of respondent</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>DEGREE</strong></td>
+<td align="left">Respondent’s highest degree</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>EDUC</strong></td>
+<td align="left">Highest year of school completed (0=no formal
+education)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>CLASS_</strong></td>
+<td align="left">Self-identified social class (lower, working, middle,
+upper)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>HEALTH</strong></td>
+<td align="left">Respondent’s self-identified health status</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>MARITAL</strong></td>
+<td align="left">Marital status</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>DIVORCE</strong></td>
+<td align="left">Ever divorced or separated</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>CHILDS</strong></td>
+<td align="left">Number of children</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Respondent Home Variables and Descriptions</caption>
+<colgroup>
+<col width="12%" />
+<col width="87%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>REGION</strong></td>
+<td align="left">Region where the interview took place</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>SIZE</strong></td>
+<td align="left">Size of place (city or town where respondent lives) in
+1000s</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>SRCBELT</strong></td>
+<td align="left">Location (Large Standard Metropolitan Statistical Area
+(SMSAs) Suburb of Large SMSA; Smaller SMSA; etc.)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>XNORCSIZ</strong></td>
+<td align="left">Detailed location size (City/Suburb/Rural and
+population size)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>HHTYPE1</strong></td>
+<td align="left">Household composition (Married no kids, Married with
+kids, etc.)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>HOMPOP</strong></td>
+<td align="left">Number of persons in household</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>ADULTS</strong></td>
+<td align="left">Number of adults (people over 18 years) in
+household</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>BABIES</strong></td>
+<td align="left">Household members less than 6 yrs old</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>PRETEEN</strong></td>
+<td align="left">Household members 6 thru 12 yrs old</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>TEENS</strong></td>
+<td align="left">Household members 13 thru 17 yrs old</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>KidsAtHome</strong></td>
+<td align="left">Sum of BABIES, PRETEEN, &amp; TEENS variables</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>HappyPartner</strong></td>
+<td align="left">Happiness of relationship with partner; Combination of
+happiness of relationship with GSS HAPCOHAB &amp; HAPMAR variables</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Work and Income Variables and Descriptions</caption>
+<colgroup>
+<col width="5%" />
+<col width="94%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>EARNRS</strong></td>
+<td align="left">How many in family earn money?</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>WRKSTAT</strong></td>
+<td align="left">Labor force status</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>PRESTG10</strong></td>
+<td align="left">Respondent’s occupational prestige score (0-100
+scale)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>SEI10</strong></td>
+<td align="left">Respondent’s socioeconomic index</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>SPWRKSTA</strong></td>
+<td align="left">Spouse labor force status</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>SPPRES10</strong></td>
+<td align="left">Spouse’s occupational prestige score (0-100 scale)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>SPSEI10</strong></td>
+<td align="left">Spouse’s socioeconomic index</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>FINRELA</strong></td>
+<td align="left">Opinion of family income (above or below average)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>SATFIN</strong></td>
+<td align="left">Satisfaction with current financial situation</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>FINALTER</strong></td>
+<td align="left">Over the last few years, financial situation gotten
+better or worse?</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>SATJOB</strong></td>
+<td align="left">Overall satisfaction with work/role as home-maker</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>UNEMP</strong></td>
+<td align="left">Ever unemployed in the last 10 years?</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>JOBLOSE</strong></td>
+<td align="left">Job security: Is respondent likely to lose their
+job?</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>JobFind</strong></td>
+<td align="left">Job mobility: How hard would it be to find an equally
+good job?</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>InflTarget</strong></td>
+<td align="left">Regional inflation index for 2023</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>InflNominal</strong></td>
+<td align="left">Regional inflation index for year of survey</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>PersIncomeAdj</strong></td>
+<td align="left">Estimated personal income adjusted for inflation
+Estimated income level, combining income brackets from eight different
+survey categorical definitions (RINCOME, RINCOM77, RINCOM82, RINCOM86,
+RINCOM91, RINCOM98, RINCOM06, RINCOM16) and then adjusted for inflation
+to 2023 real dollars.</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>FamIncomeAdj</strong></td>
+<td align="left">Estimated family income adjusted for inflation.
+Estimated family income level, combining income brackets from nine
+different survey categorical definitions (INCOME72, INCOME, INCOME77,
+INCOME82, INCOME86, INCOME91, INCOME98, INCOME06, INCOME16) and then
+adjusted for inflation to 2023 real dollars.</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Z.Inc_Pers</strong></td>
+<td align="left">Year-specific Z-score of personal income</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Z.Inc_Fam</strong></td>
+<td align="left">Year-specific Z-score of family income</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>P.Inc_Pers</strong></td>
+<td align="left">Year-specific percentile of personal income</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>P.Inc_Fam</strong></td>
+<td align="left">Year-specific percentile of family income</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Social Activities Variables and Descriptions</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>SOCBAR</strong></td>
+<td align="left">How often do you … spend evening at a bar/tavern?</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>SOCFREND</strong></td>
+<td align="left">How often do you … spend an evening with friends?</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>SOCOMMUN</strong></td>
+<td align="left">How often do you … spend an evening with
+neighbour?</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>SOCREL</strong></td>
+<td align="left">How often do you … spend an evening with
+relatives?</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>TVHOURS</strong></td>
+<td align="left">How many hours per day watching tv? (0-24 hours)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Political Ideology and Religion Variables and
+Descriptions</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>POLVIEWS</strong></td>
+<td align="left">Self-identifies as liberal or conservative</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>PARTYID</strong></td>
+<td align="left">Political party affiliation</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>RELIG</strong></td>
+<td align="left">Respondent’s religious preference</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>RELITEN</strong></td>
+<td align="left">Strength of religious affiliation</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>ATTEND</strong></td>
+<td align="left">How often r attends religious services</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>FUND</strong></td>
+<td align="left">How fundamentalist is r currently?</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Childhood and Family History Variables and
+Descriptions</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>BORN</strong></td>
+<td align="left">Was respondent born in the USA</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>MomBornUS</strong></td>
+<td align="left">Was r’s mother born in USA (1=yes, 2=no)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>DadBornUS</strong></td>
+<td align="left">Was r’s father born in USA (1=yes, 2=no)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>GRANBORN</strong></td>
+<td align="left">How many grandparents born outside the USA?</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>REG16</strong></td>
+<td align="left">Region of residence, age 16</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>RES16</strong></td>
+<td align="left">Type of place lived in when 16 yrs old</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>MOBILE16</strong></td>
+<td align="left">Geographic mobility since age 16</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>INCOM16</strong></td>
+<td align="left">r’s family income when 16 yrs old</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>MASEI10</strong></td>
+<td align="left">r’s mother’s socioeconomic index</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>PASEI10</strong></td>
+<td align="left">r’s father’s socioeconomic index</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Feelings About Community and Society Variables and
+Descriptions</caption>
+<colgroup>
+<col width="9%" />
+<col width="90%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>TAX</strong></td>
+<td align="left">Do you consider the amount of federal income tax which
+you have to pay as too high, about right, or too low?</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>LIFE</strong></td>
+<td align="left">In general, do you find life exciting, pretty routine,
+or dull?</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>HELPFUL</strong></td>
+<td align="left">Most of the time, are people helpful or looking out for
+themselves?</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Confidence in Social Institutions Variables and
+Descriptions</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>CONFINAN</strong></td>
+<td align="left">… banks and financial institutions</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>CONBUS</strong></td>
+<td align="left">… major companies</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>CONCLERG</strong></td>
+<td align="left">… organized religion</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>CONEDUC</strong></td>
+<td align="left">… education</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>CONFED</strong></td>
+<td align="left">… exec branch of fed govt</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>CONLABOR</strong></td>
+<td align="left">… organized labor</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>CONPRESS</strong></td>
+<td align="left">… press</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>CONMEDIC</strong></td>
+<td align="left">… medicine</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>CONTV</strong></td>
+<td align="left">… television</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>CONJUDGE</strong></td>
+<td align="left">… united states supreme court</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>CONSCI</strong></td>
+<td align="left">… scientific community</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>CONLEGIS</strong></td>
+<td align="left">… congress</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>CONARMY</strong></td>
+<td align="left">… military</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 <!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->

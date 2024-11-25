@@ -13,7 +13,7 @@
 
 <title>Occupational Prestige Data Description</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -346,78 +346,178 @@ div.tocify {
 <pre class="r"><code>tempData &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/PrestigeData.csv&quot;), header = TRUE)
 
 summary(tempData)</code></pre>
-<div id="survey-variables" class="section level4">
-<h4>Survey Variables</h4>
-<ol style="list-style-type: decimal">
-<li><strong>YEAR</strong>: Year for this respondent<br />
-</li>
-<li><strong>ID</strong>: Unique ID<br />
-</li>
-</ol>
-</div>
-<div id="respondent-variables" class="section level4">
-<h4>Respondent Variables</h4>
-<ol style="list-style-type: decimal">
-<li><strong>AGE</strong>: Age of Respondent<br />
-</li>
-<li><strong>SEX</strong>: Respondent’s sex<br />
-</li>
-<li><strong>DEGREE</strong>: Respondent’s highest degree<br />
-</li>
-<li><strong>EDUC</strong>: Highest year of school completed (0=no formal
-education)<br />
-</li>
-<li><strong>CLASS_</strong>: Self-identified social class (lower,
-working, middle, upper)<br />
-</li>
-<li><strong>MARITAL</strong>: Marital status<br />
-</li>
-</ol>
-</div>
-<div id="respondent-home-variables" class="section level4">
-<h4>Respondent Home Variables</h4>
-<ol style="list-style-type: decimal">
-<li><strong>REGION</strong>: Region where the interview took place<br />
-</li>
-</ol>
-</div>
-<div id="work-and-income" class="section level4">
-<h4>Work and Income</h4>
-<ol start="2" style="list-style-type: decimal">
-<li><strong>PRESTG10</strong>: Respondent’s occupational prestige score
-(0-100 scale)<br />
-</li>
-<li><strong>SEI10</strong>: Respondent’s socioeconomic index<br />
-</li>
-<li><strong>FINRELA</strong>: Opinion of family income (above or below
-average)<br />
-</li>
-<li><strong>SATFIN</strong>: Satisfaction with current financial
-situation<br />
-</li>
-<li><strong>UNEMP</strong>: Ever unemployed in the last 10 years?<br />
-</li>
-<li><strong>JOBLOSE</strong>: Job security: Is respondent likely to lose
-their job?<br />
-</li>
-<li><strong>JobFind</strong>: Job mobility: How hard would it be to find
-an equally good job?<br />
-</li>
-<li><strong>PersIncomeAdj</strong>: Estimated personal income adjusted
-for inflation Estimated income level, combining income brackets from
-eight different survey categorical definitions (RINCOME, RINCOM77,
-RINCOM82, RINCOM86, RINCOM91, RINCOM98, RINCOM06, RINCOM16) and then
-adjusted for inflation to 2023 real dollars.<br />
-</li>
-</ol>
-</div>
-<div id="childhood-and-family-history" class="section level4">
-<h4>Childhood and Family History</h4>
-<ol style="list-style-type: decimal">
-<li><strong>BORN</strong>: Was respondent born in the USA<br />
-</li>
-</ol>
-</div>
+<pre><code>&gt;        ID             YEAR           AGE             SEX            DEGREE     
+&gt;  Min.   : 7571   Min.   :1977   Min.   :18.00   Min.   :1.000   Min.   :0.000  
+&gt;  1st Qu.:19579   1st Qu.:1986   1st Qu.:31.00   1st Qu.:1.000   1st Qu.:1.000  
+&gt;  Median :34249   Median :1996   Median :39.00   Median :1.000   Median :1.000  
+&gt;  Mean   :34372   Mean   :1998   Mean   :40.89   Mean   :1.485   Mean   :1.633  
+&gt;  3rd Qu.:48346   3rd Qu.:2010   3rd Qu.:50.00   3rd Qu.:2.000   3rd Qu.:3.000  
+&gt;  Max.   :67588   Max.   :2022   Max.   :88.00   Max.   :2.000   Max.   :4.000  
+&gt;      REGION      PersIncomeAdj         MARITAL           EDUC      
+&gt;  Min.   :1.000   Min.   :   489.2   Min.   :1.000   Min.   : 0.00  
+&gt;  1st Qu.:3.000   1st Qu.: 26668.7   1st Qu.:1.000   1st Qu.:12.00  
+&gt;  Median :5.000   Median : 48932.7   Median :1.000   Median :13.00  
+&gt;  Mean   :4.984   Mean   : 66655.5   Mean   :2.406   Mean   :13.66  
+&gt;  3rd Qu.:7.000   3rd Qu.: 78882.4   3rd Qu.:4.000   3rd Qu.:16.00  
+&gt;  Max.   :9.000   Max.   :701059.0   Max.   :5.000   Max.   :20.00  
+&gt;      CLASS_           BORN          PRESTG10         SEI10      
+&gt;  Min.   :1.000   Min.   :1.000   Min.   :16.00   Min.   : 9.00  
+&gt;  1st Qu.:2.000   1st Qu.:1.000   1st Qu.:35.00   1st Qu.:27.50  
+&gt;  Median :2.000   Median :1.000   Median :44.00   Median :41.10  
+&gt;  Mean   :2.449   Mean   :1.091   Mean   :44.32   Mean   :46.94  
+&gt;  3rd Qu.:3.000   3rd Qu.:1.000   3rd Qu.:52.00   3rd Qu.:65.10  
+&gt;  Max.   :4.000   Max.   :2.000   Max.   :80.00   Max.   :93.70  
+&gt;     FINRELA          SATFIN          UNEMP          JOBLOSE        JobFind     
+&gt;  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.00   Min.   :1.000  
+&gt;  1st Qu.:3.000   1st Qu.:1.000   1st Qu.:1.000   1st Qu.:3.00   1st Qu.:1.000  
+&gt;  Median :3.000   Median :2.000   Median :2.000   Median :4.00   Median :2.000  
+&gt;  Mean   :3.004   Mean   :1.957   Mean   :1.651   Mean   :3.51   Mean   :2.148  
+&gt;  3rd Qu.:4.000   3rd Qu.:3.000   3rd Qu.:2.000   3rd Qu.:4.00   3rd Qu.:3.000  
+&gt;  Max.   :5.000   Max.   :3.000   Max.   :2.000   Max.   :4.00   Max.   :3.000</code></pre>
+<table>
+<caption>Survey Variables</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>YEAR</strong></td>
+<td align="left">Year for this respondent</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>ID</strong></td>
+<td align="left">Unique ID</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Respondent Variables</caption>
+<colgroup>
+<col width="16%" />
+<col width="83%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>AGE</strong></td>
+<td align="left">Age of Respondent</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>SEX</strong></td>
+<td align="left">Respondent’s sex</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>DEGREE</strong></td>
+<td align="left">Respondent’s highest degree</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>EDUC</strong></td>
+<td align="left">Highest year of school completed (0=no formal
+education)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>CLASS_</strong></td>
+<td align="left">Self-identified social class (lower, working, middle,
+upper)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>MARITAL</strong></td>
+<td align="left">Marital status</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Respondent Home Variables</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>REGION</strong></td>
+<td align="left">Region where the interview took place</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Work and Income Variables</caption>
+<colgroup>
+<col width="5%" />
+<col width="94%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>PRESTG10</strong></td>
+<td align="left">Respondent’s occupational prestige score (0-100
+scale)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>SEI10</strong></td>
+<td align="left">Respondent’s socioeconomic index</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>FINRELA</strong></td>
+<td align="left">Opinion of family income (above or below average)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>SATFIN</strong></td>
+<td align="left">Satisfaction with current financial situation</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>UNEMP</strong></td>
+<td align="left">Ever unemployed in the last 10 years?</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>JOBLOSE</strong></td>
+<td align="left">Job security: Is respondent likely to lose their
+job?</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>JobFind</strong></td>
+<td align="left">Job mobility: How hard would it be to find an equally
+good job?</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>PersIncomeAdj</strong></td>
+<td align="left">Estimated personal income adjusted for inflation.
+Estimated income level, combining income brackets from eight different
+survey categorical definitions (RINCOME, RINCOM77, RINCOM82, RINCOM86,
+RINCOM91, RINCOM98, RINCOM06, RINCOM16) and then adjusted for inflation
+to 2023 real dollars.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Childhood and Family History Variables</caption>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>BORN</strong></td>
+<td align="left">Was respondent born in the USA</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 <!-- <p id="copyright">Copyright &copy; 2024 Lauren Cipriano <p> -->
