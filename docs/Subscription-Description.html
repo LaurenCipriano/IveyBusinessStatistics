@@ -13,7 +13,7 @@
 
 <title>Direct Marketing Dataset Description</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -346,10 +346,41 @@ div.tocify {
 <pre class="r"><code>tempData &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/SubscribeBank.csv&quot;), header = TRUE)
 
 summary(tempData)</code></pre>
-<pre><code>&gt;  age.job.marital.education.default.balance.housing.loan.contact.day.month.duration.campaign.pdays.previous.poutcome.y
-&gt;  Length:45211                                                                                                        
-&gt;  Class :character                                                                                                    
-&gt;  Mode  :character</code></pre>
+<pre><code>&gt;       age            job              marital           education        
+&gt;  Min.   :18.00   Length:45211       Length:45211       Length:45211      
+&gt;  1st Qu.:33.00   Class :character   Class :character   Class :character  
+&gt;  Median :39.00   Mode  :character   Mode  :character   Mode  :character  
+&gt;  Mean   :40.94                                                           
+&gt;  3rd Qu.:48.00                                                           
+&gt;  Max.   :95.00                                                           
+&gt;    default             balance         housing              loan          
+&gt;  Length:45211       Min.   : -8019   Length:45211       Length:45211      
+&gt;  Class :character   1st Qu.:    72   Class :character   Class :character  
+&gt;  Mode  :character   Median :   448   Mode  :character   Mode  :character  
+&gt;                     Mean   :  1362                                        
+&gt;                     3rd Qu.:  1428                                        
+&gt;                     Max.   :102127                                        
+&gt;    contact               day           month              duration     
+&gt;  Length:45211       Min.   : 1.00   Length:45211       Min.   :   0.0  
+&gt;  Class :character   1st Qu.: 8.00   Class :character   1st Qu.: 103.0  
+&gt;  Mode  :character   Median :16.00   Mode  :character   Median : 180.0  
+&gt;                     Mean   :15.81                      Mean   : 258.2  
+&gt;                     3rd Qu.:21.00                      3rd Qu.: 319.0  
+&gt;                     Max.   :31.00                      Max.   :4918.0  
+&gt;     campaign          pdays          previous          poutcome        
+&gt;  Min.   : 1.000   Min.   : -1.0   Min.   :  0.0000   Length:45211      
+&gt;  1st Qu.: 1.000   1st Qu.: -1.0   1st Qu.:  0.0000   Class :character  
+&gt;  Median : 2.000   Median : -1.0   Median :  0.0000   Mode  :character  
+&gt;  Mean   : 2.764   Mean   : 40.2   Mean   :  0.5803                     
+&gt;  3rd Qu.: 3.000   3rd Qu.: -1.0   3rd Qu.:  0.0000                     
+&gt;  Max.   :63.000   Max.   :871.0   Max.   :275.0000                     
+&gt;   subscribe        
+&gt;  Length:45211      
+&gt;  Class :character  
+&gt;  Mode  :character  
+&gt;                    
+&gt;                    
+&gt; </code></pre>
 </div>
 <div id="summary-of-dataset" class="section level3">
 <h3>Summary of dataset</h3>

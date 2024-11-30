@@ -30,8 +30,7 @@ summary(tempData)
 ### Data dictionary
  
 ```{r, echo=FALSE}
-library(knitr)
-   # Create the dataframe
+# Create the dataframe
 variables <- data.frame(
   Variable = c("Dependent variable", "subscribe", 
                "Predictor variables",
