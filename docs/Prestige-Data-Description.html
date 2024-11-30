@@ -13,7 +13,7 @@
 
 <title>Occupational Prestige Data Description</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -346,34 +346,34 @@ div.tocify {
 <pre class="r"><code>tempData &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/PrestigeData.csv&quot;), header = TRUE)
 
 summary(tempData)</code></pre>
-<pre><code>&gt;        ID             YEAR           AGE             SEX            DEGREE     
-&gt;  Min.   : 7571   Min.   :1977   Min.   :18.00   Min.   :1.000   Min.   :0.000  
-&gt;  1st Qu.:19579   1st Qu.:1986   1st Qu.:31.00   1st Qu.:1.000   1st Qu.:1.000  
-&gt;  Median :34249   Median :1996   Median :39.00   Median :1.000   Median :1.000  
-&gt;  Mean   :34372   Mean   :1998   Mean   :40.89   Mean   :1.485   Mean   :1.633  
-&gt;  3rd Qu.:48346   3rd Qu.:2010   3rd Qu.:50.00   3rd Qu.:2.000   3rd Qu.:3.000  
-&gt;  Max.   :67588   Max.   :2022   Max.   :88.00   Max.   :2.000   Max.   :4.000  
-&gt;      REGION      PersIncomeAdj         MARITAL           EDUC      
-&gt;  Min.   :1.000   Min.   :   489.2   Min.   :1.000   Min.   : 0.00  
-&gt;  1st Qu.:3.000   1st Qu.: 26668.7   1st Qu.:1.000   1st Qu.:12.00  
-&gt;  Median :5.000   Median : 48932.7   Median :1.000   Median :13.00  
-&gt;  Mean   :4.984   Mean   : 66655.5   Mean   :2.406   Mean   :13.66  
-&gt;  3rd Qu.:7.000   3rd Qu.: 78882.4   3rd Qu.:4.000   3rd Qu.:16.00  
-&gt;  Max.   :9.000   Max.   :701059.0   Max.   :5.000   Max.   :20.00  
-&gt;      CLASS_           BORN          PRESTG10         SEI10      
-&gt;  Min.   :1.000   Min.   :1.000   Min.   :16.00   Min.   : 9.00  
-&gt;  1st Qu.:2.000   1st Qu.:1.000   1st Qu.:35.00   1st Qu.:27.50  
-&gt;  Median :2.000   Median :1.000   Median :44.00   Median :41.10  
-&gt;  Mean   :2.449   Mean   :1.091   Mean   :44.32   Mean   :46.94  
-&gt;  3rd Qu.:3.000   3rd Qu.:1.000   3rd Qu.:52.00   3rd Qu.:65.10  
-&gt;  Max.   :4.000   Max.   :2.000   Max.   :80.00   Max.   :93.70  
-&gt;     FINRELA          SATFIN          UNEMP          JOBLOSE        JobFind     
-&gt;  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.00   Min.   :1.000  
-&gt;  1st Qu.:3.000   1st Qu.:1.000   1st Qu.:1.000   1st Qu.:3.00   1st Qu.:1.000  
-&gt;  Median :3.000   Median :2.000   Median :2.000   Median :4.00   Median :2.000  
-&gt;  Mean   :3.004   Mean   :1.957   Mean   :1.651   Mean   :3.51   Mean   :2.148  
-&gt;  3rd Qu.:4.000   3rd Qu.:3.000   3rd Qu.:2.000   3rd Qu.:4.00   3rd Qu.:3.000  
-&gt;  Max.   :5.000   Max.   :3.000   Max.   :2.000   Max.   :4.00   Max.   :3.000</code></pre>
+<pre><code>&gt;        ID             YEAR           AGE            SEX           DEGREE    
+&gt;  Min.   : 7571   Min.   :1977   Min.   :18.0   Min.   :1.00   Min.   :0.00  
+&gt;  1st Qu.:19579   1st Qu.:1986   1st Qu.:31.0   1st Qu.:1.00   1st Qu.:1.00  
+&gt;  Median :34249   Median :1996   Median :39.0   Median :1.00   Median :1.00  
+&gt;  Mean   :34372   Mean   :1998   Mean   :40.9   Mean   :1.49   Mean   :1.63  
+&gt;  3rd Qu.:48346   3rd Qu.:2010   3rd Qu.:50.0   3rd Qu.:2.00   3rd Qu.:3.00  
+&gt;  Max.   :67588   Max.   :2022   Max.   :88.0   Max.   :2.00   Max.   :4.00  
+&gt;      REGION     PersIncomeAdj       MARITAL          EDUC          CLASS_    
+&gt;  Min.   :1.00   Min.   :   489   Min.   :1.00   Min.   : 0.0   Min.   :1.00  
+&gt;  1st Qu.:3.00   1st Qu.: 26669   1st Qu.:1.00   1st Qu.:12.0   1st Qu.:2.00  
+&gt;  Median :5.00   Median : 48933   Median :1.00   Median :13.0   Median :2.00  
+&gt;  Mean   :4.98   Mean   : 66656   Mean   :2.41   Mean   :13.7   Mean   :2.45  
+&gt;  3rd Qu.:7.00   3rd Qu.: 78882   3rd Qu.:4.00   3rd Qu.:16.0   3rd Qu.:3.00  
+&gt;  Max.   :9.00   Max.   :701059   Max.   :5.00   Max.   :20.0   Max.   :4.00  
+&gt;       BORN         PRESTG10        SEI10         FINRELA      SATFIN    
+&gt;  Min.   :1.00   Min.   :16.0   Min.   : 9.0   Min.   :1   Min.   :1.00  
+&gt;  1st Qu.:1.00   1st Qu.:35.0   1st Qu.:27.5   1st Qu.:3   1st Qu.:1.00  
+&gt;  Median :1.00   Median :44.0   Median :41.1   Median :3   Median :2.00  
+&gt;  Mean   :1.09   Mean   :44.3   Mean   :46.9   Mean   :3   Mean   :1.96  
+&gt;  3rd Qu.:1.00   3rd Qu.:52.0   3rd Qu.:65.1   3rd Qu.:4   3rd Qu.:3.00  
+&gt;  Max.   :2.00   Max.   :80.0   Max.   :93.7   Max.   :5   Max.   :3.00  
+&gt;      UNEMP         JOBLOSE        JobFind    
+&gt;  Min.   :1.00   Min.   :1.00   Min.   :1.00  
+&gt;  1st Qu.:1.00   1st Qu.:3.00   1st Qu.:1.00  
+&gt;  Median :2.00   Median :4.00   Median :2.00  
+&gt;  Mean   :1.65   Mean   :3.51   Mean   :2.15  
+&gt;  3rd Qu.:2.00   3rd Qu.:4.00   3rd Qu.:3.00  
+&gt;  Max.   :2.00   Max.   :4.00   Max.   :3.00</code></pre>
 <table>
 <caption>Survey Variables</caption>
 <thead>

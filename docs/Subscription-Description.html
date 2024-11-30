@@ -13,7 +13,7 @@
 
 <title>Direct Marketing Dataset Description</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -346,13 +346,13 @@ div.tocify {
 <pre class="r"><code>tempData &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/SubscribeBank.csv&quot;), header = TRUE)
 
 summary(tempData)</code></pre>
-<pre><code>&gt;       age            job              marital           education        
-&gt;  Min.   :18.00   Length:45211       Length:45211       Length:45211      
-&gt;  1st Qu.:33.00   Class :character   Class :character   Class :character  
-&gt;  Median :39.00   Mode  :character   Mode  :character   Mode  :character  
-&gt;  Mean   :40.94                                                           
-&gt;  3rd Qu.:48.00                                                           
-&gt;  Max.   :95.00                                                           
+<pre><code>&gt;       age           job              marital           education        
+&gt;  Min.   :18.0   Length:45211       Length:45211       Length:45211      
+&gt;  1st Qu.:33.0   Class :character   Class :character   Class :character  
+&gt;  Median :39.0   Mode  :character   Mode  :character   Mode  :character  
+&gt;  Mean   :40.9                                                           
+&gt;  3rd Qu.:48.0                                                           
+&gt;  Max.   :95.0                                                           
 &gt;    default             balance         housing              loan          
 &gt;  Length:45211       Min.   : -8019   Length:45211       Length:45211      
 &gt;  Class :character   1st Qu.:    72   Class :character   Class :character  
@@ -360,20 +360,20 @@ summary(tempData)</code></pre>
 &gt;                     Mean   :  1362                                        
 &gt;                     3rd Qu.:  1428                                        
 &gt;                     Max.   :102127                                        
-&gt;    contact               day           month              duration     
-&gt;  Length:45211       Min.   : 1.00   Length:45211       Min.   :   0.0  
-&gt;  Class :character   1st Qu.: 8.00   Class :character   1st Qu.: 103.0  
-&gt;  Mode  :character   Median :16.00   Mode  :character   Median : 180.0  
-&gt;                     Mean   :15.81                      Mean   : 258.2  
-&gt;                     3rd Qu.:21.00                      3rd Qu.: 319.0  
-&gt;                     Max.   :31.00                      Max.   :4918.0  
-&gt;     campaign          pdays          previous          poutcome        
-&gt;  Min.   : 1.000   Min.   : -1.0   Min.   :  0.0000   Length:45211      
-&gt;  1st Qu.: 1.000   1st Qu.: -1.0   1st Qu.:  0.0000   Class :character  
-&gt;  Median : 2.000   Median : -1.0   Median :  0.0000   Mode  :character  
-&gt;  Mean   : 2.764   Mean   : 40.2   Mean   :  0.5803                     
-&gt;  3rd Qu.: 3.000   3rd Qu.: -1.0   3rd Qu.:  0.0000                     
-&gt;  Max.   :63.000   Max.   :871.0   Max.   :275.0000                     
+&gt;    contact               day          month              duration   
+&gt;  Length:45211       Min.   : 1.0   Length:45211       Min.   :   0  
+&gt;  Class :character   1st Qu.: 8.0   Class :character   1st Qu.: 103  
+&gt;  Mode  :character   Median :16.0   Mode  :character   Median : 180  
+&gt;                     Mean   :15.8                      Mean   : 258  
+&gt;                     3rd Qu.:21.0                      3rd Qu.: 319  
+&gt;                     Max.   :31.0                      Max.   :4918  
+&gt;     campaign        pdays        previous       poutcome        
+&gt;  Min.   : 1.0   Min.   : -1   Min.   :  0.0   Length:45211      
+&gt;  1st Qu.: 1.0   1st Qu.: -1   1st Qu.:  0.0   Class :character  
+&gt;  Median : 2.0   Median : -1   Median :  0.0   Mode  :character  
+&gt;  Mean   : 2.8   Mean   : 40   Mean   :  0.6                     
+&gt;  3rd Qu.: 3.0   3rd Qu.: -1   3rd Qu.:  0.0                     
+&gt;  Max.   :63.0   Max.   :871   Max.   :275.0                     
 &gt;   subscribe        
 &gt;  Length:45211      
 &gt;  Class :character  

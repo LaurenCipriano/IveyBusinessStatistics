@@ -371,7 +371,7 @@ if(runif(1) &lt;= p){1}else{0}</code></pre>
 p = 1/6
 n = 20
 as.integer(runif(n) &lt;= p)</code></pre>
-<pre><code>&gt;  [1] 0 0 0 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0</code></pre>
+<pre><code>&gt;  [1] 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 0</code></pre>
 <hr />
 </div>
 </div>
@@ -430,10 +430,9 @@ trials when the probability of success is “prob”</p>
 n = 20
 p = 1/6
 rbinom(n = trials, size = n, prob = p)</code></pre>
-<pre><code>&gt;   [1]  4  2  4  2  2 10  4  5  4  4  2  4  2  1  4  1  4  5  5  1  4  3  4  3  3
-&gt;  [26]  4  2  3  2  3  4  4  2  5  3  7  5  2  3  6  3  1  5  4  3  0  6  3  5  5
-&gt;  [51]  3  1  3  5  5  4  3  3  2  4  4  5  1  3  6  3  2  2  4  3  3  2  4  3  6
-&gt;  [76]  3  4  0  3  6  2  4  4  3  3  1  3  3  1  4  1  5  1  2  3  2  4  2  2  5</code></pre>
+<pre><code>&gt;   [1] 1 2 2 4 2 3 3 2 4 3 1 4 4 0 5 7 1 2 5 5 2 3 4 7 3 1 0 7 3 3 3 4 0 2 5 4 4
+&gt;  [38] 5 6 2 3 2 8 2 3 5 5 3 4 4 3 5 3 5 6 3 4 2 9 2 3 3 5 5 3 3 3 4 3 4 3 6 4 3
+&gt;  [75] 5 4 4 4 4 3 4 0 6 2 6 4 4 3 3 1 3 3 3 6 3 1 0 2 2 3</code></pre>
 <hr />
 </div>
 </div>

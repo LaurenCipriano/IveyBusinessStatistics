@@ -13,7 +13,7 @@
 
 <title>Cyberville Dataset Description</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -346,20 +346,20 @@ div.tocify {
 <pre class="r"><code>tempData &lt;- read.csv(url(&quot;https://laurencipriano.github.io/IveyBusinessStatistics/Datasets/families.csv&quot;), header = TRUE)
 
 summary(tempData)</code></pre>
-<pre><code>&gt;       TYPE          PERSONS          CHILDREN          INCOME      
-&gt;  Min.   :1.000   Min.   : 2.000   Min.   :0.0000   Min.   :-22166  
-&gt;  1st Qu.:1.000   1st Qu.: 2.000   1st Qu.:0.0000   1st Qu.: 18300  
-&gt;  Median :1.000   Median : 3.000   Median :1.0000   Median : 34550  
-&gt;  Mean   :1.431   Mean   : 3.137   Mean   :0.9479   Mean   : 41336  
-&gt;  3rd Qu.:1.000   3rd Qu.: 4.000   3rd Qu.:2.0000   3rd Qu.: 55828  
-&gt;  Max.   :3.000   Max.   :25.000   Max.   :9.0000   Max.   :451887  
-&gt;      REGION        EDUCATION    
-&gt;  Min.   :1.000   Min.   :31.00  
-&gt;  1st Qu.:2.000   1st Qu.:39.00  
-&gt;  Median :3.000   Median :39.00  
-&gt;  Mean   :2.526   Mean   :39.42  
-&gt;  3rd Qu.:3.000   3rd Qu.:41.00  
-&gt;  Max.   :4.000   Max.   :46.00</code></pre>
+<pre><code>&gt;       TYPE         PERSONS         CHILDREN        INCOME           REGION    
+&gt;  Min.   :1.00   Min.   : 2.00   Min.   :0.00   Min.   :-22166   Min.   :1.00  
+&gt;  1st Qu.:1.00   1st Qu.: 2.00   1st Qu.:0.00   1st Qu.: 18300   1st Qu.:2.00  
+&gt;  Median :1.00   Median : 3.00   Median :1.00   Median : 34550   Median :3.00  
+&gt;  Mean   :1.43   Mean   : 3.14   Mean   :0.95   Mean   : 41336   Mean   :2.53  
+&gt;  3rd Qu.:1.00   3rd Qu.: 4.00   3rd Qu.:2.00   3rd Qu.: 55828   3rd Qu.:3.00  
+&gt;  Max.   :3.00   Max.   :25.00   Max.   :9.00   Max.   :451887   Max.   :4.00  
+&gt;    EDUCATION   
+&gt;  Min.   :31.0  
+&gt;  1st Qu.:39.0  
+&gt;  Median :39.0  
+&gt;  Mean   :39.4  
+&gt;  3rd Qu.:41.0  
+&gt;  Max.   :46.0</code></pre>
 <p>The data set families contains information about 43,886 families
 living in the city of Cyberville. The city has four regions. In these
 exercises, we will learn about the families of Cyberville by using
